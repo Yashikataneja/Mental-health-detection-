@@ -1,41 +1,28 @@
-export default function AnalysisReport({ analysis }) {
-    if (!analysis) return null;
-  
-    return (
-      <div style={card}>
-        <h3>Emotion Analysis Report</h3>
-  
-        <p><strong>Primary Emotion:</strong> {analysis.emotion}</p>
-        <p><strong>Sentiment Score:</strong> {analysis.sentiment_score}</p>
-  
-        <h4>Cognitive Distortions</h4>
-        {analysis.cognitive_distortions?.length > 0 ? (
-          <ul>
-            {analysis.cognitive_distortions.map((c, i) => (
-              <li key={i}>{c}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>None detected</p>
-        )}
-  
-        <h4>Behavioral Signals</h4>
-        {analysis.behavioral_signals?.length > 0 ? (
-          <ul>
-            {analysis.behavioral_signals.map((b, i) => (
-              <li key={i}>{b}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>None detected</p>
-        )}
-      </div>
-    );
-  }
-  
-  const card = {
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#eef6ff",
-    marginTop: "20px",
+import { useState } from "react";
+import api from "../utils/axios";
+
+function Dashboard() {
+  const [text, setText] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const res = await api.post("/journal/analyze", { text });
+      alert("Emotion: " + res.data.analysis.emotion);
+    } catch (error) {
+      alert("Error submitting journal");
+    }
   };
+
+  return (
+    <div>
+      <h2>Journal Entry</h2>
+      <textarea
+        placeholder="How are you feeling?"
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Analyze</button>
+    </div>
+  );
+}
+
+export default Dashboard;
