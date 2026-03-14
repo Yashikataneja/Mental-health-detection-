@@ -138,9 +138,13 @@
 
 
 
-
+import { useEffect } from "react";
 
 export default function AIAnalysis() {
+
+  useEffect(() => {
+  window.scrollTo(0,0);
+}, []);
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 px-10 py-16 relative overflow-hidden">
   

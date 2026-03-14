@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import AiAnalysis from "./pages/AiAnalysis";
 import ProgressTracking from "./pages/ProgressTracking";
 import Support from "./pages/Support";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/ai-analysis" element={<AiAnalysis />} />
         <Route path="/progress" element={<ProgressTracking />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

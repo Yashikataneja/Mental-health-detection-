@@ -142,15 +142,38 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    try {
-      await api.post("/auth/signup", { name, email, password });
-      alert("Signup successful!");
-      navigate("/");
-    } catch (error) {
-      alert(error.response?.data?.message || "Signup failed");
-    }
-  };
+//   const handleSignup = async () => {
+//     try {
+//       const res = await api.post("/auth/signup", { name, email, password });
+
+// localStorage.setItem("token", res.data.token);
+
+
+// alert("Signup successful!");
+// navigate("/");
+//     } catch (error) {
+//       alert(error.response?.data?.message || "Signup failed");
+//     }
+//   };
+const handleSignup = async () => {
+  try {
+
+    const res = await api.post("/auth/signup", { name, email, password });
+
+localStorage.setItem("token", res.data.token);
+
+localStorage.setItem("currentUser", email);
+
+localStorage.setItem(`name_${email}`, name);
+localStorage.setItem(`email_${email}`, email);
+
+alert("Signup successful!");
+navigate("/dashboard");
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Signup failed");
+  }
+};
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">

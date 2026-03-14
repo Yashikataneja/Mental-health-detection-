@@ -717,7 +717,7 @@
 
 
 
-
+import { useState, useEffect } from "react";
 
 
 import { Link, useNavigate } from "react-router-dom";
@@ -726,33 +726,223 @@ import ai from "../assets/ai mental health illustration.png";
 import aipic from "../assets/Ai pic mental health.jpeg";
 import rdsection from "../assets/3rdsection Pic.jpeg";
 import benifits from "../assets/Benifits.jpeg";
+import picbenifits from "../assets/Pic Benifits.jpeg";
+import picdetect from "../assets/Pic Detect.jpeg";
+import picworking from "../assets/Pic Working.jpeg";
+import picaipowered from "../assets/Pic AI Powered.jpeg";
+
+
+import pic from "../assets/logo pic.png";
+
+// export default function Home() {
+//   const navigate = useNavigate();
+  
+// const handleProtectedRoute = (path) => {
+//   const token = localStorage.getItem("token");
+
+//   if (!token) {
+//     navigate("/login", { state: { from: path } });
+//   } else {
+//     navigate(path);
+//   }
+// };
+
+
+
 
 export default function Home() {
+
   const navigate = useNavigate();
+  const [token, setToken] = useState(sessionStorage.getItem("token"));
+
+    const [open, setOpen] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
+
+  const handleProtectedRoute = (path) => {
+  const token = sessionStorage.getItem("token");
+
+
+
+
+
+
+
+  if (!token) {
+    navigate("/login", { state: { from: path } });
+  } else {
+    navigate(path);
+  }
+};
+
+// const handleLogout = () => {
+//   localStorage.removeItem("token");
+//   window.location.href = "/";
+// };
+
+
+const handleLogout = () => {
+  sessionStorage.removeItem("token");
+  setToken(null);
+  navigate("/");
+};
+  
+useEffect(() => {
+
+const user = localStorage.getItem("currentUser");
+
+if(user){
+const img = localStorage.getItem(`profilePic_${user}`);
+
+if(img){
+setProfilePic(img);
+}
+}
+
+}, []);
+
 
   return (
     <div className="bg-gray-50 text-gray-800">
 
       {/* NAVBAR */}
-      <nav className="flex justify-between items-center px-12 py-4 bg-white shadow-md">
-        <h1 className="text-2xl font-bold text-indigo-600">MindDetect AI</h1>
+      
 
-        <div className="space-x-4">
-          <Link
-            to="/login"
-            className="inline-block px-5 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white hover:scale-110 transition-transform duration-300"
-          >
-            Login
-          </Link>
+{/* NAVBAR */}
+{/* NAVBAR */}
+<nav className="sticky top-0 z-50 flex justify-between items-center px-12 py-4 bg-white shadow-md">
 
-          <Link
-            to="/signup"
-            className="inline-block px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 hover:scale-110 transition-transform duration-300"
-          >
-            Signup
-          </Link>
-        </div>
-      </nav>
+{/* Logo */}
+<a
+href="#home"
+className="flex items-center gap-1 text-3xl font-bold text-indigo-600 hover:scale-105 transition"
+>
+<img src={pic} alt="Moodly AI Logo" className="w-16 h-16 object-contain"/>
+Moodly AI
+</a>
+
+{/* Navigation Links */}
+<div className="hidden md:flex items-center space-x-8 text-lg text-gray-700 font-medium">
+
+<a href="#home" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+Home
+</a>
+
+<a href="#features" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+Features
+</a>
+
+<a href="#ai-detection" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+AI Detection
+</a>
+
+<a href="#how-ai-works" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+How it Works
+</a>
+
+<a href="#benefits" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+Benefits
+</a>
+
+<a href="#footer" className="relative hover:text-indigo-600 transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-indigo-600 after:transition-all hover:after:w-full">
+Contact
+</a>
+
+</div>
+
+{/* Right Side */}
+<div className="flex items-center space-x-4">
+
+{/* If NOT logged in */}
+{!token && (
+
+<>
+
+<Link
+to="/login"
+className="px-5 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white transition"
+>
+Login
+</Link>
+
+<Link
+to="/signup"
+className="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+>
+Signup
+</Link>
+
+</>
+
+)}
+
+{/* If logged in */}
+{token && (
+
+<div className="relative">
+
+<div
+onClick={() => setOpen(!open)}
+className="w-10 h-10 rounded-full overflow-hidden cursor-pointer border-2 border-indigo-400"
+>
+
+{profilePic ? (
+
+<img
+src={profilePic}
+alt="profile"
+className="w-full h-full object-cover"
+/>
+
+) : (
+
+<div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600">
+👤
+</div>
+
+)}
+
+</div>
+
+{open && (
+
+<div className="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-lg">
+
+<Link
+to="/profile"
+className="block px-4 py-2 hover:bg-gray-100"
+>
+👤 Profile
+</Link>
+
+<Link
+to="/dashboard"
+className="block px-4 py-2 hover:bg-gray-100"
+>
+📊 Dashboard
+</Link>
+
+<button
+onClick={handleLogout}
+className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+>
+🚪 Logout
+</button>
+
+</div>
+
+)}
+
+</div>
+
+)}
+
+</div>
+
+</nav>
 
       {/* HERO SECTION */}
       <section id="home" className="grid md:grid-cols-2 items-center px-12 py-28 gap-12 bg-gradient-to-r from-gray-50 to-indigo-50">
@@ -776,7 +966,7 @@ export default function Home() {
             emotional insights that help individuals better understand
             their feelings and behavioral patterns.
           </p>
-
+{!token && (
           <div className="flex gap-4">
             <Link
               to="/signup"
@@ -792,11 +982,12 @@ export default function Home() {
               Login
             </Link>
           </div>
+          )}
         </div>
 
         <div className="flex justify-center items-center">
           <img
-            src={aipic}
+            src={picdetect}
             alt="AI mental health"
             className="w-full max-w-2xl h-[520px] object-contain transition-transform duration-500 ease-in-out hover:scale-110 hover:-translate-y-2"
           />
@@ -810,7 +1001,7 @@ export default function Home() {
         <div className="grid md:grid-cols-4 gap-10 px-12">
           {/* Emotion Detection */}
           <div
-            onClick={() => navigate("/dashboard")}
+            onClick={() => handleProtectedRoute("/dashboard")}
             className="group p-8 bg-white rounded-2xl text-center shadow-md border-t-4 border-indigo-500 hover:shadow-2xl hover:-translate-y-3 transition duration-300 cursor-pointer"
           >
             <div className="w-16 h-16 flex items-center justify-center mx-auto mb-5 rounded-full bg-indigo-100 group-hover:bg-indigo-600 transition">
@@ -826,7 +1017,7 @@ export default function Home() {
 
           {/* AI Analysis */}
           <div
-            onClick={() => navigate("/ai-analysis")}
+            onClick={() => handleProtectedRoute("/ai-analysis")}
             className="group p-8 bg-white rounded-2xl text-center shadow-md border-t-4 border-purple-500 hover:shadow-2xl hover:-translate-y-3 transition duration-300 cursor-pointer"
           >
             <div className="w-16 h-16 flex items-center justify-center mx-auto mb-5 rounded-full bg-purple-100 group-hover:bg-purple-600 transition">
@@ -842,7 +1033,7 @@ export default function Home() {
 
           {/* Progress Tracking */}
           <div
-            onClick={() => navigate("/progress")}
+            onClick={() => handleProtectedRoute("/progress")}
             className="group p-8 bg-white rounded-2xl text-center shadow-md border-t-4 border-blue-500 hover:shadow-2xl hover:-translate-y-3 transition duration-300 cursor-pointer"
           >
             <div className="w-16 h-16 flex items-center justify-center mx-auto mb-5 rounded-full bg-blue-100 group-hover:bg-blue-600 transition">
@@ -857,7 +1048,7 @@ export default function Home() {
 
           {/* Support System */}
           <div
-            onClick={() => navigate("/support")}
+            onClick={() => handleProtectedRoute("/support")}
             className="group p-8 bg-white rounded-2xl text-center shadow-md border-t-4 border-green-500 hover:shadow-2xl hover:-translate-y-3 transition duration-300 cursor-pointer"
           >
             <div className="w-16 h-16 flex items-center justify-center mx-auto mb-5 rounded-full bg-green-100 group-hover:bg-green-600 transition">
@@ -876,7 +1067,7 @@ export default function Home() {
       <section id="ai-detection" className="grid md:grid-cols-2 gap-16 items-center px-12 py-24 bg-gradient-to-r from-white to-indigo-50">
         <div className="flex justify-center">
           <img
-            src={ai}
+            src={picaipowered}
             alt="AI mental health"
             className="w-full max-w-2xl h-[520px] object-contain rounded-2xl transition-transform duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:drop-shadow-2xl"
           />
@@ -886,8 +1077,7 @@ export default function Home() {
             AI Powered <span className="text-indigo-600"> Mental Health Detection</span>
           </h2>
           <p className="text-gray-600 mb-5 text-lg leading-relaxed">
-            Our platform uses advanced <span className="font-semibold text-indigo-600">Artificial Intelligence</span> 
-            and NLP techniques to analyze written text and identify emotional patterns.
+            Our platform uses advanced <span className="font-semibold text-indigo-600">Artificial Intelligence</span> and NLP techniques to analyze written text and identify emotional patterns.
           </p>
           <p className="text-gray-600 mb-5 leading-relaxed">
             The AI model evaluates sentiment, emotional intensity, and contextual meaning to detect indicators related 
@@ -954,7 +1144,7 @@ export default function Home() {
 
         <div className="flex justify-center items-center">
           <img
-            src={rdsection}
+            src={picworking}
             alt="3rdsection pic"
             className="w-full max-w-2xl h-[520px] object-contain transition-transform duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:drop-shadow-2xl"
           />
@@ -965,7 +1155,7 @@ export default function Home() {
       <section id="benefits" className="grid md:grid-cols-2 gap-12 items-center px-12 py-24">
         <div className="flex justify-center items-center">
           <img
-            src={benifits}
+            src={picbenifits}
             alt="Benefits"
             className="w-full max-w-2xl h-[520px] object-contain transition-transform duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:drop-shadow-2xl"
           />
@@ -989,16 +1179,28 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 text-gray-300 px-8 py-16">
+      <footer id="footer" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 text-gray-300 px-8 py-16">
         <div className="grid md:grid-cols-3 gap-12 max-w-7xl mx-auto">
           <div className="max-w-md">
-            <h3 className="text-2xl font-bold text-white mb-4">AI Mental Health Detection</h3>
+            <a href="#home" className="hover:text-indigo-200 transition">
+  <div className="flex items-center gap-1 mb-4">
+  <img
+  src={pic}
+  alt="Moodly AI Logo"
+  className="w-16 h-16 object-contain"
+/>
+<h3 className="text-4xl font-bold text-white">Moodly AI</h3>
+</div>
+</a>
             <p className="text-gray-200 leading-relaxed">
-              Our platform uses AI and NLP to analyze written text and identify emotional patterns.
-            </p>
+    Moodly AI is an intelligent platform designed to support mental health
+    awareness using Artificial Intelligence and Natural Language Processing.
+  </p>
+
+  
           </div>
-          <div>
-            <h4 className="text-xl font-semibold text-white mb-4">Quick Links</h4>
+          <div className="md:ml-20">
+  <h4 className="text-xl font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li><a href="#home" className="text-gray-200 hover:text-white hover:scale-105 transition">Homepage</a></li>
               <li><a href="#features" className="text-gray-200 hover:text-white hover:scale-105 transition">Features</a></li>
@@ -1007,15 +1209,36 @@ export default function Home() {
               <li><a href="#benefits" className="text-gray-200 hover:text-white hover:scale-105 transition">Benefits of Our AI Platform</a></li>
             </ul>
           </div>
-          <div>
-            <h4 className="text-xl font-semibold text-white mb-4">Contact</h4>
-            <p className="text-gray-200 mb-2">Email: support@aimhdetect.com</p>
-            <p className="text-gray-200 mb-2">Phone: +91 98765 43210</p>
-            <p className="text-gray-200">Location: India</p>
-          </div>
+          <div className="md:ml-10">
+  <h4 className="text-xl font-semibold text-white mb-4">Contact</h4>
+
+  <p className="text-gray-200 mb-2">
+    Email:{" "}
+    <a
+      href="https://mail.google.com/mail/?view=cm&fs=1&to=support.mhealth@gmail.com"
+       target="_blank"
+    rel="noopener noreferrer"
+      className="text-gray-200 underline hover:text-white"
+    >
+      support.mhealth@gmail.com
+    </a>
+  </p>
+
+  <p className="text-gray-200 mb-2">
+    Phone:{" "}
+    <a
+      href="tel:+919876543210"
+      className="text-gray-200 underline hover:text-white"
+    >
+      +91 98765 43210
+    </a>
+  </p>
+
+  <p className="text-gray-200">Location: India</p>
+</div>
         </div>
         <div className="border-t border-white/30 mt-12 pt-6 text-center text-gray-200">
-          <p>© {new Date().getFullYear()} AI Mental Health Detection. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Moodly AI | Developed by Team Moodly AI: Upinder Kaur, Yashika Taneja, Yashika Khanna</p>
         </div>
       </footer>
 

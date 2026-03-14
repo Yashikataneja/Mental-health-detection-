@@ -140,6 +140,7 @@
 
 
 import supportImg from "../assets/support-calm.jpg";
+import { useEffect } from "react";
 
 // ✅ Verified Helplines (3 current & working)
 const helplines = [
@@ -202,6 +203,9 @@ const counselors = [
 ];
 
 export default function Support() {
+  useEffect(() => {
+  window.scrollTo(0,0);
+}, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white text-gray-900 transition-all duration-500 p-6">
 

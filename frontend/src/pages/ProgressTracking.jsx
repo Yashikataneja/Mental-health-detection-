@@ -246,6 +246,7 @@ function ProgressTracking() {
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchJournals();
   }, []);
 
