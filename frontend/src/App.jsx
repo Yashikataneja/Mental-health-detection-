@@ -7,7 +7,7 @@ import AiAnalysis from "./pages/AiAnalysis";
 import ProgressTracking from "./pages/ProgressTracking";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
-
+import Chatbot from "./pages/Chatbot";
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
         <Route path="/progress" element={<ProgressTracking />} />
         <Route path="/support" element={<Support />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/chatbot" element={<Chatbot/>}/>
       </Routes>
     </BrowserRouter>
   );
