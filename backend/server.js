@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const morgan = require("morgan");
 const authRoutes = require("./routes/auth");
 //const chatRoutes = require("./routes/chat");
+const chatRoutes = require("./routes/chat");
 
 
 const app = express();
@@ -18,8 +19,12 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/journal", require("./routes/journal"));
 //app.use("/api", chatRoutes);
+app.use("/api", chatRoutes);
 
-const PORT = 5000;
+// const PORT = 5000;
+
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 
 app.get("/", (req, res) => {

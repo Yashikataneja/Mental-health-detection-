@@ -4685,516 +4685,941 @@
 // export default Dashboard;
 
 
+// import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import pic from "../assets/logo pic.png";
+
+// import { FaBell, FaSignOutAlt, FaBrain, FaRobot, FaChartLine, FaUserFriends } from "react-icons/fa";
+
+// import {
+// Chart as ChartJS,
+// CategoryScale,
+// LinearScale,
+// PointElement,
+// LineElement,
+// BarElement,
+// Title,
+// Tooltip,
+// Legend
+// } from "chart.js";
+
+// import { Bar } from "react-chartjs-2";
+
+// ChartJS.register(
+// CategoryScale,
+// LinearScale,
+// PointElement,
+// LineElement,
+// BarElement,
+// Title,
+// Tooltip,
+// Legend
+// );
+
+// const getSuggestions = (emotion) => {
+// switch (emotion) {
+
+// case "joy":
+// return [
+// "Keep celebrating the small wins today and let your happiness spread to everyone around you. 🌞",
+// "Spend a few moments doing something you love to boost your joyful energy even further. 🎨",
+// "Share a smile or kind words with someone—it will make both of you feel even happier. 😊",
+// "Notice the little happy moments around you, like a nice breeze or warm sunlight. 🌸"
+// ];
+
+// case "sadness":
+// return [
+// "Talk to someone you trust about your feelings to ease your sadness and feel supported. 💬",
+// "Write your thoughts in a journal to release heavy emotions and understand yourself better. ✍️",
+// "Listen to music that comforts you and brings calm to your mind and heart. 🎵",
+// "Take a short walk in fresh air to clear your thoughts and lift your mood. 🚶"
+// ];
+
+// case "fear":
+// return [
+// "Take slow, deep breaths and remind yourself that you are safe and capable right now. 🌬️",
+// "Talk about your worries with a trusted person to feel supported and less anxious. 🗣️"
+// ];
+
+// case "anger":
+// return [
+// "Pause and take a few deep breaths before reacting to cool down and think clearly. 🌬️",
+// "Go for a walk or do light exercise to channel your energy positively. 🚶‍♀️"
+// ];
+
+// default:
+// return [
+// "Keep a balanced routine today with small breaks and enjoyable activities. ⚖️"
+// ];
+// }
+// };
+
+// function Dashboard(){
+
+// const navigate = useNavigate();
+
+// const [journal,setJournal] = useState("");
+// const [result,setResult] = useState(null);
+// const [streak,setStreak] = useState(0);
+// const [suggestions,setSuggestions] = useState([]);
+
+// const currentUser = localStorage.getItem("currentUser");
+
+// useEffect(()=>{
+// const savedStreak = localStorage.getItem(`journalStreak_${currentUser}`);
+// if(savedStreak){
+// setStreak(parseInt(savedStreak));
+// }
+// },[]);
+
+// const detectEmotion=(text)=>{
+
+// text=text.toLowerCase();
+
+// if(text.includes("happy")||text.includes("good")||text.includes("great")||text.includes("love")){
+// return{
+// emotion:"joy",
+// emoji:"😊",
+// confidence:92,
+// score:9,
+// risk:"LOW",
+// scores:{joy:0.9,sadness:0.02,anger:0.02,fear:0.03,neutral:0.03}
+// };
+// }
+
+// if(text.includes("sad")||text.includes("cry")||text.includes("depressed")){
+// return{
+// emotion:"sadness",
+// emoji:"😢",
+// confidence:88,
+// score:3,
+// risk:"HIGH",
+// scores:{joy:0.05,sadness:0.85,anger:0.03,fear:0.04,neutral:0.03}
+// };
+// }
+
+// if(text.includes("angry")||text.includes("hate")||text.includes("mad")){
+// return{
+// emotion:"anger",
+// emoji:"😠",
+// confidence:90,
+// score:4,
+// risk:"MEDIUM",
+// scores:{joy:0.05,sadness:0.1,anger:0.8,fear:0.02,neutral:0.03}
+// };
+// }
+
+// if(text.includes("afraid")||text.includes("scared")){
+// return{
+// emotion:"fear",
+// emoji:"😨",
+// confidence:85,
+// score:4,
+// risk:"MEDIUM",
+// scores:{joy:0.05,sadness:0.1,anger:0.05,fear:0.7,neutral:0.1}
+// };
+// }
+
+// return{
+// emotion:"neutral",
+// emoji:"😐",
+// confidence:70,
+// score:5,
+// risk:"LOW",
+// scores:{joy:0.2,sadness:0.2,anger:0.1,fear:0.1,neutral:0.4}
+// };
+
+// };
+
+// const analyzeEmotion=()=>{
+
+// const prediction=detectEmotion(journal);
+
+// setResult(prediction);
+
+// const tips=getSuggestions(prediction.emotion);
+
+// setSuggestions(tips);
+
+// const today=new Date().toDateString();
+
+// const lastDate=localStorage.getItem(`lastJournalDate_${currentUser}`);
+
+// let newStreak=streak;
+
+// if(lastDate!==today){
+
+// newStreak=streak+1;
+
+// setStreak(newStreak);
+
+// localStorage.setItem(`journalStreak_${currentUser}`,newStreak);
+
+// localStorage.setItem(`lastJournalDate_${currentUser}`,today);
+
+// }
+
+// const prevCount=localStorage.getItem(`journalCount_${currentUser}`)||0;
+
+// const newCount=Number(prevCount)+1;
+
+// localStorage.setItem(`journalCount_${currentUser}`,newCount);
+
+// };
+
+// const emotionData={
+// labels:Object.keys(result?.scores || {}),
+// datasets:[
+// {
+// label:"Emotion Probability",
+// data:Object.values(result?.scores || {}),
+// backgroundColor:[
+// "#4ade80",
+// "#f87171",
+// "#facc15",
+// "#a78bfa",
+// "#60a5fa"
+// ]
+// }
+// ]
+// };
+
+// const tip="Tip: Writing your feelings daily can improve emotional awareness and reduce stress.";
+
+// return(
+
+// <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50">
+
+// {/* SIDEBAR */}
+
+// <div className="w-64 bg-white shadow-xl flex flex-col fixed h-screen">
+
+// <div>
+
+// <div
+// onClick={()=>navigate("/")}
+// className="flex items-center gap-2 p-6 border-b cursor-pointer"
+// >
+// <img src={pic} className="w-10"/>
+// <h1 className="font-bold text-xl text-indigo-600">
+// Moodly AI
+// </h1>
+// </div>
+
+// <div className="mt-6 space-y-2 px-4">
+
+// <button className="w-full text-left px-4 py-3 rounded-lg bg-indigo-50 text-indigo-600 font-semibold">
+// Dashboard
+// </button>
+
+// <button
+// onClick={()=>navigate("/profile")}
+// className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100"
+// >
+// Profile
+// </button>
+
+// </div>
+
+// </div>
+
+// </div>
+
+// {/* MAIN */}
+
+// <div className="flex-1 ml-64 p-10">
+
+// {/* TOP RIGHT */}
+
+// <div className="flex justify-end gap-6 mb-4">
+
+// <div className="relative">
+// <FaBell className="text-2xl text-yellow-500"/>
+// <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+// 1
+// </span>
+// </div>
+
+// <button
+// onClick={()=>{
+// localStorage.removeItem("token");
+// navigate("/");
+// }}
+// >
+// <FaSignOutAlt className="text-2xl"/>
+// </button>
+
+// </div>
+
+// {/* HERO */}
+
+// <div className="bg-white rounded-2xl shadow p-8 mb-10 flex items-center justify-between">
+
+// <div>
+// <h1 className="text-3xl font-bold text-indigo-700">
+// Welcome Back 👋
+// </h1>
+
+// <p className="text-gray-500 mt-2">
+// Track emotions and understand your mental wellbeing.
+// </p>
+
+// </div>
+
+// <img
+// src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png"
+// className="w-40"
+// />
+
+// </div>
+
+// {/* STATS */}
+
+// <div className="grid md:grid-cols-4 gap-6 mb-10">
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h3 className="font-semibold text-indigo-700">😊 Current Emotion</h3>
+// <p className="text-2xl font-bold mt-2 capitalize">
+// {result ? `${result.emotion} ${result.emoji}` : "Not analyzed"}
+// </p>
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h3 className="font-semibold text-indigo-700">📊 Mental Health Score</h3>
+// <p className="text-3xl font-bold text-green-600 mt-2">
+// {result ? `${result.score}/10` : "--"}
+// </p>
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h3 className="font-semibold text-indigo-700">📝 Journal Entries</h3>
+// <p className="text-3xl font-bold text-blue-600 mt-2">
+// {localStorage.getItem(`journalCount_${currentUser}`)||0}
+// </p>
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h3 className="font-semibold text-indigo-700">🔥 Journaling Streak</h3>
+// <p className="text-3xl font-bold text-orange-500 mt-2">
+// {streak}
+// </p>
+// </div>
+
+// </div>
+
+// {/* JOURNAL */}
+
+// <div className="bg-white p-8 rounded-2xl shadow max-w-4xl">
+
+// <h2 className="text-xl font-semibold mb-4">
+// How are you feeling today?
+// </h2>
+
+// <textarea
+// value={journal}
+// onChange={(e)=>setJournal(e.target.value)}
+// placeholder="Write your thoughts and emotions here..."
+// className="w-full border border-gray-200 p-4 rounded-xl h-36 outline-none"
+// />
+
+// <button
+// onClick={analyzeEmotion}
+// className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-xl"
+// >
+// Analyze Emotion
+// </button>
+
+// </div>
+
+
+
+// <div className="mt-6">
+
+// <button
+// onClick={()=>navigate("/chatbot")}
+// className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow"
+// >
+
+// 🤖 Talk to AI Mental Health Assistant
+
+// </button>
+
+// </div>
+
+
+
+
+
+
+// <div className="max-w-4xl mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+// <p className="text-sm text-blue-800">{tip}</p>
+// </div>
+
+// {/* RESULTS */}
+
+// {result &&(
+
+// <div className="grid md:grid-cols-2 gap-8 mt-10 max-w-6xl">
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h2 className="text-xl font-semibold mb-4">
+// Emotion Analysis
+// </h2>
+
+// <p>
+// <strong>Detected Emotion:</strong>
+// <span className="text-indigo-600 font-bold ml-2 capitalize">
+// {result.emotion} {result.emoji}
+// </span>
+// </p>
+
+// <p className="mt-2">
+// <strong>Confidence:</strong>
+// <span className="text-green-600 font-semibold ml-1">
+// {result.confidence}%
+// </span>
+// </p>
+
+// <p>
+// <strong>Mental Health Score:</strong> {result.score}/10
+// </p>
+
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow">
+// <h2 className="text-xl font-semibold mb-4">
+// Emotion Distribution
+// </h2>
+
+// <Bar data={emotionData}/>
+// </div>
+
+// </div>
+
+// )}
+
+// {/* SUGGESTIONS */}
+
+// {suggestions.length>0 &&(
+
+// <div className="max-w-6xl mt-10 bg-white p-6 rounded-2xl shadow">
+
+// <h2 className="text-2xl font-bold mb-4 text-indigo-700">
+// 💡 AI Wellness Suggestions
+// </h2>
+
+// <ul className="space-y-3">
+
+// {suggestions.map((item,index)=>(
+
+// <li key={index}
+// className="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+
+// {item}
+
+// </li>
+
+// ))}
+
+// </ul>
+
+// </div>
+
+// )}
+
+// {/* SUPPORT SECTION */}
+
+// <div className="mt-16">
+
+// <h2 className="text-3xl font-bold text-center mb-10">
+// How We Support You
+// </h2>
+
+// <div className="grid md:grid-cols-4 gap-8">
+
+// <div className="bg-white p-6 rounded-2xl shadow text-center">
+
+// <FaBrain className="text-blue-600 text-3xl mx-auto mb-3"/>
+
+// <h3 className="font-semibold text-lg">Emotion Detection</h3>
+
+// <p className="text-gray-600 mt-2">
+// AI detects emotional signals hidden in text.
+// </p>
+
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow text-center">
+
+// <FaRobot className="text-blue-600 text-3xl mx-auto mb-3"/>
+
+// <h3 className="font-semibold text-lg">AI Analysis</h3>
+
+// <p className="text-gray-600 mt-2">
+// Machine learning analyzes emotional tone.
+// </p>
+
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow text-center">
+
+// <FaChartLine className="text-blue-600 text-3xl mx-auto mb-3"/>
+
+// <h3 className="font-semibold text-lg">Progress Tracking</h3>
+
+// <p className="text-gray-600 mt-2">
+// Track emotional trends over time.
+// </p>
+
+// </div>
+
+// <div className="bg-white p-6 rounded-2xl shadow text-center">
+
+// <FaUserFriends className="text-blue-600 text-3xl mx-auto mb-3"/>
+
+// <h3 className="font-semibold text-lg">Support System</h3>
+
+// <p className="text-gray-600 mt-2">
+// Encouraging healthy emotional habits.
+// </p>
+
+// </div>
+
+// </div>
+
+// </div>
+
+// </div>
+
+// </div>
+
+// );
+
+// }
+
+// export default Dashboard;
+
+
+
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Setting from "./Setting";
+
+
 import pic from "../assets/logo pic.png";
 
-import { FaBell, FaSignOutAlt, FaBrain, FaRobot, FaChartLine, FaUserFriends } from "react-icons/fa";
+
+
 
 import {
-Chart as ChartJS,
-CategoryScale,
-LinearScale,
-PointElement,
-LineElement,
-BarElement,
-Title,
-Tooltip,
-Legend
-} from "chart.js";
+  FaBell,
+  FaSignOutAlt,
+  FaBars,
+  FaChartBar,
+  FaRobot,
+  FaUser,
+  FaCog
+} from "react-icons/fa";
 
-import { Bar } from "react-chartjs-2";
+function Dashboard() {
+  const navigate = useNavigate();
 
-ChartJS.register(
-CategoryScale,
-LinearScale,
-PointElement,
-LineElement,
-BarElement,
-Title,
-Tooltip,
-Legend
-);
+  const [isOpen, setIsOpen] = useState(() => {
+    const saved = localStorage.getItem("sidebarState");
+    return saved === null ? true : saved === "true";
+  });
 
-const getSuggestions = (emotion) => {
-switch (emotion) {
+  const [openDropdown, setOpenDropdown] = useState(false);
 
-case "joy":
-return [
-"Keep celebrating the small wins today and let your happiness spread to everyone around you. 🌞",
-"Spend a few moments doing something you love to boost your joyful energy even further. 🎨",
-"Share a smile or kind words with someone—it will make both of you feel even happier. 😊",
-"Notice the little happy moments around you, like a nice breeze or warm sunlight. 🌸"
-];
+  const [journal, setJournal] = useState("");
+  const [result, setResult] = useState(null);
+  const [streak, setStreak] = useState(0);
+  const [openSettings, setOpenSettings] = useState(false);
 
-case "sadness":
-return [
-"Talk to someone you trust about your feelings to ease your sadness and feel supported. 💬",
-"Write your thoughts in a journal to release heavy emotions and understand yourself better. ✍️",
-"Listen to music that comforts you and brings calm to your mind and heart. 🎵",
-"Take a short walk in fresh air to clear your thoughts and lift your mood. 🚶"
-];
+  const currentUserEmail =
+    sessionStorage.getItem("currentUser") ||
+    localStorage.getItem("currentUser");
 
-case "fear":
-return [
-"Take slow, deep breaths and remind yourself that you are safe and capable right now. 🌬️",
-"Talk about your worries with a trusted person to feel supported and less anxious. 🗣️"
-];
+  const currentUserName =
+    sessionStorage.getItem("currentUserName") ||
+    localStorage.getItem(`name_${currentUserEmail}`) ||
+    "User";
 
-case "anger":
-return [
-"Pause and take a few deep breaths before reacting to cool down and think clearly. 🌬️",
-"Go for a walk or do light exercise to channel your energy positively. 🚶‍♀️"
-];
+  useEffect(() => {
+    if (!currentUserEmail) return;
+    const savedStreak = localStorage.getItem(
+      `journalStreak_${currentUserEmail}`
+    );
+    if (savedStreak) setStreak(parseInt(savedStreak));
+  }, [currentUserEmail]);
 
-default:
-return [
-"Keep a balanced routine today with small breaks and enjoyable activities. ⚖️"
-];
-}
+  useEffect(() => {
+    const handleClickOutside = () => setOpenDropdown(false);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  const detectEmotion = (text) => {
+    text = text.toLowerCase();
+
+    if (text.includes("happy") || text.includes("good")) {
+      return { emotion: "joy", emoji: "😊", score: 9 };
+    }
+    if (text.includes("sad")) {
+      return { emotion: "sadness", emoji: "😢", score: 3 };
+    }
+    if (text.includes("angry")) {
+      return { emotion: "anger", emoji: "😠", score: 4 };
+    }
+
+    return { emotion: "neutral", emoji: "😐", score: 5 };
+  };
+
+  // const analyzeEmotion = () => {
+  //   if (!currentUserEmail) return;
+
+  //   const res = detectEmotion(journal);
+  //   setResult(res);
+
+  //   const today = new Date().toDateString();
+  //   const lastDate = localStorage.getItem(`lastDate_${currentUserEmail}`);
+
+  //   if (lastDate !== today) {
+  //     const newStreak = streak + 1;
+  //     setStreak(newStreak);
+
+  //     localStorage.setItem(`journalStreak_${currentUserEmail}`, newStreak);
+  //     localStorage.setItem(`lastDate_${currentUserEmail}`, today);
+  //   }
+  // };
+
+
+
+  const analyzeEmotion = async () => {
+  if (!journal) return;
+
+  try {
+    // ✅ BACKEND CALL
+    const res = await fetch("http://localhost:5000/api/journal/analyze", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: journal })
+    });
+
+    const data = await res.json();
+    console.log("Saved:", data);
+
+    // ✅ LOCAL EMOTION (UI lai)
+    const emotionRes = detectEmotion(journal);
+    setResult(emotionRes);
+
+    // ✅ STREAK LOGIC
+    if (!currentUserEmail) return;
+
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem(`lastDate_${currentUserEmail}`);
+
+    if (lastDate !== today) {
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+
+      localStorage.setItem(`journalStreak_${currentUserEmail}`, newStreak);
+      localStorage.setItem(`lastDate_${currentUserEmail}`, today);
+    }
+
+    
+
+  } catch (err) {
+    console.log(err);
+    
+  }
 };
+  return (
+    <div className="flex min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-100">
 
-function Dashboard(){
+      {/* sidebar */}
+      <div
+        className={`${
+          isOpen ? "w-64" : "w-28"
+        } bg-white shadow-lg fixed h-screen transition-all duration-500 ease-in-out flex flex-col justify-between overflow-visible`}
+      >
 
-const navigate = useNavigate();
+        {/* TOP */}
+        <div>
 
-const [journal,setJournal] = useState("");
-const [result,setResult] = useState(null);
-const [streak,setStreak] = useState(0);
-const [suggestions,setSuggestions] = useState([]);
+          {/* LOGO */}
+          <div className="flex items-center justify-between p-4 border-b">
+            {isOpen ? (
+              <div
+                onClick={() => navigate("/")}
+                className="flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105"
+              >
+                <img src={pic} className="w-16 h-16 rounded-full shadow" />
 
-const currentUser = localStorage.getItem("currentUser");
+                <div>
+                  <h1 className="text-indigo-600 font-bold text-2xl">
+                    Moodly AI
+                  </h1>
+                  <p className="text-xs text-gray-400">Mental Wellness</p>
+                </div>
+              </div>
+            ) : (
+              <img src={pic} className="w-12 h-12 rounded-full shadow-md" />
+            )}
 
-useEffect(()=>{
-const savedStreak = localStorage.getItem(`journalStreak_${currentUser}`);
-if(savedStreak){
-setStreak(parseInt(savedStreak));
-}
-},[]);
+            <FaBars
+              className="text-xl text-indigo-600 cursor-pointer"
+              onClick={() => {
+                const newState = !isOpen;
+                setIsOpen(newState);
+                localStorage.setItem("sidebarState", newState);
+              }}
+            />
+          </div>
 
-const detectEmotion=(text)=>{
+          {/* NAV */}
+          <div className="p-3 space-y-4 mt-2">
 
-text=text.toLowerCase();
+            <button className={`group flex items-center ${
+              isOpen ? "px-4 bg-indigo-100 text-indigo-600" : "justify-center py-4"
+            } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}>
+              <FaChartBar />
+              {isOpen && "Dashboard"}
+            </button>
 
-if(text.includes("happy")||text.includes("good")||text.includes("great")||text.includes("love")){
-return{
-emotion:"joy",
-emoji:"😊",
-confidence:92,
-score:9,
-risk:"LOW",
-scores:{joy:0.9,sadness:0.02,anger:0.02,fear:0.03,neutral:0.03}
-};
-}
+            <button
+              onClick={() => navigate("/chatbot")}
+              className={`group flex items-center ${
+                isOpen ? "px-4" : "justify-center py-4"
+              } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}
+            >
+              <FaRobot />
+              {isOpen && "AI Assistant"}
+            </button>
 
-if(text.includes("sad")||text.includes("cry")||text.includes("depressed")){
-return{
-emotion:"sadness",
-emoji:"😢",
-confidence:88,
-score:3,
-risk:"HIGH",
-scores:{joy:0.05,sadness:0.85,anger:0.03,fear:0.04,neutral:0.03}
-};
-}
+            <button
+              onClick={() => navigate("/profile")}
+              className={`group flex items-center ${
+                isOpen ? "px-4" : "justify-center py-4"
+              } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}
+            >
+              <FaUser />
+              {isOpen && "Profile"}
+            </button>
 
-if(text.includes("angry")||text.includes("hate")||text.includes("mad")){
-return{
-emotion:"anger",
-emoji:"😠",
-confidence:90,
-score:4,
-risk:"MEDIUM",
-scores:{joy:0.05,sadness:0.1,anger:0.8,fear:0.02,neutral:0.03}
-};
-}
+          </div>
+        </div>
 
-if(text.includes("afraid")||text.includes("scared")){
-return{
-emotion:"fear",
-emoji:"😨",
-confidence:85,
-score:4,
-risk:"MEDIUM",
-scores:{joy:0.05,sadness:0.1,anger:0.05,fear:0.7,neutral:0.1}
-};
-}
+        {/* USER */}
+        <div className="p-4 border-t relative">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenDropdown((prev) => !prev);
+            }}
+            className="flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-lg"
+          >
+            <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+              {currentUserName.charAt(0).toUpperCase()}
+            </div>
 
-return{
-emotion:"neutral",
-emoji:"😐",
-confidence:70,
-score:5,
-risk:"LOW",
-scores:{joy:0.2,sadness:0.2,anger:0.1,fear:0.1,neutral:0.4}
-};
+            {isOpen && (
+              <div>
+                <p className="text-sm font-semibold">{currentUserName}</p>
+                <p className="text-xs text-gray-500">{currentUserEmail}</p>
+              </div>
+            )}
+          </div>
 
-};
+          {openDropdown && (
+  <div className="absolute bottom-16 left-2 w-52 bg-white shadow-2xl rounded-xl p-2 border z-50">
 
-const analyzeEmotion=()=>{
-
-const prediction=detectEmotion(journal);
-
-setResult(prediction);
-
-const tips=getSuggestions(prediction.emotion);
-
-setSuggestions(tips);
-
-const today=new Date().toDateString();
-
-const lastDate=localStorage.getItem(`lastJournalDate_${currentUser}`);
-
-let newStreak=streak;
-
-if(lastDate!==today){
-
-newStreak=streak+1;
-
-setStreak(newStreak);
-
-localStorage.setItem(`journalStreak_${currentUser}`,newStreak);
-
-localStorage.setItem(`lastJournalDate_${currentUser}`,today);
-
-}
-
-const prevCount=localStorage.getItem(`journalCount_${currentUser}`)||0;
-
-const newCount=Number(prevCount)+1;
-
-localStorage.setItem(`journalCount_${currentUser}`,newCount);
-
-};
-
-const emotionData={
-labels:Object.keys(result?.scores || {}),
-datasets:[
-{
-label:"Emotion Probability",
-data:Object.values(result?.scores || {}),
-backgroundColor:[
-"#4ade80",
-"#f87171",
-"#facc15",
-"#a78bfa",
-"#60a5fa"
-]
-}
-]
-};
-
-const tip="Tip: Writing your feelings daily can improve emotional awareness and reduce stress.";
-
-return(
-
-<div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50">
-
-{/* SIDEBAR */}
-
-<div className="w-64 bg-white shadow-xl flex flex-col fixed h-screen">
-
-<div>
-
-<div
-onClick={()=>navigate("/")}
-className="flex items-center gap-2 p-6 border-b cursor-pointer"
->
-<img src={pic} className="w-10"/>
-<h1 className="font-bold text-xl text-indigo-600">
-Moodly AI
-</h1>
-</div>
-
-<div className="mt-6 space-y-2 px-4">
-
-<button className="w-full text-left px-4 py-3 rounded-lg bg-indigo-50 text-indigo-600 font-semibold">
-Dashboard
-</button>
-
-<button
-onClick={()=>navigate("/profile")}
-className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100"
->
-Profile
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-{/* MAIN */}
-
-<div className="flex-1 ml-64 p-10">
-
-{/* TOP RIGHT */}
-
-<div className="flex justify-end gap-6 mb-4">
-
-<div className="relative">
-<FaBell className="text-2xl text-yellow-500"/>
-<span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-1
-</span>
-</div>
-
-<button
-onClick={()=>{
-localStorage.removeItem("token");
-navigate("/");
+    {/* SETTINGS */}
+    <div
+      onClick={() => {
+  setOpenSettings(true);
+  setOpenDropdown(false);
 }}
->
-<FaSignOutAlt className="text-2xl"/>
-</button>
+      className="flex items-center gap-3 p-2 hover:bg-indigo-50 cursor-pointer rounded-lg transition"
+    >
+      <FaCog className="text-gray-600" />
+      <span className="text-sm">Settings</span>
+    </div>
 
-</div>
+    {/* LOGOUT */}
+    <div
+      onClick={() => {
+        sessionStorage.clear();
+        navigate("/");
+      }}
+      className="flex items-center gap-3 p-2 hover:bg-red-50 text-red-500 cursor-pointer rounded-lg transition"
+    >
+      <FaSignOutAlt />
+      <span className="text-sm">Logout</span>
+    </div>
 
-{/* HERO */}
+  </div>
+)}
+        </div>
+      </div>
 
-<div className="bg-white rounded-2xl shadow p-8 mb-10 flex items-center justify-between">
+      {/* MAIN */}
+      <div className={`flex-1 p-10 ${isOpen ? "ml-64" : "ml-28"} transition-all duration-500`}>
 
-<div>
-<h1 className="text-3xl font-bold text-indigo-700">
-Welcome Back 👋
-</h1>
+        {/* TOP NAVBAR */}
+        <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-5 px-7 rounded-2xl shadow-lg mb-10 flex items-center justify-between">
 
-<p className="text-gray-500 mt-2">
-Track emotions and understand your mental wellbeing.
-</p>
+          <div>
+            <h1 className="text-3xl font-semibold">
+              Welcome, {currentUserName.split(" ")[0]} 👋
+            </h1>
+            <p className="text-sm opacity-95 mt-1">
+              Your mental wellness dashboard 🧠
+            </p>
+          </div>
 
-</div>
+          <div className="hidden md:block">
+            <p className="text-base md:text-lg font-medium opacity-90 text-center">
+              Track your mood & improve daily ✨
+            </p>
+          </div>
 
-<img
-src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png"
-className="w-40"
-/>
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => document.querySelector("textarea")?.focus()}
+              className="bg-white text-indigo-600 px-4 py-2 rounded-lg text-sm font-semibold"
+            >
+              + New Entry
+            </button>
 
-</div>
+            <FaBell className="text-xl cursor-pointer" />
 
-{/* STATS */}
+            <div
+              onClick={() => navigate("/profile")}
+              className="w-10 h-10 rounded-full bg-white text-indigo-600 flex items-center justify-center font-bold cursor-pointer"
+            >
+              {currentUserName.charAt(0).toUpperCase()}
+            </div>
 
-<div className="grid md:grid-cols-4 gap-6 mb-10">
+            <FaSignOutAlt
+              className="text-xl cursor-pointer"
+              onClick={() => {
+                sessionStorage.clear();
+                navigate("/");
+              }}
+            />
+          </div>
+        </div>
 
-<div className="bg-white p-6 rounded-2xl shadow">
-<h3 className="font-semibold text-indigo-700">😊 Current Emotion</h3>
-<p className="text-2xl font-bold mt-2 capitalize">
-{result ? `${result.emotion} ${result.emoji}` : "Not analyzed"}
-</p>
-</div>
+        {/* STATS */}
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          {[ 
+            { title: "Current Emotion", value: result ? `${result.emotion} ${result.emoji}` : "--" },
+            { title: "Mental Score", value: result ? `${result.score}/10` : "--" },
+            { title: "Streak 🔥", value: streak }
+          ].map((item, i) => (
+            <div key={i} className="bg-white p-6 rounded-xl shadow">
+              <h3>{item.title}</h3>
+              <p className="text-xl mt-2">{item.value}</p>
+            </div>
+          ))}
+        </div>
 
-<div className="bg-white p-6 rounded-2xl shadow">
-<h3 className="font-semibold text-indigo-700">📊 Mental Health Score</h3>
-<p className="text-3xl font-bold text-green-600 mt-2">
-{result ? `${result.score}/10` : "--"}
-</p>
-</div>
+        {/* JOURNAL */}
+        <div className="bg-white p-6 rounded-xl shadow max-w-3xl">
+          <h2 className="text-lg font-semibold mb-3">
+            How are you feeling today?
+          </h2>
 
-<div className="bg-white p-6 rounded-2xl shadow">
-<h3 className="font-semibold text-indigo-700">📝 Journal Entries</h3>
-<p className="text-3xl font-bold text-blue-600 mt-2">
-{localStorage.getItem(`journalCount_${currentUser}`)||0}
-</p>
-</div>
+          <textarea
+            value={journal}
+            onChange={(e) => setJournal(e.target.value)}
+            className="w-full border p-3 rounded-lg"
+            placeholder="Write here..."
+          />
 
-<div className="bg-white p-6 rounded-2xl shadow">
-<h3 className="font-semibold text-indigo-700">🔥 Journaling Streak</h3>
-<p className="text-3xl font-bold text-orange-500 mt-2">
-{streak}
-</p>
-</div>
+          <button
+            onClick={analyzeEmotion}
+            className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-lg"
+          >
+            Analyze
+          </button>
+        </div>
 
-</div>
+        {/* NEW CONTENT */}
+        {result && (
+          <div className="mt-8 max-w-3xl space-y-6">
 
-{/* JOURNAL */}
+            <div className="bg-white p-5 rounded-xl shadow border-l-4 border-indigo-500">
+              <h3 className="text-lg font-semibold">
+                Detected Emotion: {result.emotion} {result.emoji}
+              </h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Mental Score: {result.score}/10
+              </p>
+            </div>
 
-<div className="bg-white p-8 rounded-2xl shadow max-w-4xl">
+            <div className="bg-white p-5 rounded-xl shadow">
+              <h3 className="font-semibold mb-3">Suggestions 💡</h3>
 
-<h2 className="text-xl font-semibold mb-4">
-How are you feeling today?
-</h2>
+              <div className="space-y-2 text-sm">
+                <div className="p-2 bg-indigo-50 rounded">🌿 Take a walk</div>
+                <div className="p-2 bg-indigo-50 rounded">🎧 Listen to music</div>
+              </div>
+            </div>
 
-<textarea
-value={journal}
-onChange={(e)=>setJournal(e.target.value)}
-placeholder="Write your thoughts and emotions here..."
-className="w-full border border-gray-200 p-4 rounded-xl h-36 outline-none"
-/>
+            <div className="text-right">
+              <button
+                onClick={() => navigate("/ai-analysis")}
+                className="text-indigo-600 text-sm"
+              >
+                View Detailed Analysis →
+              </button>
+            </div>
 
-<button
-onClick={analyzeEmotion}
-className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-xl"
->
-Analyze Emotion
-</button>
+          </div> //3
+        )}
 
-</div>
-
-
-
-<div className="mt-6">
-
-<button
-onClick={()=>navigate("/chatbot")}
-className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow"
->
-
-🤖 Talk to AI Mental Health Assistant
-
-</button>
-
-</div>
-
-
-
-
+      </div>     
 
 
-<div className="max-w-4xl mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-<p className="text-sm text-blue-800">{tip}</p>
-</div>
+               {/* ✅ SETTINGS MODAL */}
+      {openSettings && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center">
 
-{/* RESULTS */}
+    {/* overlay */}
+    <div
+      className="absolute inset-0 bg-black/40"
+      onClick={() => setOpenSettings(false)}
+    ></div>
 
-{result &&(
+    {/* modal box */}
+    <div className="relative bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-6 z-50">
 
-<div className="grid md:grid-cols-2 gap-8 mt-10 max-w-6xl">
+      {/* close button */}
+      <button
+        onClick={() => setOpenSettings(false)}
+        className="absolute top-3 right-3 text-lg"
+      >
+        ✖
+      </button>
 
-<div className="bg-white p-6 rounded-2xl shadow">
-<h2 className="text-xl font-semibold mb-4">
-Emotion Analysis
-</h2>
-
-<p>
-<strong>Detected Emotion:</strong>
-<span className="text-indigo-600 font-bold ml-2 capitalize">
-{result.emotion} {result.emoji}
-</span>
-</p>
-
-<p className="mt-2">
-<strong>Confidence:</strong>
-<span className="text-green-600 font-semibold ml-1">
-{result.confidence}%
-</span>
-</p>
-
-<p>
-<strong>Mental Health Score:</strong> {result.score}/10
-</p>
-
-</div>
-
-<div className="bg-white p-6 rounded-2xl shadow">
-<h2 className="text-xl font-semibold mb-4">
-Emotion Distribution
-</h2>
-
-<Bar data={emotionData}/>
-</div>
-
-</div>
-
+      <Setting />
+    </div>
+  </div>
 )}
 
-{/* SUGGESTIONS */}
 
-{suggestions.length>0 &&(
-
-<div className="max-w-6xl mt-10 bg-white p-6 rounded-2xl shadow">
-
-<h2 className="text-2xl font-bold mb-4 text-indigo-700">
-💡 AI Wellness Suggestions
-</h2>
-
-<ul className="space-y-3">
-
-{suggestions.map((item,index)=>(
-
-<li key={index}
-className="bg-blue-50 border border-blue-200 p-4 rounded-xl">
-
-{item}
-
-</li>
-
-))}
-
-</ul>
-
-</div>
-
-)}
-
-{/* SUPPORT SECTION */}
-
-<div className="mt-16">
-
-<h2 className="text-3xl font-bold text-center mb-10">
-How We Support You
-</h2>
-
-<div className="grid md:grid-cols-4 gap-8">
-
-<div className="bg-white p-6 rounded-2xl shadow text-center">
-
-<FaBrain className="text-blue-600 text-3xl mx-auto mb-3"/>
-
-<h3 className="font-semibold text-lg">Emotion Detection</h3>
-
-<p className="text-gray-600 mt-2">
-AI detects emotional signals hidden in text.
-</p>
-
-</div>
-
-<div className="bg-white p-6 rounded-2xl shadow text-center">
-
-<FaRobot className="text-blue-600 text-3xl mx-auto mb-3"/>
-
-<h3 className="font-semibold text-lg">AI Analysis</h3>
-
-<p className="text-gray-600 mt-2">
-Machine learning analyzes emotional tone.
-</p>
-
-</div>
-
-<div className="bg-white p-6 rounded-2xl shadow text-center">
-
-<FaChartLine className="text-blue-600 text-3xl mx-auto mb-3"/>
-
-<h3 className="font-semibold text-lg">Progress Tracking</h3>
-
-<p className="text-gray-600 mt-2">
-Track emotional trends over time.
-</p>
-
-</div>
-
-<div className="bg-white p-6 rounded-2xl shadow text-center">
-
-<FaUserFriends className="text-blue-600 text-3xl mx-auto mb-3"/>
-
-<h3 className="font-semibold text-lg">Support System</h3>
-
-<p className="text-gray-600 mt-2">
-Encouraging healthy emotional habits.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-);
-
+      
+    </div> // 1
+    
+  );
 }
 
 export default Dashboard;
+
+
+

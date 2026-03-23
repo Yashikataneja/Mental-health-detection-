@@ -8,6 +8,8 @@ import ProgressTracking from "./pages/ProgressTracking";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
 import Chatbot from "./pages/Chatbot";
+import Setting from "./pages/Setting";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path="/support" element={<Support />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/chatbot" element={<Chatbot/>}/>
+        <Route path="/settings" element={<Setting/>}/>
       </Routes>
     </BrowserRouter>
   );
