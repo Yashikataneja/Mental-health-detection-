@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const authRoutes = require("./routes/auth");
 //const chatRoutes = require("./routes/chat");
 const chatRoutes = require("./routes/chat");
+const safeSpaceRoutes = require("./routes/safeSpaceRoutes");
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/journal", require("./routes/journal"));
 //app.use("/api", chatRoutes);
 app.use("/api", chatRoutes);
+app.use("/api/safe-space", safeSpaceRoutes);
 
 // const PORT = 5000;
 
