@@ -1,14 +1,12 @@
 import axios from "axios";
 
-// Create axios instance
 const API = axios.create({
-  baseURL: "http://localhost:5000/api", // Node backend URL
+  baseURL: "http://localhost:5000/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Journal Analysis API
 export const analyzeJournal = async (text) => {
   try {
     const response = await API.post("/journal/analyze", {

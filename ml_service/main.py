@@ -1,25 +1,3 @@
-# from fastapi import FastAPI
-# from pydantic import BaseModel
-
-# app = FastAPI()
-
-# class TextRequest(BaseModel):
-#     text: str
-
-# @app.post("/analyze")
-# async def analyze(data: TextRequest):
-    
-#     text = data.text
-
-#     # Dummy ML logic (for testing)
-#     risk_score = 75 if "sad" in text.lower() else 20
-
-#     return {
-#         "emotion": "sad" if risk_score > 50 else "neutral",
-#         "riskScore": risk_score
-#     }
-
-
 
 
 
@@ -27,21 +5,48 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 from text_analysis import analyze_text
 from risk_score import calculate_risk
+from train_model import clean_text, MAX_LEN
 
 app = FastAPI()
 
-model = joblib.load("mental_health_model_fast.joblib")
+_saved = joblib.load("mental_health_model.joblib")
+_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+_tokenizer = AutoTokenizer.from_pretrained(_saved["model_path"])
+_model = AutoModelForSequenceClassification.from_pretrained(_saved["model_path"]).to(_device)
+_model.eval()
+_id2label = {int(k): v for k, v in _saved["id2label"].items()}
+
+
+def _predict(cleaned_text: str):
+    enc = _tokenizer(
+        cleaned_text,
+        max_length=MAX_LEN,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt",
+    )
+    enc = {k: v.to(_device) for k, v in enc.items()}
+    with torch.no_grad():
+        logits = _model(**enc).logits[0]
+    probs = torch.softmax(logits, dim=0).cpu().numpy()
+    label = _id2label[int(probs.argmax())]
+    return label, float(probs.max())
+
 
 class TextRequest(BaseModel):
     text: str
+
 
 @app.post("/analyze")
 async def analyze(data: TextRequest):
     text = data.text.strip()
 
+    # ✅ Handle empty input
     if not text:
         return {
             "emotion": "neutral",
@@ -53,15 +58,19 @@ async def analyze(data: TextRequest):
             "riskScore": 0
         }
 
+    # 🔥 STEP 1: CLEAN TEXT (FIXED ISSUE)
+    cleaned_text = clean_text(text)
+
+    # 🔥 STEP 2: VADER + RULE-BASED ANALYSIS
     vader_result = analyze_text(text)
 
-    predicted_label = model.predict([text])[0]
+    # 🔥 STEP 3: ML PREDICTION
+    predicted_label, confidence = _predict(cleaned_text)
 
-    probabilities = model.predict_proba([text])[0]
-    confidence = float(max(probabilities))
-
+    # 🔥 STEP 4: RISK SCORE
     risk_score = calculate_risk(vader_result)
 
+    # 🔥 FINAL RESPONSE (MATCHES DASHBOARD ✅)
     return {
         "emotion": vader_result["emotion"],
         "predicted_label": predicted_label,
