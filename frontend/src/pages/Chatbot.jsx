@@ -1,1639 +1,149 @@
-// import { useState } from "react";
-// import axios from "axios";
-// import ChatMessage from "./ChatMessage";
-// import "../styles/support.css";
-
-// function Chatbot() {
-
-//   const [messages, setMessages] = useState([]);
-//   const [input, setInput] = useState("");
-
-//   const sendMessage = async () => {
-
-//     if (!input.trim()) return;
-
-//     const userMessage = {
-//       sender: "user",
-//       text: input
-//     };
-
-//     setMessages((prev) => [...prev, userMessage]);
-
-//     try {
-
-//       const res = await axios.post("http://localhost:5000/chat", {
-//         message: input
-//       });
-
-//       const botMessage = {
-//         sender: "bot",
-//         text: res.data.reply
-//       };
-
-//       setMessages((prev) => [...prev, botMessage]);
-
-//     } catch (error) {
-
-//       setMessages((prev) => [
-//         ...prev,
-//         {
-//           sender: "bot",
-//           text: "Sorry, something went wrong."
-//         }
-//       ]);
-//     }
-
-//     setInput("");
-//   };
-
-//   return (
-
-//     <div className="chatbot-container">
-
-//       <div className="chat-window">
-
-//         {messages.map((msg, index) => (
-//           <ChatMessage
-//             key={index}
-//             sender={msg.sender}
-//             text={msg.text}
-//           />
-//         ))}
-
-//       </div>
-
-//       <div className="chat-input-box">
-
-//         <input
-//           type="text"
-//           placeholder="Share how you're feeling..."
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//         />
-
-//         <button onClick={sendMessage}>
-//           Send
-//         </button>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default Chatbot;
-
-
-
-
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { FaArrowLeft, FaRobot } from "react-icons/fa";
-
-// function Chatbot(){
-
-// const navigate = useNavigate();
-
-// const [messages,setMessages] = useState([
-// { sender:"bot", text:"Hello 👋 I'm your Mental Health Assistant. How are you feeling today?" }
-// ]);
-
-// const [input,setInput] = useState("");
-
-// const getBotReply = (text) => {
-
-// text = text.toLowerCase();
-
-// if(text.includes("sad") || text.includes("depressed")){
-// return "I'm really sorry you're feeling this way. Try talking to someone you trust or writing your thoughts in your journal. I'm here with you. 💙";
-// }
-
-// if(text.includes("anxious") || text.includes("stress")){
-// return "Take a slow deep breath. Try inhaling for 4 seconds and exhaling for 4 seconds. Breathing exercises can really help calm your mind.";
-// }
-
-// if(text.includes("happy") || text.includes("good")){
-// return "That's wonderful to hear! Keep doing things that bring you joy and positivity. 😊";
-// }
-
-// if(text.includes("angry")){
-// return "It's okay to feel angry sometimes. Try taking a short walk or stepping away from the situation for a moment.";
-// }
-
-// return "I understand. Sometimes expressing your feelings helps a lot. Would you like to tell me more about what's on your mind?";
-// };
-
-// const sendMessage = async () => {
-
-// if(!input.trim()) return;
-
-// // user message add
-// const userMessage = { sender:"user", text:input };
-// setMessages(prev => [...prev, userMessage]);
-
-// try {
-
-//   const res = await fetch("http://localhost:5000/api/chat", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({ message: input })
-//   });
-
-//   const data = await res.json();
-
-//   const botReply = {
-//     sender: "bot",
-//     text: data.reply
-//   };
-
-//   setMessages(prev => [...prev, botReply]);
-
-// } catch (error) {
-
-//   setMessages(prev => [
-//     ...prev,
-//     { sender:"bot", text:"AI connection error 😢" }
-//   ]);
-
-// }
-
-// setInput("");
-// };
-
-// return(
-
-// <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 flex flex-col">
-
-// {/* HEADER */}
-
-// <div className="bg-white shadow p-4 flex items-center gap-4">
-
-// <button onClick={()=>navigate("/dashboard")}> <FaArrowLeft className="text-xl"/> </button>
-
-// <h2 className="text-xl font-bold text-indigo-600 flex items-center gap-2">
-// <FaRobot/> Mental Health Assistant
-// </h2>
-
-// </div>
-
-// {/* CHAT AREA */}
-
-// <div className="flex-1 p-6 overflow-y-auto">
-
-// {messages.map((msg,index)=>(
-
-// <div key={index} className={`mb-4 flex ${msg.sender==="user"?"justify-end":"justify-start"}`}>
-
-// <div className={`px-4 py-3 rounded-xl max-w-md ${
-// msg.sender==="user"
-// ? "bg-blue-600 text-white"
-// : "bg-white shadow"
-// }`}>
-
-// {msg.text}
-
-// </div>
-
-// </div>
-
-// ))}
-
-// </div>
-
-// {/* INPUT */}
-
-// <div className="bg-white p-4 flex gap-4 border-t">
-
-// <input
-// value={input}
-// onChange={(e)=>setInput(e.target.value)}
-// placeholder="Type your message..."
-// className="flex-1 border rounded-lg px-4 py-2"
-// />
-
-// <button
-// onClick={sendMessage}
-// className="bg-blue-600 text-white px-6 py-2 rounded-lg"
-
-// >
-
-// Send </button>
-
-// </div>
-
-// </div>
-
-// );
-
-// }
-
-// export default Chatbot;
-
-
-
-
 // import { useState, useRef, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
-// import { FaArrowLeft, FaRobot } from "react-icons/fa";
-
-// function Chatbot(){
-
-// const navigate = useNavigate();
-
-// const [messages,setMessages] = useState([
-// { sender:"bot", text:"Hello 👋 I'm your Mental Health Assistant. How are you feeling today?" }
-// ]);
-
-// const [input,setInput] = useState("");
-// const [loading,setLoading] = useState(false);
-
-// const bottomRef = useRef();
-
-// // auto scroll
-// useEffect(()=>{
-//   bottomRef.current?.scrollIntoView({ behavior:"smooth" });
-// },[messages]);
-
-// const sendMessage = async () => {
-
-// if(!input.trim()) return;
-
-// const userText = input;   // save first
-// setInput("");             // 🔥 instant clear
-
-// const userMessage = { sender:"user", text:userText };
-// setMessages(prev => [...prev, userMessage]);
-
-// setLoading(true);
-
-// try {
-//   const res = await fetch("http://localhost:5000/api/chat", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({ message: userText })
-//   });
-
-//   const data = await res.json();
-
-//   setLoading(false); // 🔥 stop typing FIRST
-
-//   const botReply = {
-//     sender: "bot",
-//     text: data.reply
-//   };
-
-//   setMessages(prev => [...prev, botReply]);
-
-// } catch (error) {
-
-//   setLoading(false);
-
-//   setMessages(prev => [
-//     ...prev,
-//     { sender:"bot", text:"AI connection error 😢" }
-//   ]);
-
-// }
-// };
-// return(
-
-// <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 flex flex-col">
-
-// {/* HEADER */}
-
-// <div className="bg-white shadow p-4 flex items-center gap-4">
-
-// <button onClick={()=>navigate("/dashboard")}>
-//  <FaArrowLeft className="text-xl"/>
-// </button>
-
-// <h2 className="text-xl font-bold text-indigo-600 flex items-center gap-2">
-// <FaRobot/> Mental Health Assistant
-// </h2>
-
-// </div>
-
-// {/* CHAT AREA */}
-
-// <div className="flex-1 p-6 overflow-y-auto">
-
-// {messages.map((msg,index)=>(
-
-// <div key={index} className={`mb-4 flex ${msg.sender==="user"?"justify-end":"justify-start"}`}>
-
-// <div className={`px-4 py-3 rounded-xl max-w-lg ${
-// msg.sender==="user"
-// ? "bg-blue-600 text-white"
-// : "bg-white shadow"
-// }`}>
-
-// {msg.text}
-
-// </div>
-
-// </div>
-
-// ))}
-
-// {/* 🔥 Typing indicator */}
-// {loading && (
-// <div className="flex justify-start mb-4">
-//   <div className="bg-white shadow px-4 py-2 rounded-xl text-gray-500">
-//     AI is typing...
-//   </div>
-// </div>
-// )}
-
-// <div ref={bottomRef}></div>
-
-// </div>
-
-// {/* INPUT */}
-
-// <div className="bg-white p-4 flex gap-4 border-t">
-
-// <input
-// value={input}
-// onChange={(e)=>setInput(e.target.value)}
-// placeholder="Type your message..."
-// className="flex-1 border rounded-lg px-4 py-2"
-// />
-
-// <button
-// onClick={sendMessage}
-// className="bg-blue-600 text-white px-6 py-2 rounded-lg"
-// >
-
-// Send
-
-// </button>
-
-// </div>
-
-// </div>
-
-// );
-
-// }
-
-// export default Chatbot;
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { FaArrowLeft, FaRobot } from "react-icons/fa";
-
-// function Chatbot(){
-
-// const navigate = useNavigate();
-
-// const [messages,setMessages] = useState([
-// { sender:"bot", text:"Hello 👋 I'm your Mental Health Assistant. How are you feeling today?" }
-// ]);
-
-// const [input,setInput] = useState("");
-// const [loading,setLoading] = useState(false);
-
-// const bottomRef = useRef();
-
-// // ✅ smooth auto scroll (fixed)
-// useEffect(()=>{
-//   setTimeout(() => {
-//     bottomRef.current?.scrollIntoView({ behavior:"smooth" });
-//   },100);
-// },[messages, loading]);
-
-// const sendMessage = async () => {
-
-//   if (!input.trim() || loading) return;  // 🔥 stop double call
-
-//   const userText = input;
-//   setInput("");
-
-//   const userMessage = { sender: "user", text: userText };
-//   setMessages(prev => [...prev, userMessage]);
-
-//   setLoading(true);
-
-//   try {
-//     const res = await fetch("http://localhost:5000/api/chat", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({ message: userText })
-//     });
-
-//     const data = await res.json();
-
-//     setLoading(false);
-
-//     setMessages(prev => [
-//       ...prev,
-//       { sender: "bot", text: data.reply }
-//     ]);
-
-//   } catch (error) {
-//     setLoading(false);
-
-//     setMessages(prev => [
-//       ...prev,
-//       { sender: "bot", text: "AI connection error 😢" }
-//     ]);
-//   }
-// };
-
-// return(
-
-// <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50 flex flex-col">
-
-// {/* HEADER */}
-// <div className="bg-white shadow p-4 flex items-center gap-4">
-// <button onClick={()=>navigate("/dashboard")}>
-//  <FaArrowLeft className="text-xl"/>
-// </button>
-
-// <h2 className="text-xl font-bold text-indigo-600 flex items-center gap-2">
-// <FaRobot/> Mental Health Assistant
-// </h2>
-// </div>
-
-// {/* CHAT AREA */}
-// <div className="flex-1 p-6 overflow-y-auto">
-
-// {messages.map((msg,index)=>(
-
-// <div key={index} className={`mb-4 flex ${msg.sender==="user"?"justify-end":"justify-start"}`}>
-
-// <div className={`px-4 py-3 rounded-xl max-w-lg ${
-// msg.sender==="user"
-// ? "bg-blue-600 text-white"
-// : "bg-white shadow"
-// }`}>
-
-// {msg.text}
-
-// </div>
-
-// </div>
-
-// ))}
-
-// {/* 🔥 Typing indicator (clean) */}
-// {loading && (
-//   <div className="flex justify-start mb-4">
-//     <div className="bg-white shadow px-4 py-2 rounded-xl text-gray-500">
-//       AI is typing...
-//     </div>
-//   </div>
-// )}
-
-// <div ref={bottomRef}></div>
-
-// </div>
-
-// {/* INPUT */}
-// <div className="bg-white p-4 flex gap-4 border-t">
-
-// <input
-// value={input}
-// onChange={(e)=>setInput(e.target.value)}
-// placeholder="Type your message..."
-// className="flex-1 border rounded-lg px-4 py-2"
-// onKeyDown={(e)=> e.key === "Enter" && sendMessage()} // ✅ enter send
-// />
-
-// <button
-//   onClick={sendMessage}
-//   disabled={loading}   // 🔥 important
-//   className="bg-blue-600 text-white px-6 py-2 rounded-lg disabled:opacity-50"
-// >
-//   Send
-// </button>
-
-// </div>
-
-// </div>
-
-// );
-
-// }
-
-// export default Chatbot;
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { FaArrowLeft, FaRobot } from "react-icons/fa";
-
-// function Chatbot() {
-//   const navigate = useNavigate();
-
-//   const [messages, setMessages] = useState([
-//     {
-//       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
-//   ]);
-
-//   const [input, setInput] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const bottomRef = useRef();
-
-//   useEffect(() => {
-//     setTimeout(() => {
-//       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-//     }, 100);
-//   }, [messages, loading]);
-
-//   const sendMessage = async () => {
-//     if (!input.trim() || loading) return;
-
-//     const userText = input;
-//     setInput("");
-
-//     setMessages((prev) => [...prev, { sender: "user", text: userText }]);
-
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/chat", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ message: userText })
-//       });
-
-//       const data = await res.json();
-
-//       setMessages((prev) => [
-//         ...prev,
-//         { sender: "bot", text: data.reply }
-//       ]);
-//     } catch (error) {
-//       setMessages((prev) => [
-//         ...prev,
-//         { sender: "bot", text: "AI connection error 😢" }
-//       ]);
-//     }
-
-//     setLoading(false);
-//   };
-
-//   return (
-//     <div className="h-screen flex flex-col bg-gray-50">
-
-//       {/* HEADER */}
-//       <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 flex items-center gap-4 shadow">
-
-//         <button
-//           onClick={() => navigate("/dashboard")}
-//           className="bg-white/20 p-2 rounded-lg"
-//         >
-//           <FaArrowLeft />
-//         </button>
-
-//         <h2 className="text-lg font-semibold flex items-center gap-2">
-//           <FaRobot /> MindScope Assistant
-//         </h2>
-
-//       </div>
-
-//       {/* CHAT AREA */}
-//       <div className="flex-1 overflow-y-auto px-6 py-4">
-
-//         {/* CENTER EMPTY UI */}
-//         {messages.length === 1 && (
-//           <div className="flex flex-col items-center justify-center h-full text-gray-400">
-//             <FaRobot className="text-4xl mb-3" />
-//             <p className="text-lg">Start a conversation</p>
-//             <p className="text-sm">
-//               I'm here to support your mental health 💙
-//             </p>
-//           </div>
-//         )}
-
-//         {/* CHAT MESSAGES */}
-//         {messages.map((msg, index) => (
-//           <div
-//             key={index}
-//             className={`mb-4 flex ${
-//               msg.sender === "user" ? "justify-end" : "justify-start"
-//             }`}
-//           >
-//             <div
-//               className={`px-4 py-3 rounded-2xl max-w-md text-sm ${
-//                 msg.sender === "user"
-//                   ? "bg-indigo-500 text-white"
-//                   : "bg-white shadow"
-//               }`}
-//             >
-//               {msg.text}
-//             </div>
-//           </div>
-//         ))}
-
-//         {/* TYPING */}
-//         {loading && (
-//           <div className="flex justify-start mb-4">
-//             <div className="bg-white shadow px-4 py-2 rounded-xl text-gray-500 animate-pulse">
-//               Typing...
-//             </div>
-//           </div>
-//         )}
-
-//         <div ref={bottomRef}></div>
-
-//       </div>
-
-//       {/* INPUT */}
-//       <div className="p-4 bg-white border-t flex gap-3">
-
-//         <input
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           placeholder="Type your message..."
-//           className="flex-1 border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//         />
-
-//         <button
-//           onClick={sendMessage}
-//           disabled={loading}
-//           className="bg-indigo-500 text-white px-6 py-2 rounded-full hover:bg-indigo-600 disabled:opacity-50"
-//         >
-//           Send
-//         </button>
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Chatbot;
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { FaArrowLeft, FaRobot, FaUser, FaPlus } from "react-icons/fa";
-
-// function Chatbot() {
-
-//   const navigate = useNavigate();
-
-//   const [messages, setMessages] = useState([
-//     {
-//       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
-//   ]);
-
-//   const [input, setInput] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const bottomRef = useRef();
-
-//   useEffect(() => {
-//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages, loading]);
-
-//   const sendMessage = async (customText) => {
-
-//     const userText = customText || input;
-
-//     if (!userText.trim() || loading) return;
-
-//     setInput("");
-
-//     setMessages(prev => [...prev, { sender: "user", text: userText }]);
-
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/chat", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ message: userText })
-//       });
-
-//       const data = await res.json();
-
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: data.reply }
-//       ]);
-
-//     } catch (error) {
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: "AI connection error 😢" }
-//       ]);
-//     }
-
-//     setLoading(false);
-//   };
-
-//   const startNewChat = () => {
-//     setMessages([
-//       {
-//         sender: "bot",
-//         text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//       }
-//     ]);
-//   };
-
-//   return (
-
-//     <div className="h-screen flex bg-gray-100">
-
-//       {/* SIDEBAR */}
-//       <div className="w-64 bg-gray-900 text-white p-4 flex flex-col">
-
-//         <button
-//           onClick={startNewChat}
-//           className="flex items-center gap-2 bg-indigo-500 px-4 py-2 rounded-lg mb-4"
-//         >
-//           <FaPlus /> New Chat
-//         </button>
-
-//         <div className="text-gray-400 text-sm">
-//           <p className="mb-2">Recent Chats</p>
-//           <p className="text-xs">No history yet</p>
-//         </div>
-
-//       </div>
-
-//       {/* MAIN CHAT */}
-//       <div className="flex-1 flex flex-col">
-
-//         {/* HEADER */}
-//         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 flex items-center gap-4 shadow">
-
-//           <button onClick={() => navigate("/dashboard")} className="bg-white/20 p-2 rounded-lg">
-//             <FaArrowLeft />
-//           </button>
-
-//           <h2 className="text-lg font-semibold flex items-center gap-2">
-//             <FaRobot /> MindScope Assistant
-//           </h2>
-
-//         </div>
-
-//         {/* CHAT AREA */}
-//         <div className="flex-1 overflow-y-auto px-6 py-4">
-
-//           {/* EMPTY STATE */}
-//           {messages.length === 1 && (
-//             <div className="flex flex-col items-center justify-center h-full text-gray-400">
-
-//               <FaRobot className="text-5xl mb-4" />
-
-//               <p className="text-lg font-medium">Start a conversation</p>
-//               <p className="text-sm mb-4">I'm here to support your mental health 💙</p>
-
-//               {/* QUICK SUGGESTIONS */}
-//               <div className="flex flex-wrap gap-2 justify-center">
-//                 {[
-//                   "I feel stressed",
-//                   "I feel sad",
-//                   "I can't sleep",
-//                   "I feel anxious"
-//                 ].map((text, i) => (
-//                   <button
-//                     key={i}
-//                     onClick={() => sendMessage(text)}
-//                     className="bg-white border px-3 py-1 rounded-full text-sm hover:bg-gray-100"
-//                   >
-//                     {text}
-//                   </button>
-//                 ))}
-//               </div>
-
-//             </div>
-//           )}
-
-//           {/* MESSAGES */}
-//           {messages.map((msg, index) => (
-
-//             <div
-//               key={index}
-//               className={`mb-4 flex gap-2 ${
-//                 msg.sender === "user" ? "justify-end" : "justify-start"
-//               }`}
-//             >
-
-//               {/* BOT AVATAR */}
-//               {msg.sender === "bot" && (
-//                 <div className="w-8 h-8 bg-indigo-500 text-white flex items-center justify-center rounded-full">
-//                   <FaRobot size={14} />
-//                 </div>
-//               )}
-
-//               <div
-//                 className={`px-4 py-3 rounded-2xl max-w-md text-sm ${
-//                   msg.sender === "user"
-//                     ? "bg-indigo-500 text-white"
-//                     : "bg-white shadow"
-//                 }`}
-//               >
-//                 {msg.text}
-//               </div>
-
-//               {/* USER AVATAR */}
-//               {msg.sender === "user" && (
-//                 <div className="w-8 h-8 bg-gray-400 text-white flex items-center justify-center rounded-full">
-//                   <FaUser size={14} />
-//                 </div>
-//               )}
-
-//             </div>
-//           ))}
-
-//           {/* TYPING */}
-//           {loading && (
-//             <div className="flex items-center gap-2 mb-4">
-
-//               <div className="w-8 h-8 bg-indigo-500 text-white flex items-center justify-center rounded-full">
-//                 <FaRobot size={14} />
-//               </div>
-
-//               <div className="bg-white shadow px-4 py-2 rounded-xl flex gap-1">
-//                 <span className="animate-bounce">.</span>
-//                 <span className="animate-bounce delay-100">.</span>
-//                 <span className="animate-bounce delay-200">.</span>
-//               </div>
-
-//             </div>
-//           )}
-
-//           <div ref={bottomRef}></div>
-
-//         </div>
-
-//         {/* INPUT */}
-//         <div className="p-4 bg-white border-t flex gap-3">
-
-//           <input
-//             value={input}
-//             onChange={(e) => setInput(e.target.value)}
-//             placeholder="Type your message..."
-//             className="flex-1 border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//           />
-
-//           <button
-//             onClick={() => sendMessage()}
-//             disabled={loading}
-//             className="bg-indigo-500 text-white px-6 py-2 rounded-full hover:bg-indigo-600 disabled:opacity-50"
-//           >
-//             Send
-//           </button>
-
-//         </div>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default Chatbot;
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+// import Setting from "./Setting";
 // import pic from "../assets/logo pic.png";
 
 // import {
+//   FaRobot,
+//   FaUser,
+//   FaChartBar,
 //   FaBars,
-//   FaRobot,
-//   FaUser,
-//   FaChartBar,
-//   FaPlus
-// } from "react-icons/fa";
-
-// function Chatbot() {
-
-//   const navigate = useNavigate();
-
-//   // ✅ LEFT SIDEBAR (dashboard style)
-//   const [isOpen, setIsOpen] = useState(true);
-
-//   // ✅ CHAT STATE
-//   const [messages, setMessages] = useState([
-//     {
-//       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
-//   ]);
-
-//   const [input, setInput] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const bottomRef = useRef();
-
-//   useEffect(() => {
-//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages, loading]);
-
-//   // ✅ SEND MESSAGE
-//   const sendMessage = async (customText) => {
-
-//     const userText = customText || input;
-//     if (!userText.trim() || loading) return;
-
-//     setInput("");
-//     setMessages(prev => [...prev, { sender: "user", text: userText }]);
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/chat", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ message: userText })
-//       });
-
-//       const data = await res.json();
-
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: data.reply }
-//       ]);
-
-//     } catch {
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: "Error 😢" }
-//       ]);
-//     }
-
-//     setLoading(false);
-//   };
-
-//   // ✅ NEW CHAT
-//   const startNewChat = () => {
-//     setMessages([
-//       {
-//         sender: "bot",
-//         text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//       }
-//     ]);
-//   };
-
-//   return (
-//   <div className="flex h-screen bg-gray-100">
-
-//     {/* ✅ 1. DASHBOARD SIDEBAR */}
-//     <div className={`${isOpen ? "w-64" : "w-20"} bg-white shadow-lg flex flex-col`}>
-      
-//       <div className="flex items-center justify-between p-4 border-b">
-//         <img src={pic} className="w-10 h-10 rounded-full" />
-//         <FaBars onClick={() => setIsOpen(!isOpen)} className="cursor-pointer" />
-//       </div>
-
-//       <div className="p-3 space-y-4">
-//         <button onClick={()=>navigate("/dashboard")} className="flex items-center gap-3 p-2 rounded hover:bg-indigo-100">
-//           <FaChartBar /> {isOpen && "Dashboard"}
-//         </button>
-
-//         <button className="flex items-center gap-3 p-2 rounded bg-indigo-100">
-//           <FaRobot /> {isOpen && "AI Assistant"}
-//         </button>
-
-//         <button onClick={()=>navigate("/profile")} className="flex items-center gap-3 p-2 rounded hover:bg-indigo-100">
-//           <FaUser /> {isOpen && "Profile"}
-//         </button>
-//       </div>
-//     </div>
-
-//     {/* ✅ 2. CHAT SIDEBAR (DARK LIKE PIC) */}
-//     <div className="w-72 bg-gradient-to-b from-indigo-600 to-purple-700 text-white p-4">
-
-//       <button
-//         onClick={startNewChat}
-//         className="w-full bg-white text-indigo-600 py-2 rounded-lg font-semibold mb-4"
-//       >
-//         + New Chat
-//       </button>
-
-//       <p className="text-sm opacity-80 mb-3">Recent Chats</p>
-
-//       <div className="space-y-2 text-sm">
-//         <div className="bg-white/20 p-2 rounded-lg">I feel stressed</div>
-//         <div className="bg-white/20 p-2 rounded-lg">Feeling anxious</div>
-//         <div className="bg-white/20 p-2 rounded-lg">Sleep issues</div>
-//       </div>
-//     </div>
-
-//     {/* ✅ 3. CHAT AREA (FIXED LIKE 2nd PIC) */}
-//     <div className="flex-1 flex items-center justify-center p-6">
-
-//       {/* 🔥 MAIN CHAT CARD */}
-//       <div className="w-full max-w-5xl h-full bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden">
-
-//         {/* HEADER */}
-//         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 flex justify-between items-center">
-//           <p className="font-semibold">MindScope Assistant</p>
-//           <div className="flex gap-3 items-center">
-//             <div className="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center text-sm">
-//               U
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* CHAT BODY */}
-//         <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-br from-white to-indigo-50">
-
-//           {messages.length === 1 && (
-//             <div className="text-center text-gray-400 mt-20">
-//               <FaRobot className="text-5xl mx-auto mb-3" />
-//               <p className="text-lg">Start a conversation</p>
-//               <p className="text-sm">I'm here to support your mental health 💙</p>
-//             </div>
-//           )}
-
-//           {messages.map((msg, i) => (
-//             <div
-//               key={i}
-//               className={`mb-4 flex ${
-//                 msg.sender === "user" ? "justify-end" : "justify-start"
-//               }`}
-//             >
-//               <div className={`px-4 py-3 rounded-xl max-w-md ${
-//                 msg.sender === "user"
-//                   ? "bg-indigo-500 text-white"
-//                   : "bg-white shadow"
-//               }`}>
-//                 {msg.text}
-//               </div>
-//             </div>
-//           ))}
-
-//           {loading && <p className="text-gray-400">Typing...</p>}
-//           <div ref={bottomRef}></div>
-//         </div>
-
-//         {/* INPUT */}
-//         <div className="p-4 border-t flex gap-3 bg-white">
-//           <input
-//             value={input}
-//             onChange={(e)=>setInput(e.target.value)}
-//             placeholder="Type your message..."
-//             className="flex-1 border rounded-full px-4 py-2"
-//             onKeyDown={(e)=> e.key==="Enter" && sendMessage()}
-//           />
-
-//           <button
-//             onClick={()=>sendMessage()}
-//             className="bg-indigo-500 text-white px-6 py-2 rounded-full"
-//           >
-//             Send
-//           </button>
-//         </div>
-
-//       </div>
-//     </div>
-
-//   </div>
-// );
-// }
-
-// export default Chatbot;
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   FaRobot,
-//   FaUser,
-//   FaPlus,
-//   FaChartBar,
-//   FaUserCircle,
 //   FaBell,
-//   FaBars,
+//   FaSignOutAlt,
 //   FaCog,
-//   FaSignOutAlt
-// } from "react-icons/fa";
-
-// import pic from "../assets/logo pic.png";
-
-// function Chatbot() {
-//   const navigate = useNavigate();
-
-//   // ✅ ADD THESE STATES
-//   const [isOpen, setIsOpen] = useState(true);
-//   const [openDropdown, setOpenDropdown] = useState(false);
-//   const [openSettings, setOpenSettings] = useState(false);
-
-//   const currentUserName = "Simran";
-//   const currentUserEmail = "simran@gmail.com";
-
-//   const [messages, setMessages] = useState([
-//     {
-//       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
-//   ]);
-
-//   const [input, setInput] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const bottomRef = useRef();
-
-//   useEffect(() => {
-//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages, loading]);
-
-//   const sendMessage = async (customText) => {
-//     const userText = customText || input;
-//     if (!userText.trim() || loading) return;
-
-//     setInput("");
-//     setMessages(prev => [...prev, { sender: "user", text: userText }]);
-
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/chat", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ message: userText })
-//       });
-
-//       const data = await res.json();
-
-//       setMessages(prev => [...prev, { sender: "bot", text: data.reply }]);
-//     } catch {
-//       setMessages(prev => [...prev, { sender: "bot", text: "AI error 😢" }]);
-//     }
-
-//     setLoading(false);
-//   };
-
-//   return (
-//     <div className="flex h-screen bg-[#f5f6fa]">
-
-//       {/* ✅ DASHBOARD SIDEBAR (FIXED WIDTH NO POSITION FIXED) */}
-//       <div className="w-64 bg-white shadow-lg flex flex-col justify-between">
-
-//         {/* TOP */}
-//         <div>
-//           <div className="flex items-center justify-between p-4 border-b">
-//             <div className="flex items-center gap-2">
-//               <img src={pic} className="w-12 h-12 rounded-full" />
-//               <div>
-//                 <h1 className="text-indigo-600 font-bold">Moodly AI</h1>
-//                 <p className="text-xs text-gray-400">Mental Wellness</p>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="p-3 space-y-3">
-//             <button onClick={() => navigate("/dashboard")} className="w-full text-left p-2 hover:bg-gray-100 rounded">
-//               Dashboard
-//             </button>
-
-//             <button className="w-full text-left p-2 bg-indigo-100 text-indigo-600 rounded">
-//               AI Assistant
-//             </button>
-
-//             <button onClick={() => navigate("/profile")} className="w-full text-left p-2 hover:bg-gray-100 rounded">
-//               Profile
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* USER */}
-//         <div className="p-4 border-t flex gap-2">
-//           <div className="w-8 h-8 bg-indigo-600 text-white flex items-center justify-center rounded-full">
-//             S
-//           </div>
-//           <div>
-//             <p className="text-sm font-semibold">{currentUserName}</p>
-//             <p className="text-xs text-gray-400">{currentUserEmail}</p>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* ✅ CHAT SIDEBAR */}
-//       <div className="w-72 bg-gradient-to-b from-indigo-600 to-purple-600 text-white p-4">
-
-//         <button className="w-full bg-white text-indigo-600 py-2 rounded-lg mb-4 font-medium">
-//           + New Chat
-//         </button>
-
-//         <p className="text-sm opacity-80 mb-2">Recent Chats</p>
-
-//         <div className="space-y-2 text-sm">
-//           <div className="bg-white/20 p-2 rounded">I feel stressed</div>
-//           <div className="bg-white/20 p-2 rounded">Feeling anxious</div>
-//           <div className="bg-white/20 p-2 rounded">Sleep issues</div>
-//         </div>
-//       </div>
-
-//       {/* ✅ MAIN CHAT */}
-//       <div className="flex-1 flex items-center justify-center p-6">
-
-//         <div className="w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden">
-
-//           {/* HEADER */}
-//           <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 flex justify-between">
-//             <h2>MindScope Assistant</h2>
-//             <FaBell />
-//           </div>
-
-//           {/* CHAT */}
-//           <div className="flex-1 overflow-y-auto bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6">
-
-//             {messages.map((msg, i) => (
-//               <div key={i} className={`mb-4 ${msg.sender === "user" ? "text-right" : ""}`}>
-//                 <div className={`inline-block px-4 py-2 rounded-xl ${
-//                   msg.sender === "user" ? "bg-indigo-500 text-white" : "bg-white shadow"
-//                 }`}>
-//                   {msg.text}
-//                 </div>
-//               </div>
-//             ))}
-
-//             {loading && <p>Typing...</p>}
-
-//             <div ref={bottomRef}></div>
-//           </div>
-
-//           {/* INPUT */}
-//           <div className="p-4 border-t flex gap-3">
-//             <input
-//               value={input}
-//               onChange={(e) => setInput(e.target.value)}
-//               className="flex-1 border rounded-full px-4 py-2"
-//               placeholder="Type..."
-//             />
-
-//             <button
-//               onClick={() => sendMessage()}
-//               className="bg-indigo-500 text-white px-6 py-2 rounded-full"
-//             >
-//               Send
-//             </button>
-//           </div>
-
-//         </div>
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default Chatbot;
-
-
-
-
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   FaRobot,
-//   FaUser,
+//   FaPaperPlane,
+//   FaMicrophone,
+//   FaStop,
+//   FaSmile,
+//   FaHeart,
+//   FaStar,
+//   FaLeaf,
+//   FaBolt,
+//   FaMoon,
+//   FaSun,
 //   FaPlus,
-//   FaChartBar,
-//   FaUserCircle,
-//   FaBell,
-//   FaBars,
-//   FaSignOutAlt,
-//   FaCog
+//   FaTrash,
 // } from "react-icons/fa";
 
-// import pic from "../assets/logo pic.png";
+// const QUICK_REPLIES = [
+//   { label: "😔 I feel sad", text: "I feel sad today" },
+//   { label: "😰 I'm anxious", text: "I'm feeling anxious" },
+//   { label: "😤 I'm stressed", text: "I'm really stressed" },
+//   { label: "😊 I feel good", text: "I'm feeling good today" },
+//   { label: "😴 Can't sleep", text: "I can't sleep properly" },
+//   { label: "😠 I'm angry", text: "I'm feeling angry" },
+// ];
 
-// function Chatbot() {
-//   const navigate = useNavigate();
+// const MOOD_TAGS = [
+//   { emoji: "😊", label: "Happy", color: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+//   { emoji: "😢", label: "Sad", color: "bg-blue-100 text-blue-700 border-blue-200" },
+//   { emoji: "😰", label: "Anxious", color: "bg-purple-100 text-purple-700 border-purple-200" },
+//   { emoji: "😤", label: "Stressed", color: "bg-orange-100 text-orange-700 border-orange-200" },
+//   { emoji: "😴", label: "Tired", color: "bg-gray-100 text-gray-700 border-gray-200" },
+//   { emoji: "💪", label: "Strong", color: "bg-green-100 text-green-700 border-green-200" },
+// ];
 
-//   // ✅ SIDEBAR STATES
-//   const [isOpen, setIsOpen] = useState(true);
-//   const [openDropdown, setOpenDropdown] = useState(false);
+// const BOT_AVATAR_COLORS = [
+//   "from-indigo-500 to-purple-600",
+//   "from-blue-500 to-cyan-500",
+//   "from-violet-500 to-pink-500",
+// ];
 
-//   const currentUserEmail =
-//     sessionStorage.getItem("currentUser") ||
-//     localStorage.getItem("currentUser");
-
-//   const currentUserName =
-//     sessionStorage.getItem("currentUserName") ||
-//     localStorage.getItem(`name_${currentUserEmail}`) ||
-//     "User";
-
-//   // ✅ CHAT STATES
-//   const [messages, setMessages] = useState([
-//     {
-//       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
-//   ]);
-
-//   const [input, setInput] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const bottomRef = useRef();
-
-//   useEffect(() => {
-//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages, loading]);
-
-//   const sendMessage = async (customText) => {
-//     const userText = customText || input;
-//     if (!userText.trim() || loading) return;
-
-//     setInput("");
-//     setMessages(prev => [...prev, { sender: "user", text: userText }]);
-
-//     setLoading(true);
-
-//     try {
-//       const res = await fetch("http://localhost:5000/api/chat", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ message: userText })
-//       });
-
-//       const data = await res.json();
-
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: data.reply }
-//       ]);
-//     } catch {
-//       setMessages(prev => [
-//         ...prev,
-//         { sender: "bot", text: "AI connection error 😢" }
-//       ]);
-//     }
-
-//     setLoading(false);
-//   };
-
+// function TypingDots() {
 //   return (
-//     <div className="flex h-screen bg-[#f5f6fa]">
-
-//       {/* ✅ LEFT MAIN SIDEBAR (Dashboard style) */}
-//       <div
-//         className={`${
-//           isOpen ? "w-64" : "w-28"
-//         } bg-white shadow-lg fixed h-screen transition-all duration-500 flex flex-col justify-between`}
-//       >
-//         {/* TOP */}
-//         <div>
-//           {/* LOGO */}
-//           <div className="flex items-center justify-between p-4 border-b">
-//             {isOpen ? (
-//               <div
-//                 onClick={() => navigate("/dashboard")}
-//                 className="flex items-center gap-2 cursor-pointer"
-//               >
-//                 <img src={pic} className="w-14 h-14 rounded-full shadow" />
-//                 <div>
-//                   <h1 className="text-indigo-600 font-bold text-xl">
-//                     Moodly AI
-//                   </h1>
-//                   <p className="text-xs text-gray-400">Mental Wellness</p>
-//                 </div>
-//               </div>
-//             ) : (
-//               <img src={pic} className="w-10 h-10 rounded-full" />
-//             )}
-
-//             <FaBars
-//               className="text-indigo-600 cursor-pointer"
-//               onClick={() => setIsOpen(!isOpen)}
-//             />
-//           </div>
-
-//           {/* NAV */}
-//           <div className="p-3 space-y-4 mt-2">
-//             <button
-//               onClick={() => navigate("/dashboard")}
-//               className="flex items-center gap-3 w-full px-4 py-2 rounded-xl hover:bg-indigo-100"
-//             >
-//               <FaChartBar />
-//               {isOpen && "Dashboard"}
-//             </button>
-
-//             <button
-//               className="flex items-center gap-3 w-full px-4 py-2 rounded-xl bg-indigo-100 text-indigo-600"
-//             >
-//               <FaRobot />
-//               {isOpen && "AI Assistant"}
-//             </button>
-
-//             <button
-//               onClick={() => navigate("/profile")}
-//               className="flex items-center gap-3 w-full px-4 py-2 rounded-xl hover:bg-indigo-100"
-//             >
-//               <FaUser />
-//               {isOpen && "Profile"}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* USER */}
-//         <div className="p-4 border-t">
-//           <div
-//             onClick={() => setOpenDropdown(!openDropdown)}
-//             className="flex items-center gap-3 cursor-pointer"
-//           >
-//             <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center">
-//               {currentUserName.charAt(0).toUpperCase()}
-//             </div>
-
-//             {isOpen && (
-//               <div>
-//                 <p className="text-sm font-semibold">{currentUserName}</p>
-//                 <p className="text-xs text-gray-500">{currentUserEmail}</p>
-//               </div>
-//             )}
-//           </div>
-
-//           {openDropdown && (
-//             <div className="mt-3 bg-white shadow rounded-lg p-2">
-//               <div className="flex gap-2 p-2 hover:bg-gray-100 cursor-pointer">
-//                 <FaCog />
-//                 <span>Settings</span>
-//               </div>
-
-//               <div
-//                 onClick={() => {
-//                   sessionStorage.clear();
-//                   navigate("/");
-//                 }}
-//                 className="flex gap-2 p-2 text-red-500 hover:bg-red-50 cursor-pointer"
-//               >
-//                 <FaSignOutAlt />
-//                 <span>Logout</span>
-//               </div>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-
-//       {/* ✅ RIGHT SIDE */}
-//       <div className={`flex-1 ${isOpen ? "ml-64" : "ml-28"} flex`}>
-
-//         {/* ✅ CHAT LEFT PANEL */}
-//         <div className="w-72 bg-gradient-to-b from-indigo-600 to-purple-600 text-white p-4">
-//           <button className="w-full bg-white text-indigo-600 py-2 rounded-lg mb-4 font-medium">
-//             + New Chat
-//           </button>
-
-//           <p className="text-sm opacity-80 mb-2">Recent Chats</p>
-
-//           <div className="space-y-2 text-sm">
-//             <div className="bg-white/20 p-2 rounded">I feel stressed</div>
-//             <div className="bg-white/20 p-2 rounded">Feeling anxious</div>
-//             <div className="bg-white/20 p-2 rounded">Sleep issues</div>
-//           </div>
-//         </div>
-
-//         {/* ✅ MAIN CHAT */}
-//         <div className="flex-1 flex items-center justify-center p-6">
-
-//           <div className="w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden">
-
-//             {/* HEADER */}
-//             <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 flex justify-between items-center">
-//               <h2 className="font-semibold">MindScope Assistant</h2>
-
-//               <div className="flex items-center gap-4">
-//                 <FaBell />
-//                 <div className="w-8 h-8 bg-white text-indigo-600 rounded-full flex items-center justify-center">
-//                   {currentUserName.charAt(0).toUpperCase()}
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* CHAT AREA */}
-//             <div className="flex-1 overflow-y-auto bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6">
-
-//               {messages.length === 1 && (
-//                 <div className="text-center text-gray-400 mt-10">
-//                   <FaRobot className="mx-auto text-4xl mb-2" />
-//                   <p className="font-medium">Start a conversation</p>
-//                   <p className="text-sm mb-3">
-//                     I'm here to support your mental health 💙
-//                   </p>
-
-//                   <div className="flex justify-center gap-2 flex-wrap">
-//                     {["I feel stressed", "I feel sad", "I can't sleep", "I feel anxious"].map((t, i) => (
-//                       <button
-//                         key={i}
-//                         onClick={() => sendMessage(t)}
-//                         className="bg-white px-3 py-1 rounded-full border text-sm"
-//                       >
-//                         {t}
-//                       </button>
-//                     ))}
-//                   </div>
-//                 </div>
-//               )}
-
-//               {messages.map((msg, i) => (
-//                 <div
-//                   key={i}
-//                   className={`flex mb-4 ${
-//                     msg.sender === "user" ? "justify-end" : "justify-start"
-//                   }`}
-//                 >
-//                   <div
-//                     className={`px-4 py-2 rounded-xl max-w-md ${
-//                       msg.sender === "user"
-//                         ? "bg-indigo-500 text-white"
-//                         : "bg-white shadow"
-//                     }`}
-//                   >
-//                     {msg.text}
-//                   </div>
-//                 </div>
-//               ))}
-
-//               {loading && <p className="text-gray-400">Typing...</p>}
-
-//               <div ref={bottomRef}></div>
-//             </div>
-
-//             {/* INPUT */}
-//             <div className="p-4 border-t flex gap-3 bg-white">
-//               <input
-//                 value={input}
-//                 onChange={(e) => setInput(e.target.value)}
-//                 placeholder="Type your message..."
-//                 className="flex-1 border rounded-full px-4 py-2 outline-none"
-//                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//               />
-
-//               <button
-//                 onClick={() => sendMessage()}
-//                 className="bg-indigo-500 text-white px-6 py-2 rounded-full"
-//               >
-//                 Send
-//               </button>
-//             </div>
-
-//           </div>
-//         </div>
-//       </div>
+//     <div className="flex items-center gap-1 px-4 py-3">
+//       {[0, 1, 2].map((i) => (
+//         <span
+//           key={i}
+//           className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+//           style={{ animationDelay: `${i * 0.15}s` }}
+//         />
+//       ))}
 //     </div>
 //   );
 // }
 
-// export default Chatbot;
+// function MessageBubble({ msg, darkMode }) {
+//   const isUser = msg.sender === "user";
+//   const [visible, setVisible] = useState(false);
 
+//   useEffect(() => {
+//     const t = setTimeout(() => setVisible(true), 50);
+//     return () => clearTimeout(t);
+//   }, []);
 
+//   return (
+//     <div
+//       className={`flex gap-3 mb-5 transition-all duration-500 ${
+//         isUser ? "justify-end" : "justify-start"
+//       } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+//     >
+//       {!isUser && (
+//         <div className="flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+//           <FaRobot className="text-white text-sm" />
+//         </div>
+//       )}
 
+//       <div className={`max-w-[72%] ${isUser ? "items-end" : "items-start"} flex flex-col gap-1`}>
+//         {!isUser && (
+//           <span className="text-xs font-semibold text-indigo-500 ml-1">Mannlytics</span>
+//         )}
+//         <div
+//           className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+//             isUser
+//               ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-tr-sm"
+//               : darkMode
+//               ? "bg-gray-700 text-gray-100 rounded-tl-sm"
+//               : "bg-white text-gray-800 rounded-tl-sm border border-gray-100"
+//           }`}
+//         >
+//           {msg.text}
+//         </div>
+//         <span className={`text-[10px] px-1 ${darkMode ? "text-gray-500" : "text-gray-400"}`}>
+//           {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+//         </span>
+//       </div>
 
-// import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import pic from "../assets/logo pic.png";
-
-// import {
-//   FaRobot,
-//   FaUser,
-//   FaChartBar,
-//   FaBars,
-//   FaBell,
-//   FaSignOutAlt,
-//   FaCog
-// } from "react-icons/fa";
+//       {isUser && (
+//         <div className="flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center shadow-md">
+//           <FaUser className="text-white text-sm" />
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
 
 // function Chatbot() {
 //   const navigate = useNavigate();
 
-//   // ✅ SIDEBAR STATE (same as dashboard)
 //   const [isOpen, setIsOpen] = useState(() => {
 //     const saved = localStorage.getItem("sidebarState");
 //     return saved === null ? true : saved === "true";
 //   });
 
+//   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
 //   const [openDropdown, setOpenDropdown] = useState(false);
 //   const [openSettings, setOpenSettings] = useState(false);
+//   const [chats, setChats] = useState([]);
+//   const [activeChatId, setActiveChatId] = useState(null);
+//   const [showMoodPicker, setShowMoodPicker] = useState(false);
+//   const [selectedMood, setSelectedMood] = useState(null);
+//   const [isRecording, setIsRecording] = useState(false);
+//   const [charCount, setCharCount] = useState(0);
+//   const recognitionRef = useRef(null);
 
-//   // ✅ USER DATA
 //   const currentUserEmail =
-//     sessionStorage.getItem("currentUser") ||
-//     localStorage.getItem("currentUser");
+//     sessionStorage.getItem("currentUser") || localStorage.getItem("currentUser");
 
 //   const currentUserName =
 //     sessionStorage.getItem("currentUserName") ||
 //     localStorage.getItem(`name_${currentUserEmail}`) ||
 //     "User";
+
+//   useEffect(() => {
+//     if (darkMode) document.body.classList.add("dark");
+//     else document.body.classList.remove("dark");
+//   }, [darkMode]);
 
 //   useEffect(() => {
 //     const handleClickOutside = () => setOpenDropdown(false);
@@ -1641,20 +151,38 @@
 //     return () => document.removeEventListener("click", handleClickOutside);
 //   }, []);
 
-//   // ✅ CHAT STATES
+//   useEffect(() => {
+//     const loadChats = async () => {
+//       if (!currentUserEmail) return;
+//       try {
+//         const res = await fetch(`http://localhost:5000/api/chats/${currentUserEmail}`);
+//         const data = await res.json();
+//         setChats(data);
+//         if (data.length > 0) {
+//           setActiveChatId(data[0]._id);
+//           setMessages(data[0].messages);
+//         }
+//       } catch {}
+//     };
+//     loadChats();
+//   }, [currentUserEmail]);
+
 //   const [messages, setMessages] = useState([
 //     {
 //       sender: "bot",
-//       text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-//     }
+//       text: `Hello ${currentUserName.split(" ")[0]} 👋 I'm Mannlytics, your personal mental wellness companion. How are you feeling today?`,
+//     },
 //   ]);
 
 //   const [input, setInput] = useState("");
 //   const [loading, setLoading] = useState(false);
 //   const bottomRef = useRef();
+//   const inputRef = useRef();
 
 //   useEffect(() => {
-//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+//     setTimeout(() => {
+//       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+//     }, 100);
 //   }, [messages, loading]);
 
 //   const sendMessage = async (customText) => {
@@ -1662,220 +190,417 @@
 //     if (!userText.trim() || loading) return;
 
 //     setInput("");
-//     setMessages(prev => [...prev, { sender: "user", text: userText }]);
+//     setCharCount(0);
+//     setShowMoodPicker(false);
 
+//     const newMessages = [...messages, { sender: "user", text: userText }];
+//     setMessages(newMessages);
 //     setLoading(true);
 
 //     try {
 //       const res = await fetch("http://localhost:5000/api/chat", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ message: userText })
+//         body: JSON.stringify({ message: userText }),
 //       });
 
 //       const data = await res.json();
 
-//       setMessages(prev => [...prev, { sender: "bot", text: data.reply }]);
+//       const updatedMessages = [...newMessages, { sender: "bot", text: data.reply }];
+//       setMessages(updatedMessages);
+
+//       await fetch("http://localhost:5000/api/saveChat", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           userEmail: currentUserEmail,
+//           chatId: activeChatId,
+//           messages: updatedMessages,
+//         }),
+//       });
 //     } catch {
-//       setMessages(prev => [...prev, { sender: "bot", text: "AI error 😢" }]);
+//       setMessages((prev) => [...prev, { sender: "bot", text: "I'm having trouble connecting right now. Please try again in a moment. 💙" }]);
 //     }
 
 //     setLoading(false);
 //   };
 
-//   return (
-//     <div className="flex h-screen bg-[#f5f6fa]">
+//   const handleMoodSelect = (mood) => {
+//     setSelectedMood(mood);
+//     setShowMoodPicker(false);
+//     sendMessage(`I'm feeling ${mood.label.toLowerCase()} ${mood.emoji}`);
+//   };
 
-//       {/* ✅ SIDEBAR (EXACT SAME AS DASHBOARD) */}
+//   const startRecording = () => {
+//     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+//     if (!SpeechRecognition) return;
+//     const recognition = new SpeechRecognition();
+//     recognitionRef.current = recognition;
+//     recognition.lang = "en-US";
+//     recognition.interimResults = true;
+//     recognition.continuous = false;
+//     recognition.onresult = (e) => {
+//       const transcript = Array.from(e.results).map((r) => r[0].transcript).join("");
+//       setInput(transcript);
+//       setCharCount(transcript.length);
+//     };
+//     recognition.onend = () => setIsRecording(false);
+//     recognition.start();
+//     setIsRecording(true);
+//   };
+
+//   const stopRecording = () => {
+//     recognitionRef.current?.stop();
+//     setIsRecording(false);
+//   };
+
+//   const bg = darkMode
+//     ? "bg-gray-900 text-white"
+//     : "bg-gradient-to-br from-indigo-50 via-white to-purple-50";
+
+//   const cardBg = darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100";
+//   const inputBg = darkMode
+//     ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+//     : "bg-gray-50 border-gray-200 text-gray-800 placeholder-gray-400";
+//   const sidebarBg = darkMode ? "bg-gray-800" : "bg-white";
+//   const mutedText = darkMode ? "text-gray-400" : "text-gray-500";
+
+//   return (
+//     <div className={`flex min-h-screen ${bg} transition-colors duration-300`}>
+
+//       {/* ── LEFT SIDEBAR ── */}
 //       <div
-//         className={`${
-//           isOpen ? "w-64" : "w-28"
-//         } bg-white shadow-lg fixed h-screen transition-all duration-500 flex flex-col justify-between`}
+//         className={`${isOpen ? "w-64" : "w-20"} ${sidebarBg} shadow-lg fixed h-screen transition-all duration-500 flex flex-col justify-between z-50`}
 //       >
-//         {/* TOP */}
 //         <div>
-//           {/* LOGO */}
 //           <div className="flex items-center justify-between p-4 border-b">
 //             {isOpen ? (
-//               <div
-//                 onClick={() => navigate("/dashboard")}
-//                 className="flex items-center gap-2 cursor-pointer hover:scale-105"
-//               >
-//                 <img src={pic} className="w-16 h-16 rounded-full" />
+//               <div onClick={() => navigate("/")} className="flex items-center gap-2 cursor-pointer hover:scale-105 transition-transform">
+//                 <img src={pic} className="w-14 h-14 rounded-full shadow" alt="logo" />
 //                 <div>
-//                   <h1 className="text-indigo-600 font-bold text-2xl">
-//                     Moodly AI
-//                   </h1>
-//                   <p className="text-xs text-gray-400">Mental Wellness</p>
+//                   <h1 className="text-indigo-600 font-bold text-xl">Mannlytics</h1>
+//                   <p className={`text-xs ${mutedText}`}>Mental Wellness</p>
 //                 </div>
 //               </div>
 //             ) : (
-//               <img src={pic} className="w-12 h-12 rounded-full" />
+//               <img src={pic} className="w-10 h-10 rounded-full shadow mx-auto" alt="logo" />
 //             )}
-
 //             <FaBars
-//               className="text-xl text-indigo-600 cursor-pointer"
+//               className="text-indigo-600 cursor-pointer flex-shrink-0"
 //               onClick={() => {
-//                 const newState = !isOpen;
-//                 setIsOpen(newState);
-//                 localStorage.setItem("sidebarState", newState);
+//                 const s = !isOpen;
+//                 setIsOpen(s);
+//                 localStorage.setItem("sidebarState", s);
 //               }}
 //             />
 //           </div>
 
-//           {/* NAV */}
-//           <div className="p-3 space-y-4 mt-2">
-//             <button
-//               onClick={() => navigate("/dashboard")}
-//               className={`flex items-center ${
-//                 isOpen ? "px-4" : "justify-center py-4"
-//               } gap-3 w-full rounded-xl hover:bg-indigo-100`}
-//             >
-//               <FaChartBar />
-//               {isOpen && "Dashboard"}
-//             </button>
-
-//             <button
-//               className={`flex items-center ${
-//                 isOpen ? "px-4 bg-indigo-100 text-indigo-600" : "justify-center py-4"
-//               } gap-3 w-full rounded-xl`}
-//             >
-//               <FaRobot />
-//               {isOpen && "AI Assistant"}
-//             </button>
-
-//             <button
-//               onClick={() => navigate("/profile")}
-//               className={`flex items-center ${
-//                 isOpen ? "px-4" : "justify-center py-4"
-//               } gap-3 w-full rounded-xl hover:bg-indigo-100`}
-//             >
-//               <FaUser />
-//               {isOpen && "Profile"}
-//             </button>
+//           <div className="p-3 space-y-2 mt-2">
+//             {[
+//               { icon: FaChartBar, label: "Dashboard", action: () => navigate("/dashboard"), active: false },
+//               { icon: FaRobot, label: "AI Assistant", action: null, active: true },
+//               { icon: FaUser, label: "Profile", action: () => navigate("/profile"), active: false },
+//             ].map(({ icon: Icon, label, action, active }) => (
+//               <button
+//                 key={label}
+//                 onClick={action || undefined}
+//                 className={`flex items-center ${isOpen ? "px-4 gap-3" : "justify-center py-3"} w-full rounded-xl transition-all duration-300 hover:scale-105 ${
+//                   active
+//                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md"
+//                     : darkMode
+//                     ? "text-gray-300 hover:bg-gray-700"
+//                     : "text-gray-600 hover:bg-indigo-50"
+//                 } py-2.5`}
+//               >
+//                 <Icon className={active ? "text-white" : ""} />
+//                 {isOpen && <span className="text-sm font-medium">{label}</span>}
+//               </button>
+//             ))}
 //           </div>
 //         </div>
 
-//         {/* USER */}
 //         <div className="p-4 border-t relative">
 //           <div
-//             onClick={(e) => {
-//               e.stopPropagation();
-//               setOpenDropdown(prev => !prev);
-//             }}
-//             className="flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-lg"
+//             onClick={(e) => { e.stopPropagation(); setOpenDropdown((p) => !p); }}
+//             className={`flex items-center gap-3 cursor-pointer p-2 rounded-xl transition ${darkMode ? "hover:bg-gray-700" : "hover:bg-indigo-50"}`}
 //           >
-//             <div className="w-10 h-10 bg-indigo-600 text-white flex items-center justify-center rounded-full">
+//             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
 //               {currentUserName.charAt(0).toUpperCase()}
 //             </div>
-
 //             {isOpen && (
-//               <div>
-//                 <p className="text-sm font-semibold">{currentUserName}</p>
-//                 <p className="text-xs text-gray-500">{currentUserEmail}</p>
+//               <div className="min-w-0">
+//                 <p className="text-sm font-semibold truncate">{currentUserName}</p>
+//                 <p className={`text-xs truncate ${mutedText}`}>{currentUserEmail}</p>
 //               </div>
 //             )}
 //           </div>
 
 //           {openDropdown && (
-//             <div className="absolute bottom-16 left-2 w-52 bg-white shadow-xl rounded-xl p-2">
-//               <div
-//                 onClick={() => {
-//                   setOpenSettings(true);
-//                   setOpenDropdown(false);
-//                 }}
-//                 className="p-2 hover:bg-indigo-50 rounded cursor-pointer"
+//             <div className={`absolute bottom-16 left-2 w-52 rounded-2xl border p-2 shadow-2xl z-50 ${cardBg}`}>
+//               <button
+//                 onClick={() => { setOpenSettings(true); setOpenDropdown(false); }}
+//                 className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm transition ${darkMode ? "hover:bg-gray-700" : "hover:bg-indigo-50"}`}
 //               >
-//                 ⚙ Settings
-//               </div>
-
-//               <div
-//                 onClick={() => {
-//                   sessionStorage.clear();
-//                   navigate("/");
-//                 }}
-//                 className="p-2 hover:bg-red-50 text-red-500 rounded cursor-pointer"
+//                 <FaCog className="text-indigo-500" /> Settings
+//               </button>
+//               <button
+//                 onClick={() => { sessionStorage.clear(); navigate("/"); }}
+//                 className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm text-rose-500 transition ${darkMode ? "hover:bg-red-950/40" : "hover:bg-rose-50"}`}
 //               >
-//                 Logout
-//               </div>
+//                 <FaSignOutAlt /> Logout
+//               </button>
 //             </div>
 //           )}
 //         </div>
 //       </div>
 
-//       {/* ✅ CHAT SIDEBAR */}
-//       <div className={`w-72 ml-${isOpen ? "64" : "28"} bg-gradient-to-b from-indigo-600 to-purple-600 text-white p-4`}>
-//         <button className="w-full bg-white text-indigo-600 py-2 rounded-lg mb-4">
-//           + New Chat
-//         </button>
-
-//         <p className="text-sm mb-2">Recent Chats</p>
-
-//         <div className="space-y-2">
-//           <div className="bg-white/20 p-2 rounded">I feel stressed</div>
-//           <div className="bg-white/20 p-2 rounded">Feeling anxious</div>
-//           <div className="bg-white/20 p-2 rounded">Sleep issues</div>
+//       {/* ── CHAT HISTORY SIDEBAR ── */}
+//       <div
+//         className={`${isOpen ? "ml-64" : "ml-20"} w-64 flex-shrink-0 bg-gradient-to-b from-[#1e1b4b] via-[#312e81] to-[#1e1b4b] text-white p-4 flex flex-col gap-4 transition-all duration-500 min-h-screen`}
+//       >
+//         <div>
+//           <p className="text-xs font-bold uppercase tracking-widest text-indigo-300 mb-3">AI Assistant</p>
+//           <button
+//             onClick={async () => {
+//               try {
+//                 const res = await fetch("http://localhost:5000/api/newChat", {
+//                   method: "POST",
+//                   headers: { "Content-Type": "application/json" },
+//                   body: JSON.stringify({ userEmail: currentUserEmail }),
+//                 });
+//                 const newChat = await res.json();
+//                 setChats((p) => [newChat, ...p]);
+//                 setActiveChatId(newChat._id);
+//                 setMessages([{ sender: "bot", text: `Hello again ${currentUserName.split(" ")[0]} 👋 What's on your mind today?` }]);
+//               } catch {}
+//             }}
+//             className="w-full flex items-center gap-2 justify-center bg-white/15 hover:bg-white/25 border border-white/20 text-white py-2.5 rounded-xl font-medium text-sm transition-all duration-300 hover:scale-[1.02]"
+//           >
+//             <FaPlus className="text-xs" /> New Conversation
+//           </button>
 //         </div>
+
+//         <div>
+//           <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-2">Quick Start</p>
+//           <div className="space-y-1.5">
+//             {QUICK_REPLIES.map((q) => (
+//               <button
+//                 key={q.text}
+//                 onClick={() => sendMessage(q.text)}
+//                 className="w-full text-left px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-sm transition-all duration-200 hover:translate-x-1"
+//               >
+//                 {q.label}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+
+//         <div className="mt-auto">
+//           <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-2">Recent Chats</p>
+//           <div className="space-y-1.5">
+//             {chats.slice(0, 4).map((chat, i) => (
+//               <button
+//                 key={chat._id || i}
+//                 onClick={() => { setActiveChatId(chat._id); setMessages(chat.messages || []); }}
+//                 className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-all duration-200 truncate ${
+//                   activeChatId === chat._id ? "bg-white/25 font-semibold" : "bg-white/10 hover:bg-white/20"
+//                 }`}
+//               >
+//                 💬 {chat.messages?.[0]?.text?.slice(0, 28) || "New chat"}...
+//               </button>
+//             ))}
+//             {chats.length === 0 && (
+//               <p className="text-xs text-indigo-300 opacity-60 px-2">No history yet</p>
+//             )}
+//           </div>
+//         </div>
+
+//         <button
+//           onClick={() => setDarkMode((p) => { localStorage.setItem("darkMode", !p); return !p; })}
+//           className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-sm transition"
+//         >
+//           {darkMode ? <FaSun className="text-yellow-300" /> : <FaMoon className="text-indigo-200" />}
+//           {darkMode ? "Light Mode" : "Dark Mode"}
+//         </button>
 //       </div>
 
-//       {/* ✅ MAIN CHAT */}
-//       <div className="flex-1 flex items-center justify-center p-6">
+//       {/* ── MAIN CHAT ── */}
+//       <div className="flex-1 flex flex-col min-h-screen">
 
-//         <div className="w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden">
-
-//           {/* HEADER */}
-//           <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 flex justify-between">
-//             <h2>MindScope Assistant</h2>
-//             <div className="flex gap-4 items-center">
-//               <FaBell />
-//               <div className="w-8 h-8 bg-white text-indigo-600 rounded-full flex items-center justify-center">
-//                 {currentUserName.charAt(0).toUpperCase()}
+//         {/* Header */}
+//         <div className={`sticky top-0 z-40 px-6 py-4 border-b backdrop-blur-xl flex items-center justify-between ${darkMode ? "bg-gray-900/95 border-gray-700" : "bg-white/90 border-gray-100"} shadow-sm`}>
+//           <div className="flex items-center gap-3">
+//             <div className="relative">
+//               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+//                 <FaRobot className="text-white text-lg" />
 //               </div>
+//               <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-pulse" />
+//             </div>
+//             <div>
+//               <h2 className="font-bold text-base">Mannlytics Assistant</h2>
+//               <p className={`text-xs ${mutedText}`}>
+//                 {loading ? "Typing a response..." : "Online • Ready to help"}
+//               </p>
 //             </div>
 //           </div>
 
-//           {/* CHAT AREA */}
-//           <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-
-//             {messages.map((msg, i) => (
-//               <div
-//                 key={i}
-//                 className={`flex mb-4 ${
-//                   msg.sender === "user" ? "justify-end" : "justify-start"
-//                 }`}
-//               >
-//                 <div className={`px-4 py-2 rounded-xl max-w-md ${
-//                   msg.sender === "user"
-//                     ? "bg-indigo-500 text-white"
-//                     : "bg-white shadow"
-//                 }`}>
-//                   {msg.text}
-//                 </div>
-//               </div>
-//             ))}
-
-//             <div ref={bottomRef}></div>
-//           </div>
-
-//           {/* INPUT */}
-//           <div className="p-4 border-t flex gap-3">
-//             <input
-//               value={input}
-//               onChange={(e) => setInput(e.target.value)}
-//               className="flex-1 border rounded-full px-4 py-2"
-//               placeholder="Type your message..."
-//             />
-
+//           <div className="flex items-center gap-2">
+//             {selectedMood && (
+//               <span className={`text-xs px-3 py-1.5 rounded-full border font-medium ${selectedMood.color}`}>
+//                 {selectedMood.emoji} {selectedMood.label}
+//               </span>
+//             )}
 //             <button
-//               onClick={() => sendMessage()}
-//               className="bg-indigo-500 text-white px-6 py-2 rounded-full"
+//               onClick={() => setMessages([{ sender: "bot", text: `Hello ${currentUserName.split(" ")[0]} 👋 Starting fresh! How are you feeling right now?` }])}
+//               className={`p-2 rounded-xl transition ${darkMode ? "hover:bg-gray-700 text-gray-400" : "hover:bg-gray-100 text-gray-500"}`}
+//               title="Clear chat"
 //             >
-//               Send
+//               <FaTrash className="text-sm" />
 //             </button>
 //           </div>
+//         </div>
 
+//         {/* Messages */}
+//         <div className="flex-1 overflow-y-auto px-6 py-6">
+
+//           {/* Welcome card when only greeting */}
+//           {messages.length === 1 && (
+//             <div className={`mb-8 rounded-3xl p-6 border ${darkMode ? "bg-gray-800/60 border-gray-700" : "bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-100"}`}>
+//               <div className="flex items-center gap-3 mb-4">
+//                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+//                   <FaHeart className="text-white text-lg" />
+//                 </div>
+//                 <div>
+//                   <h3 className="font-bold text-lg">Welcome to your safe space</h3>
+//                   <p className={`text-sm ${mutedText}`}>I'm here to listen and support you</p>
+//                 </div>
+//               </div>
+
+//               <p className={`text-sm leading-relaxed mb-5 ${mutedText}`}>
+//                 Share how you're feeling, pick a mood, or use the quick replies on the left. Everything you share stays between us. 💙
+//               </p>
+
+//               <div className="grid grid-cols-3 gap-2">
+//                 {MOOD_TAGS.map((mood) => (
+//                   <button
+//                     key={mood.label}
+//                     onClick={() => handleMoodSelect(mood)}
+//                     className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-medium transition-all duration-200 hover:scale-105 ${mood.color}`}
+//                   >
+//                     <span className="text-base">{mood.emoji}</span>
+//                     {mood.label}
+//                   </button>
+//                 ))}
+//               </div>
+//             </div>
+//           )}
+
+//           {messages.map((msg, i) => (
+//             <MessageBubble key={i} msg={msg} darkMode={darkMode} />
+//           ))}
+
+//           {loading && (
+//             <div className="flex gap-3 mb-4">
+//               <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+//                 <FaRobot className="text-white text-sm" />
+//               </div>
+//               <div className={`rounded-2xl rounded-tl-sm shadow-sm border ${darkMode ? "bg-gray-700 border-gray-600" : "bg-white border-gray-100"}`}>
+//                 <TypingDots />
+//               </div>
+//             </div>
+//           )}
+
+//           <div ref={bottomRef} />
+//         </div>
+
+//         {/* Mood picker popup */}
+//         {showMoodPicker && (
+//           <div className={`mx-6 mb-3 p-4 rounded-2xl border shadow-lg ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
+//             <p className={`text-xs font-semibold mb-3 ${mutedText}`}>How are you feeling right now?</p>
+//             <div className="flex flex-wrap gap-2">
+//               {MOOD_TAGS.map((mood) => (
+//                 <button
+//                   key={mood.label}
+//                   onClick={() => handleMoodSelect(mood)}
+//                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium transition-all hover:scale-105 ${mood.color}`}
+//                 >
+//                   {mood.emoji} {mood.label}
+//                 </button>
+//               ))}
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Input area */}
+//         <div className={`px-6 py-4 border-t ${darkMode ? "bg-gray-900 border-gray-700" : "bg-white/90 border-gray-100"} backdrop-blur-xl`}>
+//           <div className={`flex items-end gap-3 rounded-2xl border p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-indigo-400/50 ${darkMode ? "bg-gray-800 border-gray-600" : "bg-gray-50 border-gray-200"}`}>
+
+//             <button
+//               onClick={() => setShowMoodPicker((p) => !p)}
+//               className={`flex-shrink-0 p-2 rounded-xl transition ${showMoodPicker ? "bg-indigo-100 text-indigo-600" : darkMode ? "text-gray-400 hover:bg-gray-700" : "text-gray-400 hover:bg-gray-200"}`}
+//               title="Pick a mood"
+//             >
+//               <FaSmile className="text-lg" />
+//             </button>
+
+//             <textarea
+//               ref={inputRef}
+//               value={input}
+//               onChange={(e) => { setInput(e.target.value); setCharCount(e.target.value.length); }}
+//               onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+//               placeholder="Share how you're feeling... (Enter to send)"
+//               rows={1}
+//               maxLength={500}
+//               className={`flex-1 resize-none bg-transparent outline-none text-sm leading-relaxed max-h-32 ${darkMode ? "text-white placeholder-gray-500" : "text-gray-800 placeholder-gray-400"}`}
+//               style={{ minHeight: "24px" }}
+//             />
+
+//             <div className="flex items-center gap-2 flex-shrink-0">
+//               {charCount > 0 && (
+//                 <span className={`text-xs ${charCount > 450 ? "text-rose-400" : mutedText}`}>
+//                   {charCount}/500
+//                 </span>
+//               )}
+
+//               <button
+//                 onClick={isRecording ? stopRecording : startRecording}
+//                 className={`p-2 rounded-xl transition ${isRecording ? "bg-rose-100 text-rose-500 animate-pulse" : darkMode ? "text-gray-400 hover:bg-gray-700" : "text-gray-400 hover:bg-gray-200"}`}
+//                 title={isRecording ? "Stop recording" : "Voice input"}
+//               >
+//                 {isRecording ? <FaStop className="text-sm" /> : <FaMicrophone className="text-sm" />}
+//               </button>
+
+//               <button
+//                 onClick={() => sendMessage()}
+//                 disabled={!input.trim() || loading}
+//                 className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+//               >
+//                 <FaPaperPlane className="text-sm" />
+//               </button>
+//             </div>
+//           </div>
+
+//           <p className={`text-center text-xs mt-2 ${mutedText}`}>
+//             Mannlytics provides emotional support, not medical advice. 💙
+//           </p>
 //         </div>
 //       </div>
+
+//       {/* Settings modal */}
+//       {openSettings && (
+//         <div className="fixed inset-0 z-50 flex items-center justify-center">
+//           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setOpenSettings(false)} />
+//           <div className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl p-6 z-50 ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}>
+//             <button onClick={() => setOpenSettings(false)} className="absolute top-4 right-4 text-lg">✖</button>
+//             <Setting />
+//           </div>
+//         </div>
+//       )}
+
+//       <style>{`
+//         textarea { scrollbar-width: none; }
+//         textarea::-webkit-scrollbar { display: none; }
+//       `}</style>
 //     </div>
 //   );
 // }
@@ -1887,7 +612,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Setting from "./Setting";
-import pic from "../assets/logo pic.png";
+import AppNavbar from "../Components/AppNavbar";
 
 import {
   FaRobot,
@@ -1896,361 +621,599 @@ import {
   FaBars,
   FaBell,
   FaSignOutAlt,
-  FaCog
+  FaCog,
+  FaPaperPlane,
+  FaMicrophone,
+  FaStop,
+  FaSmile,
+  FaHeart,
+  FaStar,
+  FaLeaf,
+  FaBolt,
+  FaMoon,
+  FaSun,
+  FaPlus,
+  FaTrash,
 } from "react-icons/fa";
+
+const QUICK_REPLIES = [
+  { label: "😔 I feel sad", text: "I feel sad today" },
+  { label: "😰 I'm anxious", text: "I'm feeling anxious" },
+  { label: "😤 I'm stressed", text: "I'm really stressed" },
+  { label: "😊 I feel good", text: "I'm feeling good today" },
+  { label: "😴 Can't sleep", text: "I can't sleep properly" },
+  { label: "😠 I'm angry", text: "I'm feeling angry" },
+];
+
+const MOOD_TAGS = [
+  { emoji: "😊", label: "Happy", color: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+  { emoji: "😢", label: "Sad", color: "bg-blue-100 text-blue-700 border-blue-200" },
+  { emoji: "😰", label: "Anxious", color: "bg-purple-100 text-purple-700 border-purple-200" },
+  { emoji: "😤", label: "Stressed", color: "bg-orange-100 text-orange-700 border-orange-200" },
+  { emoji: "😴", label: "Tired", color: "bg-gray-100 text-gray-700 border-gray-200" },
+  { emoji: "💪", label: "Strong", color: "bg-green-100 text-green-700 border-green-200" },
+];
+
+const BOT_AVATAR_COLORS = [
+  "from-indigo-500 to-purple-600",
+  "from-blue-500 to-cyan-500",
+  "from-violet-500 to-pink-500",
+];
+
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 px-4 py-3">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce"
+          style={{ animationDelay: `${i * 0.15}s` }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function MessageBubble({ msg, darkMode }) {
+  const isUser = msg.sender === "user";
+  const [visible, setVisible] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(msg.text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div
+      className={`flex gap-3 mb-5 transition-all duration-500 ${
+        isUser ? "justify-end" : "justify-start"
+      } ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+    >
+      {!isUser && (
+        <div className="flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+          <FaRobot className="text-white text-sm" />
+        </div>
+      )}
+
+      <div className={`max-w-[72%] ${isUser ? "items-end" : "items-start"} flex flex-col gap-1`}>
+        {!isUser && (
+          <span className="text-xs font-semibold text-indigo-500 ml-1">Mannlytics</span>
+        )}
+        <div className="group relative">
+          <div
+            className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+              isUser
+                ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-tr-sm"
+                : darkMode
+                ? "bg-gray-700 text-gray-100 rounded-tl-sm"
+                : "bg-white text-gray-800 rounded-tl-sm border border-gray-100"
+            }`}
+          >
+            {msg.text}
+          </div>
+          {!isUser && (
+            <button
+              onClick={handleCopy}
+              className={`absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-200 p-1.5 rounded-lg text-xs shadow-md ${
+                darkMode ? "bg-gray-600 text-gray-200 hover:bg-gray-500" : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+              }`}
+              title="Copy message"
+            >
+              {copied ? "✓" : "⎘"}
+            </button>
+          )}
+        </div>
+        <span className={`text-[10px] px-1 ${darkMode ? "text-gray-500" : "text-gray-400"}`}>
+          {msg.time}
+        </span>
+      </div>
+
+      {isUser && (
+        <div className="flex-shrink-0 w-9 h-9 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center shadow-md">
+          <FaUser className="text-white text-sm" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function Chatbot() {
   const navigate = useNavigate();
 
-  // ✅ EXACT SAME SIDEBAR STATE
   const [isOpen, setIsOpen] = useState(() => {
     const saved = localStorage.getItem("sidebarState");
     return saved === null ? true : saved === "true";
   });
 
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
   const [chats, setChats] = useState([]);
-const [activeChatId, setActiveChatId] = useState(null);
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [showMoodPicker, setShowMoodPicker] = useState(false);
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [charCount, setCharCount] = useState(0);
+  const [selectedLang, setSelectedLang] = useState("en-US");
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
+  const recognitionRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
-  // ✅ USER DATA (SAME)
   const currentUserEmail =
-    sessionStorage.getItem("currentUser") ||
-    localStorage.getItem("currentUser");
+    sessionStorage.getItem("currentUser") || localStorage.getItem("currentUser");
 
   const currentUserName =
     sessionStorage.getItem("currentUserName") ||
     localStorage.getItem(`name_${currentUserEmail}`) ||
     "User";
 
-  // ✅ CLICK OUTSIDE (SAME)
+  useEffect(() => {
+    if (darkMode) document.body.classList.add("dark");
+    else document.body.classList.remove("dark");
+  }, [darkMode]);
+
   useEffect(() => {
     const handleClickOutside = () => setOpenDropdown(false);
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-
-
   useEffect(() => {
-  const loadChats = async () => {
-    if (!currentUserEmail) return;
+    const loadChats = async () => {
+      if (!currentUserEmail) return;
+      try {
+        const res = await fetch(`http://localhost:5000/api/chats/${currentUserEmail}`);
+        const data = await res.json();
+        setChats(data);
+        if (data.length > 0) {
+          setActiveChatId(data[0]._id);
+          setMessages(data[0].messages);
+        }
+      } catch {}
+    };
+    loadChats();
+  }, [currentUserEmail]);
 
-    const res = await fetch(`http://localhost:5000/api/chats/${currentUserEmail}`);
-    const data = await res.json();
+  const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-    setChats(data);
-
-    if (data.length > 0) {
-      setActiveChatId(data[0]._id);
-      setMessages(data[0].messages);
-    }
-  };
-
-  loadChats();
-}, [currentUserEmail]);
-
-  // ✅ CHAT STATES
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hello 👋 I'm your Mental Health Assistant. How are you feeling today?"
-    }
+      text: `Hello ${currentUserName.split(" ")[0]} 👋 I'm Mannlytics, your personal mental wellness companion. How are you feeling today?`,
+      time: now(),
+    },
   ]);
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef();
+  const inputRef = useRef();
+
+  const isFirstMount = useRef(true);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   }, [messages, loading]);
 
+  const handleMessagesScroll = (e) => {
+    const el = e.target;
+    const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setShowScrollBtn(distFromBottom > 200);
+  };
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    setShowScrollBtn(false);
+  };
+
   const sendMessage = async (customText) => {
-  const userText = customText || input;
-  if (!userText.trim() || loading) return;
+    const userText = customText || input;
+    if (!userText.trim() || loading) return;
 
-  setInput("");
+    setInput("");
+    setCharCount(0);
+    setShowMoodPicker(false);
 
-  const newMessages = [...messages, { sender: "user", text: userText }];
-  setMessages(newMessages);
+    const newMessages = [...messages, { sender: "user", text: userText, time: now() }];
+    setMessages(newMessages);
+    setLoading(true);
 
-  setLoading(true);
+    try {
+      const res = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: userText,
+          chatId: activeChatId,
+          userEmail: currentUserEmail,
+        }),
+      });
 
-  try {
-    const res = await fetch("http://localhost:5000/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: userText })
-    });
+      const data = await res.json();
 
-    const data = await res.json();
+      // update activeChatId if new chat was created
+      if (data.chatId && !activeChatId) {
+        setActiveChatId(data.chatId);
+        setChats((prev) => [{ _id: data.chatId, messages: [] }, ...prev]);
+      }
 
-    const updatedMessages = [
-      ...newMessages,
-      { sender: "bot", text: data.reply }
-    ];
+      const updatedMessages = [...newMessages, { sender: "bot", text: data.reply, time: now() }];
+      setMessages(updatedMessages);
 
-    setMessages(updatedMessages);
+    } catch {
+      setMessages((prev) => [...prev, { sender: "bot", text: "I'm having trouble connecting right now. Please try again in a moment. 💙", time: now() }]);
+    }
 
-    // ✅ SAVE TO DB
-    await fetch("http://localhost:5000/api/saveChat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userEmail: currentUserEmail,
-        chatId: activeChatId,
-        messages: updatedMessages
-      })
-    });
+    setLoading(false);
+  };
 
-  } catch {
-    setMessages(prev => [...prev, { sender: "bot", text: "AI error 😢" }]);
-  }
+  const handleMoodSelect = (mood) => {
+    setSelectedMood(mood);
+    setShowMoodPicker(false);
+    sendMessage(`I'm feeling ${mood.label.toLowerCase()} ${mood.emoji}`);
+  };
 
-  setLoading(false);
-};
+  const startRecording = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.lang = selectedLang;
+    recognition.interimResults = true;
+    recognition.continuous = false;
+    recognition.onresult = (e) => {
+      const transcript = Array.from(e.results).map((r) => r[0].transcript).join("");
+      setInput(transcript);
+      setCharCount(transcript.length);
+    };
+    recognition.onend = () => setIsRecording(false);
+    recognition.start();
+    setIsRecording(true);
+  };
+
+  const stopRecording = () => {
+    recognitionRef.current?.stop();
+    setIsRecording(false);
+  };
+
+  const bg = darkMode
+    ? "bg-gray-900 text-white"
+    : "bg-gradient-to-br from-indigo-50 via-white to-purple-50";
+
+  const cardBg = darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100";
+  const inputBg = darkMode
+    ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+    : "bg-gray-50 border-gray-200 text-gray-800 placeholder-gray-400";
+  const sidebarBg = darkMode ? "bg-gray-800" : "bg-white";
+  const mutedText = darkMode ? "text-gray-400" : "text-gray-500";
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-100">
+    <div className={`flex flex-col h-screen overflow-hidden ${bg} transition-colors duration-300`}>
+      <AppNavbar darkMode={darkMode} toggleDarkMode={() => setDarkMode((p) => { localStorage.setItem("darkMode", !p); return !p; })} />
 
-      {/* ✅ SIDEBAR (100% SAME AS DASHBOARD) */}
+      {/* ── MAIN CONTENT ── */}
+      <div className="flex flex-1 pt-20 overflow-hidden">
+
+      {/* ── CHAT HISTORY SIDEBAR ── */}
       <div
-        className={`${
-          isOpen ? "w-64" : "w-28"
-        } bg-white shadow-lg fixed h-screen transition-all duration-500 ease-in-out flex flex-col justify-between overflow-visible`}
+        className={`hidden md:flex w-64 flex-shrink-0 bg-gradient-to-b from-[#1e1b4b] via-[#312e81] to-[#1e1b4b] text-white p-4 flex-col gap-4 transition-all duration-500 overflow-y-auto`}
       >
-        {/* TOP */}
         <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-indigo-300 mb-3">AI Assistant</p>
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch("http://localhost:5000/api/newChat", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ userEmail: currentUserEmail }),
+                });
+                const newChat = await res.json();
+                setChats((p) => [newChat, ...p]);
+                setActiveChatId(newChat._id);
+                setMessages([{ sender: "bot", text: `Hello again ${currentUserName.split(" ")[0]} 👋 Starting a new conversation. What's on your mind?` }]);
+                setSelectedMood(null);
+              } catch {}
+            }}
+            className="w-full flex items-center gap-2 justify-center bg-white/15 hover:bg-white/25 border border-white/20 text-white py-2.5 rounded-xl font-medium text-sm transition-all duration-300 hover:scale-[1.02]"
+          >
+            <FaPlus className="text-xs" /> New Conversation
+          </button>
+        </div>
 
-          {/* LOGO */}
-          <div className="flex items-center justify-between p-4 border-b">
-            {isOpen ? (
-              <div
-                onClick={() => navigate("/dashboard")}
-                className="flex items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105"
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-2">Quick Start</p>
+          <div className="space-y-1.5">
+            {QUICK_REPLIES.map((q) => (
+              <button
+                key={q.text}
+                onClick={() => sendMessage(q.text)}
+                className="w-full text-left px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-sm transition-all duration-200 hover:translate-x-1"
               >
-                <img src={pic} className="w-16 h-16 rounded-full shadow" />
-
-                <div>
-                  <h1 className="text-indigo-600 font-bold text-2xl">
-                    Moodly AI
-                  </h1>
-                  <p className="text-xs text-gray-400">Mental Wellness</p>
-                </div>
-              </div>
-            ) : (
-              <img src={pic} className="w-12 h-12 rounded-full shadow-md" />
-            )}
-
-            <FaBars
-              className="text-xl text-indigo-600 cursor-pointer"
-              onClick={() => {
-                const newState = !isOpen;
-                setIsOpen(newState);
-                localStorage.setItem("sidebarState", newState);
-              }}
-            />
-          </div>
-
-          {/* NAV */}
-          <div className="p-3 space-y-4 mt-2">
-
-            <button
-              onClick={() => navigate("/dashboard")}
-              className={`group flex items-center ${
-                isOpen
-                  ? "px-4"
-                  : "justify-center py-4"
-              } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}
-            >
-              <FaChartBar />
-              {isOpen && "Dashboard"}
-            </button>
-
-            <button
-              className={`group flex items-center ${
-                isOpen
-                  ? "px-4 bg-indigo-100 text-indigo-600"
-                  : "justify-center py-4"
-              } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}
-            >
-              <FaRobot />
-              {isOpen && "AI Assistant"}
-            </button>
-
-            <button
-              onClick={() => navigate("/profile")}
-              className={`group flex items-center ${
-                isOpen
-                  ? "px-4"
-                  : "justify-center py-4"
-              } gap-3 w-full rounded-xl transition-all duration-300 hover:bg-indigo-100 hover:scale-105`}
-            >
-              <FaUser />
-              {isOpen && "Profile"}
-            </button>
-
+                {q.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* USER (WITH HOVER + DROPDOWN SAME) */}
-        <div className="p-4 border-t relative">
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenDropdown((prev) => !prev);
-            }}
-            className="flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-lg transition"
-          >
-            <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
-              {currentUserName.charAt(0).toUpperCase()}
-            </div>
-
-            {isOpen && (
-              <div>
-                <p className="text-sm font-semibold">{currentUserName}</p>
-                <p className="text-xs text-gray-500">{currentUserEmail}</p>
-              </div>
+        <div className="mt-auto">
+          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-2">Recent Chats</p>
+          <div className="space-y-1.5">
+            {chats.slice(0, 6).map((chat, i) => (
+              <button
+                key={chat._id || i}
+                onClick={() => { setActiveChatId(chat._id); setMessages(chat.messages?.length ? chat.messages : [{ sender: "bot", text: `Hello ${currentUserName.split(" ")[0]} 👋 How are you feeling?`, time: now() }]); }}
+                className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-all duration-200 truncate ${
+                  activeChatId === chat._id ? "bg-white/25 font-semibold" : "bg-white/10 hover:bg-white/20"
+                }`}
+              >
+                💬 {chat.messages?.[chat.messages.length - 1]?.text?.slice(0, 28) || "New chat"}...
+              </button>
+            ))}
+            {chats.length === 0 && (
+              <p className="text-xs text-indigo-300 opacity-60 px-2">No history yet. Start chatting!</p>
             )}
           </div>
+        </div>
 
-          {openDropdown && (
-            <div className="absolute bottom-16 left-2 w-52 bg-white shadow-2xl rounded-xl p-2 border z-50">
+      </div>
 
-              {/* SETTINGS */}
-              <div
-                onClick={() => {
-                  setOpenSettings(true);
-                  setOpenDropdown(false);
-                }}
-                className="flex items-center gap-3 p-2 hover:bg-indigo-50 cursor-pointer rounded-lg transition"
-              >
-                <FaCog className="text-gray-600" />
-                <span className="text-sm">Settings</span>
+      {/* ── MAIN CHAT ── */}
+      <div className="flex-1 flex flex-col overflow-hidden relative">
+
+        {/* Header */}
+        <div className={`sticky top-0 z-40 px-6 py-4 border-b backdrop-blur-xl flex items-center justify-between ${darkMode ? "bg-gray-900/95 border-gray-700" : "bg-white/90 border-gray-100"} shadow-sm`}>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <FaRobot className="text-white text-lg" />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-pulse" />
+            </div>
+            <div>
+              <h2 className="font-bold text-base">Mannlytics Assistant</h2>
+              <p className={`text-xs ${mutedText}`}>
+                {loading ? "Typing a response..." : "Online • Ready to help"}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {selectedMood && (
+              <span className={`text-xs px-3 py-1.5 rounded-full border font-medium ${selectedMood.color}`}>
+                {selectedMood.emoji} {selectedMood.label}
+              </span>
+            )}
+            <button
+              onClick={() => { setMessages([{ sender: "bot", text: `Hello ${currentUserName.split(" ")[0]} 👋 Starting fresh! How are you feeling right now?` }]); setSelectedMood(null); }}
+              className={`p-2 rounded-xl transition ${darkMode ? "hover:bg-gray-700 text-gray-400" : "hover:bg-gray-100 text-gray-500"}`}
+              title="Clear chat"
+            >
+              <FaTrash className="text-sm" />
+            </button>
+          </div>
+        </div>
+
+        {/* Messages */}
+        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto px-6 py-6 relative">
+
+          {/* Welcome card when only greeting */}
+          {messages.length === 1 && (
+            <div className={`mb-8 rounded-3xl p-6 border ${darkMode ? "bg-gray-800/60 border-gray-700" : "bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-100"}`}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <FaHeart className="text-white text-lg" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">Welcome to your safe space</h3>
+                  <p className={`text-sm ${mutedText}`}>I'm here to listen and support you</p>
+                </div>
               </div>
 
-              {/* LOGOUT */}
-              <div
-                onClick={() => {
-                  sessionStorage.clear();
-                  navigate("/");
-                }}
-                className="flex items-center gap-3 p-2 hover:bg-red-50 text-red-500 cursor-pointer rounded-lg transition"
-              >
-                <FaSignOutAlt />
-                <span className="text-sm">Logout</span>
-              </div>
+              <p className={`text-sm leading-relaxed mb-5 ${mutedText}`}>
+                Share how you're feeling, pick a mood, or use the quick replies on the left. Everything you share stays between us. 💙
+              </p>
 
+              <div className="grid grid-cols-3 gap-2">
+                {MOOD_TAGS.map((mood) => (
+                  <button
+                    key={mood.label}
+                    onClick={() => handleMoodSelect(mood)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-medium transition-all duration-200 hover:scale-105 ${mood.color}`}
+                  >
+                    <span className="text-base">{mood.emoji}</span>
+                    {mood.label}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
-        </div>
-      </div>
 
-      {/* ✅ CHAT SIDEBAR */}
-      <div className={`w-72 ${isOpen ? "ml-64" : "ml-28"} bg-gradient-to-b from-[#2c314e] via-[#2a2f4a] to-[#1f2336] text-white p-4 transition-all duration-500`}>
+          {messages.map((msg, i) => (
+            <MessageBubble key={i} msg={msg} darkMode={darkMode} />
+          ))}
 
-        <button
-  onClick={async () => {
-    const res = await fetch("http://localhost:5000/api/newChat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ userEmail: currentUserEmail })
-    });
-
-    const newChat = await res.json();
-
-    setChats(prev => [newChat, ...prev]);
-    setActiveChatId(newChat._id);
-    setMessages([]);
-  }}
-  className="w-full bg-white text-indigo-600 py-2 rounded-lg mb-4 font-medium"
->
-  + New Chat
-</button>
-
-        <p className="text-sm opacity-80 mb-2">Recent Chats</p>
-
-        <div className="space-y-2 text-sm">
-          <div className="bg-white/20 p-2 rounded">I feel stressed</div>
-          <div className="bg-white/20 p-2 rounded">Feeling anxious</div>
-          <div className="bg-white/20 p-2 rounded">Sleep issues</div>
-        </div>
-      </div>
-
-      {/* ✅ MAIN CHAT */}
-      <div className="flex-1 flex items-center justify-center p-6">
-
-        <div className="w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden">
-
-          {/* HEADER */}
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 flex justify-between items-center">
-            <h2 className="font-semibold">MindScope Assistant</h2>
-
-            <div className="flex items-center gap-4">
-              <FaBell />
-              <div className="w-8 h-8 bg-white text-indigo-600 rounded-full flex items-center justify-center">
-                {currentUserName.charAt(0).toUpperCase()}
+          {loading && (
+            <div className="flex gap-3 mb-4">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+                <FaRobot className="text-white text-sm" />
               </div>
+              <div className={`rounded-2xl rounded-tl-sm shadow-sm border ${darkMode ? "bg-gray-700 border-gray-600" : "bg-white border-gray-100"}`}>
+                <TypingDots />
+              </div>
+            </div>
+          )}
+
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Scroll to bottom button */}
+        {showScrollBtn && (
+          <button
+            onClick={scrollToBottom}
+            className="absolute bottom-24 right-6 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg transition hover:bg-indigo-700 hover:scale-110"
+            title="Scroll to latest"
+          >
+            ↓
+          </button>
+        )}
+
+        {/* Mood picker popup */}
+        {showMoodPicker && (
+          <div className={`mx-6 mb-3 p-4 rounded-2xl border shadow-lg ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
+            <p className={`text-xs font-semibold mb-3 ${mutedText}`}>How are you feeling right now?</p>
+            <div className="flex flex-wrap gap-2">
+              {MOOD_TAGS.map((mood) => (
+                <button
+                  key={mood.label}
+                  onClick={() => handleMoodSelect(mood)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium transition-all hover:scale-105 ${mood.color}`}
+                >
+                  {mood.emoji} {mood.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input area */}
+        <div className={`px-6 py-4 border-t ${darkMode ? "bg-gray-900 border-gray-700" : "bg-white/90 border-gray-100"} backdrop-blur-xl`}>
+
+          {/* Language selector */}
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <span className={`text-xs font-semibold ${mutedText}`}>🌐 Language:</span>
+            {[
+              { value: "en-US", label: "English" },
+              { value: "hi-IN", label: "हिंदी" },
+              { value: "ur-PK", label: "اردو" },
+              { value: "pa-IN", label: "ਪੰਜਾਬੀ" },
+              { value: "bn-IN", label: "বাংলা" },
+              { value: "ar-SA", label: "العربية" },
+              { value: "fr-FR", label: "Français" },
+              { value: "es-ES", label: "Español" },
+              { value: "de-DE", label: "Deutsch" },
+              { value: "zh-CN", label: "中文" },
+            ].map((lang) => (
+              <button
+                key={lang.value}
+                type="button"
+                onClick={() => setSelectedLang(lang.value)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition ${
+                  selectedLang === lang.value
+                    ? "bg-indigo-600 text-white"
+                    : darkMode
+                    ? "bg-white/10 text-gray-300 hover:bg-white/20"
+                    : "bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600"
+                }`}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
+
+          <div className={`flex items-end gap-3 rounded-2xl border p-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-indigo-400/50 ${darkMode ? "bg-gray-800 border-gray-600" : "bg-gray-50 border-gray-200"}`}>
+
+            <button
+              onClick={() => setShowMoodPicker((p) => !p)}
+              className={`flex-shrink-0 p-2 rounded-xl transition ${showMoodPicker ? "bg-indigo-100 text-indigo-600" : darkMode ? "text-gray-400 hover:bg-gray-700" : "text-gray-400 hover:bg-gray-200"}`}
+              title="Pick a mood"
+            >
+              <FaSmile className="text-lg" />
+            </button>
+
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={(e) => { setInput(e.target.value); setCharCount(e.target.value.length); }}
+              onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+              placeholder={selectedLang === "hi-IN" ? "आप कैसा महसूस कर रहे हैं..." : selectedLang === "ur-PK" ? "آپ کیسا محسوس کر رہے ہیں..." : selectedLang === "pa-IN" ? "ਤੁਸੀਂ ਕਿਵੇਂ ਮਹਿਸੂਸ ਕਰ ਰਹੇ ਹੋ..." : selectedLang === "ar-SA" ? "كيف تشعر الآن..." : selectedLang === "fr-FR" ? "Comment vous sentez-vous..." : selectedLang === "es-ES" ? "¿Cómo te sientes..." : selectedLang === "de-DE" ? "Wie fühlen Sie sich..." : selectedLang === "zh-CN" ? "你现在感觉怎么样..." : selectedLang === "bn-IN" ? "আপনি কেমন অনুভব করছেন..." : "Share how you're feeling... (Enter to send)"}
+              rows={1}
+              maxLength={500}
+              className={`flex-1 resize-none bg-transparent outline-none text-sm leading-relaxed max-h-32 ${darkMode ? "text-white placeholder-gray-500" : "text-gray-800 placeholder-gray-400"}`}
+              style={{ minHeight: "24px" }}
+            />
+
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {charCount > 0 && (
+                <span className={`text-xs ${charCount > 450 ? "text-rose-400" : mutedText}`}>
+                  {charCount}/500
+                </span>
+              )}
+
+              <button
+                onClick={isRecording ? stopRecording : startRecording}
+                className={`p-2 rounded-xl transition ${isRecording ? "bg-rose-100 text-rose-500 animate-pulse" : darkMode ? "text-gray-400 hover:bg-gray-700" : "text-gray-400 hover:bg-gray-200"}`}
+                title={isRecording ? "Stop recording" : "Voice input"}
+              >
+                {isRecording ? <FaStop className="text-sm" /> : <FaMicrophone className="text-sm" />}
+              </button>
+
+              <button
+                onClick={() => sendMessage()}
+                disabled={!input.trim() || loading}
+                className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                <FaPaperPlane className="text-sm" />
+              </button>
             </div>
           </div>
 
-          {/* CHAT */}
-          <div className="flex-1 overflow-y-auto p-6">
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex mb-4 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`px-4 py-2 rounded-xl ${msg.sender === "user" ? "bg-indigo-500 text-white" : "bg-white shadow"}`}>
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            <div ref={bottomRef}></div>
-          </div>
-
-          {/* INPUT */}
-          <div className="p-4 border-t flex gap-3">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1 border rounded-full px-4 py-2"
-              placeholder="Type your message..."
-            />
-
-            <button
-              onClick={() => sendMessage()}
-              className="bg-indigo-500 text-white px-6 py-2 rounded-full"
-            >
-              Send
-            </button>
-          </div>
-
+          <p className={`text-center text-xs mt-2 ${mutedText}`}>
+            Mannlytics provides emotional support, not medical advice. 💙
+          </p>
         </div>
       </div>
 
-      {/* ✅ SETTINGS MODAL (SAME) */}
+      </div>
+
+      {/* Settings modal */}
       {openSettings && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setOpenSettings(false)}
-          ></div>
-
-          <div className="relative bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-6 z-50">
-            <button
-              onClick={() => setOpenSettings(false)}
-              className="absolute top-3 right-3 text-lg"
-            >
-              ✖
-            </button>
-
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setOpenSettings(false)} />
+          <div className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl p-6 z-50 ${darkMode ? "bg-gray-800 text-white" : "bg-white"}`}>
+            <button onClick={() => setOpenSettings(false)} className="absolute top-4 right-4 text-lg">✖</button>
             <Setting />
           </div>
         </div>
       )}
+
+      <style>{`
+        textarea { scrollbar-width: none; }
+        textarea::-webkit-scrollbar { display: none; }
+      `}</style>
     </div>
   );
 }

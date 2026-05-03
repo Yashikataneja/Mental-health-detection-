@@ -75,10 +75,13 @@ button:focus-visible {
 }
 
 html, body, #root {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
-} */
+}
 
+body {
+  overflow-x: hidden;
+}
 
 
 
@@ -178,4 +181,214 @@ html, body, #root {
   50% {
     transform: translateY(-6px);
   }
+}
+
+
+/* ============================================================
+   SAFE SPACE — All Animations & Classes
+   ============================================================ */
+
+/* Keyframes */
+@keyframes ambientA {
+  0%,100% { transform: translate(0,0) scale(1); opacity:.7; }
+  50%      { transform: translate(14px,-10px) scale(1.08); opacity:1; }
+}
+@keyframes ambientB {
+  0%,100% { transform: translate(0,0) scale(1); opacity:.65; }
+  50%      { transform: translate(-12px,12px) scale(1.1); opacity:.95; }
+}
+@keyframes ambientC {
+  0%,100% { transform: translate(0,0) scale(1); opacity:.6; }
+  50%      { transform: translate(10px,8px) scale(1.06); opacity:.9; }
+}
+@keyframes heroFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes breatheGlow {
+  0%,100% { box-shadow: 0 8px 18px rgba(99,102,241,.35); }
+  50%      { box-shadow: 0 16px 36px rgba(139,92,246,.55); }
+}
+@keyframes sectionFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@keyframes modePulse {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-1px) scale(1.02); }
+}
+@keyframes iconBob {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-4px) rotate(-3deg); }
+  66%      { transform: translateY(-2px) rotate(3deg); }
+}
+@keyframes cardDrift {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+@keyframes shimmerMove {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes bannerReveal {
+  from { opacity:0; transform: scale(1.04); }
+  to   { opacity:1; transform: scale(1); }
+}
+@keyframes slideInLeft {
+  from { opacity:0; transform: translateX(-24px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+@keyframes popIn {
+  0%   { opacity:0; transform: scale(0.85); }
+  70%  { transform: scale(1.04); }
+  100% { opacity:1; transform: scale(1); }
+}
+@keyframes glowPulse {
+  0%,100% { opacity:.45; }
+  50%      { opacity:1; }
+}
+@keyframes floatParticle {
+  0%   { transform: translateY(0)   translateX(0)    scale(1);    opacity:.55; }
+  25%  { transform: translateY(-32px) translateX(14px)  scale(1.12); opacity:.9; }
+  50%  { transform: translateY(-16px) translateX(-12px) scale(0.94); opacity:.65; }
+  75%  { transform: translateY(-44px) translateX(9px)   scale(1.06); opacity:.85; }
+  100% { transform: translateY(0)   translateX(0)    scale(1);    opacity:.55; }
+}
+@keyframes rippleOut {
+  0%   { width:0;     height:0;     opacity:.55; transform:translate(-50%,-50%) scale(0); }
+  100% { width:320px; height:320px; opacity:0;   transform:translate(-50%,-50%) scale(1); }
+}
+@keyframes tooltipIn {
+  from { opacity:0; transform:translate(-50%,-95%) scale(0.88); }
+  to   { opacity:1; transform:translate(-50%,-110%) scale(1); }
+}
+@keyframes scrollBtnIn {
+  from { opacity:0; transform:translateY(22px) scale(0.75); }
+  to   { opacity:1; transform:translateY(0)    scale(1); }
+}
+@keyframes spinGlow {
+  0%   { box-shadow: 0 0 0 0   rgba(99,102,241,.55); }
+  50%  { box-shadow: 0 0 0 12px rgba(99,102,241,0); }
+  100% { box-shadow: 0 0 0 0   rgba(99,102,241,0); }
+}
+@keyframes waveIn {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0%   0 0); }
+}
+@keyframes staggerFade {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulseRing {
+  0%   { transform:scale(1);    opacity:.7; }
+  70%  { transform:scale(1.35); opacity:0; }
+  100% { transform:scale(1.35); opacity:0; }
+}
+
+/* Ambient blobs */
+.ambient { position:absolute; border-radius:9999px; filter:blur(70px); pointer-events:none; }
+.ambient-a { left:-8%;  top:-5%;    width:380px; height:380px; background:rgba(129,140,248,.4);  animation:ambientA 14s ease-in-out infinite; }
+.ambient-b { right:-9%; top:8%;     width:420px; height:420px; background:rgba(244,114,182,.25); animation:ambientB 16s ease-in-out infinite; }
+.ambient-c { left:18%;  bottom:-10%;width:360px; height:360px; background:rgba(103,232,249,.28); animation:ambientC 15s ease-in-out infinite; }
+
+/* Floating particles */
+.particle { animation: floatParticle var(--dur, 10s) ease-in-out infinite; }
+
+/* Hero */
+.hero-soft { animation: heroFloat 8s ease-in-out infinite; }
+
+/* Section reveal */
+.section-anim {
+  animation: fadeUp .65s cubic-bezier(.22,1,.36,1) both,
+             sectionFloat 10s ease-in-out infinite;
+  animation-delay: var(--revealDelay, 0ms), var(--floatDelay, 0ms);
+}
+
+/* Filter chips */
+.mode-chip    { animation: modePulse 5s ease-in-out infinite; }
+.stagger-chip {
+  animation: staggerFade .4s cubic-bezier(.22,1,.36,1) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Icon */
+.icon-float { animation: iconBob 4s ease-in-out infinite; }
+
+/* Cards */
+.card-in {
+  animation: popIn .55s cubic-bezier(.22,1,.36,1) both;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.card-loop {
+  animation: popIn .55s cubic-bezier(.22,1,.36,1) both,
+             cardDrift 7s ease-in-out infinite;
+  animation-delay: 0ms, var(--cardDelay, 0ms);
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Banner */
+.banner-reveal { animation: bannerReveal .7s cubic-bezier(.22,1,.36,1) both; }
+.wave-in       { animation: waveIn .85s cubic-bezier(.22,1,.36,1) both; }
+.slide-left    { animation: slideInLeft .5s cubic-bezier(.22,1,.36,1) both; }
+
+/* Buttons */
+.btn-breathe { animation: breatheGlow 3s ease-in-out infinite; }
+
+/* Shimmer text */
+.shimmer-text {
+  background: linear-gradient(90deg, currentColor 0%, #a5b4fc 50%, currentColor 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerMove 3s linear infinite;
+}
+
+/* Glow dot */
+.glow-dot { animation: glowPulse 2s ease-in-out infinite; }
+
+/* Pulse ring (for live indicators) */
+.pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(99,102,241,.6);
+  animation: pulseRing 2s ease-out infinite;
+}
+
+/* Ripple on click */
+.ripple-effect {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(99,102,241,.25);
+  pointer-events: none;
+  animation: rippleOut .7s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Tooltip popup */
+.tooltip-popup {
+  animation: tooltipIn .2s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Scroll-to-top */
+.scroll-top-btn {
+  animation: scrollBtnIn .35s cubic-bezier(.22,1,.36,1) both,
+             spinGlow 2.2s ease-in-out infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-a, .ambient-b, .ambient-c, .hero-soft, .section-anim,
+  .mode-chip, .stagger-chip, .icon-float, .card-in, .card-loop,
+  .btn-breathe, .banner-reveal, .wave-in, .slide-left, .shimmer-text,
+  .glow-dot, .pulse-ring, .particle, .ripple-effect, .tooltip-popup,
+  .scroll-top-btn { animation: none !important; transition: none !important; }
 }

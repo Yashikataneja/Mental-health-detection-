@@ -1,812 +1,242 @@
-// // // import { useState } from "react";
-// // // import { useNavigate } from "react-router-dom";
-// // // import api from "../utils/axios";
-
-// // // function Signup() {
-// // //   const [name, setName] = useState("");
-// // //   const [email, setEmail] = useState("");
-// // //   const [password, setPassword] = useState("");
-// // //   const navigate = useNavigate();
-
-// // //   const handleSignup = async () => {
-// // //     try {
-// // //       await api.post("/auth/signup", { name, email, password });
-// // //       alert("Signup successful!");
-// // //       navigate("/");
-// // //     } catch (error) {
-// // //       console.log("FULL ERROR:", error);
-// // //       console.log("SERVER RESPONSE:", error.response);
-// // //       console.log("SERVER DATA:", error.response?.data);
-// // //       alert(error.response?.data?.message || "Signup failed");
-// // //     }
-// // //   };
-
-// // //   return (
-// // //     <div>
-// // //       <h2>Signup</h2>
-// // //       <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
-// // //       <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-// // //       <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-// // //       <button onClick={handleSignup}>Signup</button>
-// // //     </div>
-// // //   );
-// // // }
-
-// // // export default Signup;
-
-
-
-
-// // // import { useState } from "react";
-// // // import { useNavigate, Link } from "react-router-dom";
-// // // import api from "../utils/axios";
-// // // import bgImage from "../assets/mental-bg.jpg";
-
-// // // function Signup() {
-// // //   const [name, setName] = useState("");
-// // //   const [email, setEmail] = useState("");
-// // //   const [password, setPassword] = useState("");
-// // //   const navigate = useNavigate();
-
-// // //   const handleSignup = async () => {
-// // //     try {
-// // //       await api.post("/auth/signup", { name, email, password });
-// // //       alert("Signup successful!");
-// // //       navigate("/");
-// // //     } catch (error) {
-// // //       alert(error.response?.data?.message || "Signup failed");
-// // //     }
-// // //   };
-
-// // //   return (
-// // //     <div className="relative min-h-screen w-full overflow-hidden">
-
-// // //       {/* FULL SCREEN BACKGROUND IMAGE */}
-// // //       <div
-// // //         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-// // //         style={{ backgroundImage: `url(${bgImage})` }}
-// // //       ></div>
-
-// // //       {/* ROYAL BLUE OVERLAY */}
-// // //       {/* <div className="fixed inset-0 bg-[#0f172a]/70"></div> */}
-
-// // //       {/* CENTERED FORM */}
-// // //       <div className="relative flex items-center justify-center min-h-screen px-4">
-        
-// // //         <div className="w-[380px] mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10 text-white">
-
-// // //           <h2 className="text-3xl font-bold text-center text-blue-300 mb-6">
-// // //             Create Your Account ✨
-// // //           </h2>
-
-// // //           <div className="space-y-5">
-
-// // //             <input
-// // //               type="text"
-// // //               placeholder="Full Name"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setName(e.target.value)}
-// // //             />
-
-// // //             <input
-// // //               type="email"
-// // //               placeholder="Email Address"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setEmail(e.target.value)}
-// // //             />
-
-// // //             <input
-// // //               type="password"
-// // //               placeholder="Password"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-200 focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setPassword(e.target.value)}
-// // //             />
-
-// // //             <button
-// // //               onClick={handleSignup}
-// // //               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-// // //             >
-// // //               Signup
-// // //             </button>
-
-// // //           </div>
-
-// // //           <p className="text-center text-sm mt-6 text-black-300">
-// // //             Already have an account?{" "}
-// // //             <Link to="/" className="text-blue-400 font-semibold">
-// // //               Login
-// // //             </Link>
-// // //           </p>
-
-// // //         </div>
-
-// // //       </div>
-
-// // //     </div>
-// // //   );
-// // // }
-
-// // // export default Signup;
-
-
-
-
-// // // import { useState } from "react";
-// // // import { useNavigate, Link } from "react-router-dom";
-// // // import api from "../utils/axios";
-// // // import bgImage from "../assets/mental-bg.jpg";
-
-// // // function Signup() {
-// // //   const [name, setName] = useState("");
-// // //   const [email, setEmail] = useState("");
-// // //   const [password, setPassword] = useState("");
-// // //   const navigate = useNavigate();
-
-// // // //   const handleSignup = async () => {
-// // // //     try {
-// // // //       const res = await api.post("/auth/signup", { name, email, password });
-
-// // // // localStorage.setItem("token", res.data.token);
-
-
-// // // // alert("Signup successful!");
-// // // // navigate("/");
-// // // //     } catch (error) {
-// // // //       alert(error.response?.data?.message || "Signup failed");
-// // // //     }
-// // // //   };
-// // // const handleSignup = async () => {
-// // //   try {
-
-// // //     const res = await api.post("/auth/signup", { name, email, password });
-
-// // // localStorage.setItem("token", res.data.token);
-
-// // // localStorage.setItem("currentUser", email);
-
-// // // localStorage.setItem(`name_${email}`, name);
-// // // localStorage.setItem(`email_${email}`, email);
-
-// // // alert("Signup successful!");
-// // // navigate("/dashboard");
-
-// // //   } catch (error) {
-// // //     alert(error.response?.data?.message || "Signup failed");
-// // //   }
-// // // };
-
-// // //   return (
-// // //     <div className="relative min-h-screen w-full overflow-hidden">
-
-// // //       {/* FULL SCREEN BACKGROUND IMAGE */}
-// // //       <div
-// // //         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-// // //         style={{ backgroundImage: `url(${bgImage})` }}
-// // //       ></div>
-
-// // //       {/* CENTERED FORM */}
-// // //       <div className="relative flex items-center justify-center min-h-screen px-4">
-
-// // //         <div className="w-[380px] mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10 text-white">
-
-// // //           <h2 className="text-3xl font-bold text-center text-blue-300 mb-6">
-// // //             Create Your Account ✨
-// // //           </h2>
-
-// // //           <div className="space-y-5">
-
-// // //             <input
-// // //               type="text"
-// // //               placeholder="Full Name"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setName(e.target.value)}
-// // //             />
-
-// // //             <input
-// // //               type="email"
-// // //               placeholder="Email Address"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setEmail(e.target.value)}
-// // //             />
-
-// // //             <input
-// // //               type="password"
-// // //               placeholder="Password"
-// // //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// // //               onChange={(e) => setPassword(e.target.value)}
-// // //             />
-
-// // //             <button
-// // //               onClick={handleSignup}
-// // //               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-// // //             >
-// // //               Signup
-// // //             </button>
-
-// // //           </div>
-
-// // //           <p className="text-center text-sm mt-6 text-black">
-// // //             Already have an account?{" "}
-// // //             <Link to="/" className="text-blue-600 font-semibold">
-// // //               Login
-// // //             </Link>
-// // //           </p>
-
-// // //         </div>
-
-// // //       </div>
-
-// // //     </div>
-// // //   );
-// // // }
-
-// // // export default Signup;
-
-
-
-// // import { useState } from "react";
-// // import { useNavigate, Link } from "react-router-dom";
-// // import api from "../utils/axios";
-// // import bgImage from "../assets/mental-bg.jpg";
-
-// // function Signup() {
-// //   const [name, setName] = useState("");
-// //   const [email, setEmail] = useState("");
-// //   const [password, setPassword] = useState("");
-// //   const navigate = useNavigate();
-
-// // //   const handleSignup = async () => {
-// // //     try {
-// // //       const res = await api.post("/auth/signup", { name, email, password });
-
-// // // localStorage.setItem("token", res.data.token);
-
-
-// // // alert("Signup successful!");
-// // // navigate("/");
-// // //     } catch (error) {
-// // //       alert(error.response?.data?.message || "Signup failed");
-// // //     }
-// // //   };
-// // const handleSignup = async () => {
-// //   try {
-
-// //     const res = await api.post("/auth/signup", { name, email, password });
-
-// // // localStorage.setItem("token", res.data.token);
-
-// // // localStorage.setItem("currentUser", email);
-
-// // // localStorage.setItem(`name_${email}`, name);
-// // // localStorage.setItem(`email_${email}`, email);
-
-
-// // localStorage.setItem("token", res.data.token);
-
-// // // store user info
-// // localStorage.setItem(`name_${email}`, name);
-// // localStorage.setItem(`email_${email}`, email);
-
-// // // current user
-// // sessionStorage.setItem("currentUser", email);
-// // sessionStorage.setItem("currentUserName", name);
-
-// // alert("Signup successful!");
-// // navigate("/dashboard");
-
-// //   } catch (error) {
-// //     alert(error.response?.data?.message || "Signup failed");
-// //   }
-// // };
-
-// //   return (
-// //     <div className="relative min-h-screen w-full overflow-hidden">
-
-// //       {/* FULL SCREEN BACKGROUND IMAGE */}
-// //       <div
-// //         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-// //         style={{ backgroundImage: `url(${bgImage})` }}
-// //       ></div>
-
-// //       {/* CENTERED FORM */}
-// //       <div className="relative flex items-center justify-center min-h-screen px-4">
-
-// //         <div className="w-[380px] mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10 text-white">
-
-// //           <h2 className="text-3xl font-bold text-center text-blue-300 mb-6">
-// //             Create Your Account ✨
-// //           </h2>
-
-// //           <div className="space-y-5">
-
-// //             <input
-// //               type="text"
-// //               placeholder="Full Name"
-// //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// //               onChange={(e) => setName(e.target.value)}
-// //             />
-
-// //             <input
-// //               type="email"
-// //               placeholder="Email Address"
-// //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// //               onChange={(e) => setEmail(e.target.value)}
-// //             />
-
-// //             <input
-// //               type="password"
-// //               placeholder="Password"
-// //               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-// //               onChange={(e) => setPassword(e.target.value)}
-// //             />
-
-// //             <button
-// //               onClick={handleSignup}
-// //               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-// //             >
-// //               Signup
-// //             </button>
-
-// //           </div>
-
-// //           <p className="text-center text-sm mt-6 text-black">
-// //             Already have an account?{" "}
-// //             <Link to="/" className="text-blue-600 font-semibold">
-// //               Login
-// //             </Link>
-// //           </p>
-
-// //         </div>
-
-// //       </div>
-
-// //     </div>
-// //   );
-// // }
-
-// // export default Signup;
-
-
-
-
-// import { useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import api from "../utils/axios";
-// import bgImage from "../assets/mental-bg.jpg";
-
-// function Signup() {
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const navigate = useNavigate();
-
-// //   const handleSignup = async () => {
-// //     try {
-// //       const res = await api.post("/auth/signup", { name, email, password });
-
-// // localStorage.setItem("token", res.data.token);
-
-
-// // alert("Signup successful!");
-// // navigate("/");
-// //     } catch (error) {
-// //       alert(error.response?.data?.message || "Signup failed");
-// //     }
-// //   };
-// const handleSignup = async () => {
-//   try {
-
-//     // const res = await api.post("/auth/signup", { name, email, password });
-
-//     const res = await api.post("/auth/signup", {
-//   name,
-//   email: email.trim().toLowerCase(),
-//   password
-// });
-
-// // localStorage.setItem("token", res.data.token);
-
-// // localStorage.setItem("currentUser", email);
-
-// // localStorage.setItem(`name_${email}`, name);
-// // localStorage.setItem(`email_${email}`, email);
-
-
-// sessionStorage.setItem("token", res.data.token);
-
-// // store user info
-// localStorage.setItem(`name_${email}`, name);
-// localStorage.setItem(`email_${email}`, email);
-
-// // current user
-// sessionStorage.setItem("currentUser", email);
-// sessionStorage.setItem("currentUserName", name);
-
-// alert("Signup successful!");
-// navigate("/dashboard");
-
-//   } catch (error) {
-//     alert(error.response?.data?.message || "Signup failed");
-//   }
-// };
-
-//   return (
-//     <div className="relative min-h-screen w-full overflow-hidden">
-
-//       {/* FULL SCREEN BACKGROUND IMAGE */}
-//       <div
-//         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-//         style={{ backgroundImage: `url(${bgImage})` }}
-//       ></div>
-
-//       {/* CENTERED FORM */}
-//       <div className="relative flex items-center justify-center min-h-screen px-4">
-
-//         <div className="w-[380px] mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-10 text-white">
-
-//           <h2 className="text-3xl font-bold text-center text-blue-300 mb-6">
-//             Create Your Account ✨
-//           </h2>
-
-//           <div className="space-y-5">
-
-//             <input
-//               type="text"
-//               placeholder="Full Name"
-//               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-//               onChange={(e) => setName(e.target.value)}
-//             />
-
-//             <input
-//               type="email"
-//               placeholder="Email Address"
-//               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-
-//             <input
-//               type="password"
-//               placeholder="Password"
-//               className="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 placeholder-gray-700 text-black focus:ring-2 focus:ring-blue-400 outline-none"
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-
-//             <button
-//               onClick={handleSignup}
-//               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-//             >
-//               Signup
-//             </button>
-
-//           </div>
-
-//           <p className="text-center text-sm mt-6 text-black">
-//             Already have an account?{" "}
-//             <Link to="/" className="text-blue-600 font-semibold">
-//               Login
-//             </Link>
-//           </p>
-
-//         </div>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default Signup;
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import brainImg from "../assets/brain.jpeg";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
+
+import authSideImg from "../assets/signup-side.png";
 import pic from "../assets/logo pic.png";
 import api from "../utils/axios";
-
-import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Signup() {
-
   const navigate = useNavigate();
+  const darkMode = localStorage.getItem("darkMode") === "true";
 
-  const [name,setName] = useState("");
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const [confirmPassword,setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmError, setConfirmError] = useState("");
+  const [formError, setFormError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
-  const [showPassword,setShowPassword] = useState(false);
-  const [showConfirm,setShowConfirm] = useState(false);
-
-  const [passwordError,setPasswordError] = useState("");
-  const [error,setError] = useState("");
+  const validatePassword = (value) => {
+    if (!value) return "Password is required";
+    if (value.length < 6) return "Password must be at least 6 characters";
+    if (!/[A-Z]/.test(value)) return "Include at least 1 uppercase letter";
+    if (!/[0-9]/.test(value)) return "Include at least 1 number";
+    if (!/[!@#$%^&*]/.test(value)) return "Include at least 1 special character";
+    return "";
+  };
 
   const handlePasswordChange = (value) => {
     setPassword(value);
+    setPasswordError(validatePassword(value));
+    if (confirmPassword && value !== confirmPassword) setConfirmError("Passwords do not match");
+    else setConfirmError("");
+  };
 
-    if (!value) setPasswordError("");
-    else if (value.length < 6) setPasswordError("Minimum 6 characters required");
-    else if (!/[A-Z]/.test(value)) setPasswordError("At least 1 uppercase letter required");
-    else if (!/[0-9]/.test(value)) setPasswordError("At least 1 number required");
-    else if (!/[!@#$%^&*]/.test(value)) setPasswordError("At least 1 special character required");
-    else setPasswordError("");
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+    if (!value) { setConfirmError(""); return; }
+    setConfirmError(password !== value ? "Passwords do not match" : "");
   };
 
   const handleSignup = async (e) => {
-  e.preventDefault();
-
-  if(passwordError) return setError("Fix password errors ❌");
-  if(password !== confirmPassword) return setError("Passwords do not match ❌");
-
-  try {
-
-    // ✅ Firebase user create
-    await createUserWithEmailAndPassword(auth, email, password);
-
-    // ✅ Backend user create
-    const res = await api.post("/auth/signup",{
-      name,
-      email: email.trim().toLowerCase(),
-      password
-    });
-
-    sessionStorage.setItem("token",res.data.token);
-    sessionStorage.setItem("currentUser",email);
-    sessionStorage.setItem("currentUserName",name);
-
-    navigate("/dashboard");
-
-  } catch (error) {
-    alert(error.message || "Signup failed ❌");
-  }
-};
-
-  const handleGoogleLogin = async () => {
+    e.preventDefault();
+    setFormError("");
+    const trimmedName = name.trim();
+    const normalizedEmail = email.trim().toLowerCase();
+    const currentPasswordError = validatePassword(password);
+    if (!trimmedName) { setFormError("Full name is required"); return; }
+    if (currentPasswordError) { setPasswordError(currentPasswordError); setFormError("Please fix the password requirements"); return; }
+    if (password !== confirmPassword) { setConfirmError("Passwords do not match"); setFormError("Please confirm your password correctly"); return; }
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      const res = await axios.post("http://localhost:5000/api/auth/google",{
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        uid: user.uid
-      });
-
+      setIsSubmitting(true);
+      await createUserWithEmailAndPassword(auth, normalizedEmail, password);
+      const res = await api.post("/auth/signup", { name: trimmedName, email: normalizedEmail, password });
       sessionStorage.setItem("token", res.data.token);
-      sessionStorage.setItem("currentUser", res.data.user.email);
-      sessionStorage.setItem("currentUserName", res.data.user.name);
-
+      sessionStorage.setItem("currentUser", normalizedEmail);
+      sessionStorage.setItem("currentUserName", trimmedName);
       navigate("/dashboard");
-
-    } catch(error){
-      alert("Google signup failed ❌");
+    } catch (error) {
+      setFormError(error?.response?.data?.message || error?.message || "Unable to create your account. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const handleGoogleSignup = async () => {
+    try {
+      setIsGoogleLoading(true);
+      setFormError("");
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const res = await api.post("/auth/google", { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid });
+      sessionStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("currentUser", res.data.user.email);
+      sessionStorage.setItem("currentUserName", res.data.user.name);
+      navigate("/dashboard");
+    } catch (error) {
+      setFormError(error?.response?.data?.message || "Google signup failed. Please try again.");
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const dm = darkMode;
+  const inputCls = `w-full h-11 px-4 rounded-2xl border text-sm outline-none focus:ring-2 focus:ring-indigo-400 ${dm ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-[#f8fbff] border-[#dbe4ff] text-slate-900"}`;
+  const inputErrCls = `w-full h-11 px-4 pr-12 rounded-2xl border text-sm outline-none focus:ring-2 focus:ring-red-300 ${dm ? "bg-gray-700 border-red-500 text-white placeholder-gray-400" : "bg-[#fffafa] border-red-400 text-slate-900"}`;
+
   return (
+    <div className={`min-h-screen font-[Poppins,sans-serif] ${dm ? "bg-[#111827]" : "bg-[#f8fafc]"}`}>
 
-<div>
+      {/* HEADER */}
+      <header
+        onClick={() => navigate("/")}
+        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center gap-3 px-5 md:px-12 cursor-pointer backdrop-blur-xl border-b ${dm ? "bg-gray-900/97 border-gray-700" : "bg-white/96 border-gray-100"}`}
+      >
+        <img src={pic} alt="Mannlytics logo" className="h-12 w-16 rounded-xl object-cover" />
+        <div>
+          <h2 className="m-0 text-xl font-extrabold text-indigo-600 leading-tight">Mannlytics</h2>
+          <p className="m-0 text-xs text-gray-500 mt-0.5">AI-Powered Emotional Intelligence</p>
+        </div>
+      </header>
 
-{/* HEADER */}
-<div style={styles.header} onClick={() => navigate("/")}>
-  <img src={pic} alt="logo" style={styles.headerLogo} />
-  <div>
-    <h2 style={styles.headerTitle}>Moodly AI</h2>
-    <p style={styles.headerSub}>AI-Powered Emotional Intelligence</p>
-  </div>
-</div>
+      {/* BODY */}
+      <div className="flex min-h-[calc(100vh-80px)] mt-20">
+        <style>{`
+          @keyframes authSlideUp {
+            0% { opacity: 0; transform: translateY(32px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          @keyframes authFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+          }
+        `}</style>
 
-{/* MAIN */}
-<div style={styles.container}>
+        {/* LEFT IMAGE — hidden on mobile */}
+        <div className="hidden md:flex flex-[1.1] relative overflow-hidden" style={{ background: dm ? "#0f172a" : "linear-gradient(135deg,#eef2ff 0%,#e0e7ff 100%)" }}>
+          <div className={`absolute w-80 h-80 rounded-full blur-3xl opacity-40 -top-10 -left-10 animate-pulse ${dm ? "bg-indigo-800" : "bg-blue-300"}`} />
+          <div className={`absolute w-96 h-96 rounded-full blur-3xl opacity-30 -bottom-10 -right-10 animate-pulse ${dm ? "bg-cyan-900" : "bg-indigo-300"}`} />
+          <img
+            src={authSideImg}
+            alt="Mannlytics"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "70% center", transform: "scale(0.68)", transformOrigin: "center center", animation: "authFloat 5s ease-in-out infinite" }}
+          />
+          <div className="absolute inset-0" style={{ background: dm ? "linear-gradient(135deg,rgba(15,23,42,0.45) 0%,rgba(99,102,241,0.15) 100%)" : "linear-gradient(135deg,rgba(15,23,42,0.12) 0%,rgba(99,102,241,0.08) 100%)" }} />
+          <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+            <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl px-6 py-4">
+              <p className="text-white font-bold text-lg">Start Your Wellness Journey</p>
+              <p className="text-white/70 text-sm mt-1">Reflect. Understand. Feel better.</p>
+            </div>
+          </div>
+        </div>
 
-{/* LEFT */}
-<div style={styles.left}>
-  <div style={styles.overlay}>
-    <h1 style={styles.heading}>Start Your Mental Wellness Journey 🧠</h1>
-    <p style={styles.subtext}>Join Moodly AI & track your emotions</p>
-  </div>
-</div>
+        {/* RIGHT FORM */}
+        <div className={`flex-1 flex items-center justify-center px-5 py-10 overflow-y-auto ${dm ? "bg-[#1f2937]" : "bg-gradient-to-b from-[#eff6ff] via-[#e0ecff] to-[#eef4ff]"}`}>
+          <div className={`w-full max-w-md rounded-3xl p-7 md:p-9 shadow-2xl`} style={{ background: dm ? "rgba(31,41,55,0.98)" : "rgba(255,255,255,0.96)", border: dm ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(148,163,184,0.3)", animation: "authSlideUp 0.6s cubic-bezier(0.34,1.56,0.64,1) both" }}>
 
-{/* RIGHT */}
-<div style={styles.right}>
-<div style={styles.box}>
+            <div className="text-center mb-5">
+              <h2 className={`text-2xl font-extrabold tracking-tight ${dm ? "text-slate-100" : "text-slate-800"}`}>Create your account</h2>
+              <p className={`mt-1.5 text-sm ${dm ? "text-slate-400" : "text-slate-500"}`}>Join Mannlytics and begin your wellness journey.</p>
+            </div>
 
-<h2 style={styles.title}>Create Your Account</h2>
+            <form onSubmit={handleSignup} className="flex flex-col gap-3">
 
-<form onSubmit={handleSignup}>
+              {/* Full Name */}
+              <div className="flex flex-col gap-1">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Full Name</label>
+                <input type="text" placeholder="Enter your full name" value={name} onChange={(e) => setName(e.target.value)} required className={inputCls} />
+              </div>
 
-<input type="text" placeholder="Full Name" style={styles.input}
-value={name} onChange={(e)=>setName(e.target.value)} required/>
+              {/* Email */}
+              <div className="flex flex-col gap-1">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Email Address</label>
+                <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required className={inputCls} />
+              </div>
 
-<input type="email" placeholder="Email Address" style={styles.input}
-value={email} onChange={(e)=>setEmail(e.target.value)} required/>
+              {/* Password */}
+              <div className="flex flex-col gap-1">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a password"
+                    value={password}
+                    onChange={(e) => handlePasswordChange(e.target.value)}
+                    required
+                    className={`${passwordError ? inputErrCls : inputCls} pr-12`}
+                  />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-400 bg-transparent border-none cursor-pointer">
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {passwordError && <p className="text-xs text-red-500 font-medium mt-0.5">{passwordError}</p>}
+              </div>
 
-<div style={styles.passwordBox}>
-<input type={showPassword ? "text" : "password"} placeholder="Password"
-style={{...styles.input, border: passwordError ? "1px solid red":"1px solid #ddd"}}
-value={password} onChange={(e)=>handlePasswordChange(e.target.value)} required/>
-<span onClick={()=>setShowPassword(!showPassword)} style={styles.eye}>
-{showPassword ? <FaEyeSlash/> : <FaEye/>}
-</span>
-</div>
+              {/* Confirm Password */}
+              <div className="flex flex-col gap-1">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showConfirm ? "text" : "password"}
+                    placeholder="Re-enter your password"
+                    value={confirmPassword}
+                    onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+                    required
+                    className={`${confirmError ? inputErrCls : inputCls} pr-12`}
+                  />
+                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-400 bg-transparent border-none cursor-pointer">
+                    {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {confirmError && <p className="text-xs text-red-500 font-medium mt-0.5">{confirmError}</p>}
+              </div>
 
-{passwordError && <p style={styles.error}>{passwordError}</p>}
+              {formError && <p className="text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2.5 rounded-xl">{formError}</p>}
 
-<div style={styles.passwordBox}>
-<input type={showConfirm ? "text":"password"} placeholder="Confirm Password"
-style={{...styles.input, border: error.includes("match") ? "1px solid red":"1px solid #ddd"}}
-value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} required/>
-<span onClick={()=>setShowConfirm(!showConfirm)} style={styles.eye}>
-{showConfirm ? <FaEyeSlash/> : <FaEye/>}
-</span>
-</div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-11 mt-1 rounded-2xl text-white font-bold text-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                style={{ background: "linear-gradient(135deg,#4f46e5 0%,#0ea5e9 100%)", boxShadow: "0 10px 24px rgba(79,70,229,0.28)" }}
+              >
+                {isSubmitting ? "Creating account..." : "Create Account"}
+              </button>
+            </form>
 
-{error && <p style={styles.error}>{error}</p>}
+            <div className="flex items-center gap-3 my-4">
+              <div className="flex-1 h-px bg-[#dbe4ff]" />
+              <span className="text-xs font-bold text-slate-400 tracking-widest">OR</span>
+              <div className="flex-1 h-px bg-[#dbe4ff]" />
+            </div>
 
-<button type="submit" style={styles.button}>Signup</button>
+            <button
+              type="button"
+              onClick={handleGoogleSignup}
+              disabled={isGoogleLoading}
+              className={`w-full h-11 rounded-2xl border flex items-center justify-center gap-2.5 text-sm font-semibold cursor-pointer disabled:opacity-70 ${dm ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-[#dbe4ff] text-slate-700"}`}
+            >
+              <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google" className="w-5 h-5" />
+              {isGoogleLoading ? "Please wait..." : "Continue with Google"}
+            </button>
 
-</form>
-
-<div style={styles.divider}>OR</div>
-
-<button style={styles.googleBtn} onClick={handleGoogleLogin}>
-<img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="g"/>
-Continue with Google
-</button>
-
-<p style={styles.text}>
-Already have an account?{" "}
-<span style={styles.link} onClick={()=>navigate("/login")}>Login</span>
-</p>
-
-</div>
-</div>
-
-</div>
-</div>
+            <p className={`mt-4 text-center text-sm ${dm ? "text-slate-400" : "text-slate-500"}`}>
+              Already have an account?{" "}
+              <span onClick={() => navigate("/login")} className="text-indigo-600 font-bold cursor-pointer hover:underline">Log in</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default Signup;
-
-const styles = {
-
-header:{
-  width:"100%",
-  height:"80px",
-  display:"flex",
-  alignItems:"center",
-  gap:"3px",
-  padding:"0 40px",
-  background:"#fff",
-  position:"fixed",
-  top:0,
-  left:0,
-  zIndex:1000,
-  boxShadow:"0 2px 10px rgba(0,0,0,0.05)",
-  cursor:"pointer"
-},
-
-headerLogo:{
-  height:"55px",
-  width:"75px",
-  borderRadius:"12px"
-},
-
-headerTitle:{
-  fontSize:"24px",
-  fontWeight:"800",
-  color:"#4f46e5"
-},
-
-headerSub:{
-  fontSize:"13px",
-  color:"#6b7280"
-},
-
-container:{
-  display:"flex",
-  height:"calc(100vh - 80px)",
-  marginTop:"80px",
-  fontFamily:"Poppins, sans-serif"
-},
-
-left:{
-  flex:1,
-  backgroundImage:`url(${brainImg})`,
-  backgroundSize:"cover",
-  backgroundPosition:"center",
-  display:"flex",
-  alignItems:"center",
-  paddingLeft:"80px"
-},
-
-overlay:{ color:"#fff", maxWidth:"500px" },
-
-heading:{ fontSize:"48px", fontWeight:"800" },
-
-subtext:{ fontSize:"18px" },
-
-right:{
-  flex:1,
-  background:"linear-gradient(to bottom right,#f5f7fa,#e4ecf7)",
-  display:"flex",
-  justifyContent:"center",
-  alignItems:"center",
-  overflow:"hidden"
-},
-
-box:{
-  width:"420px",
-  background:"#fff",
-  padding:"40px",
-  borderRadius:"20px",
-  boxShadow:"0 15px 40px rgba(0,0,0,0.15)",
-  textAlign:"center"
-},
-
-title:{ marginBottom:"25px", color:"#4f46e5" },
-
-input:{
-  width:"100%",
-  padding:"14px",
-  margin:"10px 0",
-  borderRadius:"10px",
-  border:"1px solid #ddd",
-  outline:"none"
-},
-
-passwordBox:{ position:"relative" },
-
-eye:{
-  position:"absolute",
-  right:"15px",
-  top:"50%",
-  transform:"translateY(-50%)",
-  cursor:"pointer",
-  color:"#666",
-  fontSize:"18px"
-},
-
-button:{
-  width:"100%",
-  padding:"14px",
-  marginTop:"15px",
-  border:"none",
-  borderRadius:"10px",
-  background:"#4f46e5",
-  color:"#fff",
-  cursor:"pointer"
-},
-
-divider:{ margin:"20px 0", color:"#888" },
-
-googleBtn:{
-  width:"100%",
-  padding:"12px",
-  borderRadius:"10px",
-  border:"none",
-  background:"#f1f3f6",
-  display:"flex",
-  justifyContent:"center",
-  gap:"10px",
-  cursor:"pointer"
-},
-
-error:{
-  color:"red",
-  fontSize:"13px",
-  textAlign:"left",
-  marginTop:"4px"
-},
-
-text:{ marginTop:"15px" },
-
-link:{ color:"#4f46e5", cursor:"pointer" }
-
-};

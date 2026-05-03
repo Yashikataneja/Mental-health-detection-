@@ -344,9 +344,7 @@ function ProgressTracking() {
 
   return (
 
-    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-blue-50 to-white p-8">
-
-      {/* HEADER */}
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 via-blue-50 to-white p-4 md:p-8">
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold text-blue-800">
           Progress Tracking
@@ -418,13 +416,14 @@ function ProgressTracking() {
       </div>
 
       {/* JOURNAL HISTORY */}
-      <div className="bg-white p-6 rounded-xl shadow max-w-6xl mx-auto">
+      <div className="bg-white p-4 md:p-6 rounded-xl shadow max-w-6xl mx-auto">
 
         <h2 className="text-xl font-semibold mb-4">
           Emotion History
         </h2>
 
-        <table className="w-full border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full border-collapse min-w-[360px]">
 
           <thead>
             <tr className="border-b bg-gray-50">
@@ -459,6 +458,7 @@ function ProgressTracking() {
           </tbody>
 
         </table>
+        </div>
 
       </div>
 

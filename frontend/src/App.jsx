@@ -52,6 +52,7 @@ import Chatbot from "./pages/Chatbot";
 import Setting from "./pages/Setting";
 import SafeSpace from "./pages/Safespace";
 import DetailedAnalysis from "./pages/DetailedAnalysis";
+import MentalHealthLibrary from "./pages/MentalHealthLibrary";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
         <Route path="/settings" element={<Setting />} />
         <Route path="/safe-space" element={<SafeSpace />} />
         <Route path="/detailed-analysis" element={<DetailedAnalysis/>}/>
+        <Route path="/library" element={<MentalHealthLibrary/>}/>
       </Routes>
     </BrowserRouter>
   );

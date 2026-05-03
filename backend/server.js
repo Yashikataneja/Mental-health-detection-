@@ -70,6 +70,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/journal", require("./routes/journal"));
 app.use("/api", chatRoutes);
 app.use("/api/safe-space", safeSpaceRoutes);
+app.use("/api/mood-checkin", require("./routes/moodCheckin"));
+app.use("/api/library", require("./routes/library"));
 
 // 🔥 Test Route
 app.get("/", (req, res) => {

@@ -146,9 +146,7 @@ export default function AIAnalysis() {
   window.scrollTo(0,0);
 }, []);
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 px-10 py-16 relative overflow-hidden">
-  
-        {/* AI BACKGROUND SHAPES */}
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 px-4 md:px-10 py-16 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-96 h-96 bg-blue-200 opacity-30 blur-3xl rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-300 opacity-30 blur-3xl rounded-full"></div>
   
@@ -218,7 +216,7 @@ export default function AIAnalysis() {
             Emotion Detection by AI
           </h2>
   
-          <div className="grid md:grid-cols-5 gap-6 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
   
             <div className="bg-indigo-50 p-4 rounded-lg">
               <h3 className="font-semibold">Happiness 😊</h3>

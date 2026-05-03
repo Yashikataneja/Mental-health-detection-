@@ -1,381 +1,228 @@
-
-
-
-
-// // import { useState } from "react";
-// // import { useNavigate, Link, useLocation } from "react-router-dom";
-// // import api from "../utils/axios";
-
-// // function Login() {
-
-// //   const [email, setEmail] = useState("");
-// //   const [password, setPassword] = useState("");
-
-// //   const navigate = useNavigate();
-// //   const location = useLocation();
-
-// //   const redirectTo = location.state?.from || "/";
-
-// //   const handleLogin = async () => {
-// //     try {
-
-// //       const res = await api.post("/auth/login", { email, password });
-
-// //       sessionStorage.setItem("token", res.data.token);
-// //       sessionStorage.setItem("currentUser", email);
-// //       sessionStorage.setItem(`email_${email}`, email);
-
-// //       navigate("/dashboard");
-
-// //     } catch (error) {
-// //       alert(error.response?.data?.message || "Login failed");
-// //     }
-// //   };
-
-// //   return (
-
-// //     <div className="min-h-screen w-full flex items-center justify-center px-4 
-// //     bg-gradient-to-b from-blue-100 to-blue-200">
-
-// //       <div className="bg-white/80 backdrop-blur-xl p-10 rounded-2xl shadow-2xl w-full max-w-md border">
-
-// //         <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
-// //           Welcome Back 👋
-// //         </h2>
-
-// //         <div className="space-y-5">
-
-// //           <input
-// //             type="email"
-// //             placeholder="Email Address"
-// //             className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-400 outline-none"
-// //             onChange={(e) => setEmail(e.target.value)}
-// //           />
-
-// //           <input
-// //             type="password"
-// //             placeholder="Password"
-// //             className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-400 outline-none"
-// //             onChange={(e) => setPassword(e.target.value)}
-// //           />
-
-// //           <button
-// //             onClick={handleLogin}
-// //             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-// //           >
-// //             Login
-// //           </button>
-
-// //         </div>
-
-// //         <p className="text-center text-sm mt-6">
-// //           Don’t have an account?{" "}
-// //           <Link to="/signup" className="text-blue-600 font-semibold">
-// //             Signup
-// //           </Link>
-// //         </p>
-
-// //       </div>
-
-// //     </div>
-// //   );
-// // }
-
-// // export default Login;
-
-
-
-
-
-// import { useState } from "react";
-// import { useNavigate, Link, useLocation } from "react-router-dom";
-// import api from "../utils/axios";
-
-// function Login() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   const redirectTo = location.state?.from || "/dashboard";
-
-//   const handleLogin = async () => {
-//     try {
-//       const userEmail = email.trim().toLowerCase();
-
-//       const res = await api.post("/auth/login", {
-//         email: userEmail,
-//         password,
-//       });
-
-//       // ✅ Save token
-//       sessionStorage.setItem("token", res.data.token);
-
-//       // ✅ Save current user email
-//       sessionStorage.setItem("currentUser", userEmail);
-
-//       // ✅ Get name from localStorage (saved at signup)
-//       const storedName = localStorage.getItem(`name_${userEmail}`);
-
-//       if (storedName) {
-//         sessionStorage.setItem("currentUserName", storedName);
-//       } else {
-//         // fallback if name not found
-//         sessionStorage.setItem("currentUserName", userEmail);
-//       }
-
-//       // ✅ Redirect
-//       navigate(redirectTo);
-
-//     } catch (error) {
-//       alert(error.response?.data?.message || "Login failed");
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen w-full flex items-center justify-center px-4 
-//     bg-gradient-to-b from-blue-100 to-blue-200">
-
-//       <div className="bg-white/80 backdrop-blur-xl p-10 rounded-2xl shadow-2xl w-full max-w-md border">
-
-//         <h2 className="text-3xl font-bold text-center mb-6 text-blue-600">
-//           Welcome Back 👋
-//         </h2>
-
-//         <div className="space-y-5">
-
-//           <input
-//             type="email"
-//             placeholder="Email Address"
-//             className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-400 outline-none"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//           />
-
-//           <input
-//             type="password"
-//             placeholder="Password"
-//             className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-400 outline-none"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//           />
-
-//           <button
-//             onClick={handleLogin}
-//             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg"
-//           >
-//             Login
-//           </button>
-
-//         </div>
-
-//         <p className="text-center text-sm mt-6">
-//           Don’t have an account?{" "}
-//           <Link to="/signup" className="text-blue-600 font-semibold">
-//             Signup
-//           </Link>
-//         </p>
-
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default Login;
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import brainImg from "../assets/brain.jpeg";
-import pic from "../assets/logo pic.png";
-
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
-
-import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
+
+import authSideImg from "../assets/signup-side.png";
+import pic from "../assets/logo pic.png";
+import api from "../utils/axios";
+import { auth, provider } from "../firebase";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = location.state?.from || "/dashboard";
+  const darkMode = localStorage.getItem("darkMode") === "true";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [resetMessage, setResetMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setFormError("");
+    setResetMessage("");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentUserName");
-
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email: email.toLowerCase(),
-          password
-        }
-      );
-
+      setIsSubmitting(true);
+      const normalizedEmail = email.trim().toLowerCase();
+      const res = await api.post("/auth/login", { email: normalizedEmail, password });
       sessionStorage.setItem("token", res.data.token);
       sessionStorage.setItem("currentUser", res.data.user.email);
       sessionStorage.setItem("currentUserName", res.data.user.name);
-
       if (res.data.user.photo) {
-        localStorage.setItem(
-          `profilePic_${res.data.user.email}`,
-          res.data.user.photo
-        );
+        localStorage.setItem(`profilePic_${res.data.user.email}`, res.data.user.photo);
       }
-
-      navigate("/dashboard");
-
+      navigate(redirectTo);
     } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
+      setFormError(error?.response?.data?.message || "Login failed. Please check your credentials and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    setFormError("");
+    setResetMessage("");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentUserName");
-
     try {
+      setIsGoogleLoading(true);
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/google",
-        {
-          name: user.displayName,
-          email: user.email.toLowerCase(),
-          photo: user.photoURL,
-          uid: user.uid
-        }
-      );
-
+      const res = await api.post("/auth/google", {
+        name: user.displayName,
+        email: user.email.toLowerCase(),
+        photo: user.photoURL,
+        uid: user.uid,
+      });
       sessionStorage.setItem("token", res.data.token);
       sessionStorage.setItem("currentUser", res.data.user.email);
       sessionStorage.setItem("currentUserName", res.data.user.name);
-
       if (res.data.user.photo) {
-        localStorage.setItem(
-          `profilePic_${res.data.user.email}`,
-          res.data.user.photo
-        );
+        localStorage.setItem(`profilePic_${res.data.user.email}`, res.data.user.photo);
       }
-
-      navigate("/dashboard");
-
+      navigate(redirectTo);
     } catch (error) {
-      alert("Google login failed ❌");
+      setFormError(error?.response?.data?.message || "Google login failed. Please try again.");
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
   const handleForgotPassword = async () => {
-  if (!email) return alert("Enter your email first");
+    setFormError("");
+    setResetMessage("");
+    if (!email.trim()) { setFormError("Please enter your email address first."); return; }
+    try {
+      setIsResetting(true);
+      await sendPasswordResetEmail(auth, email.trim().toLowerCase());
+      setResetMessage("Password reset link has been sent to your email.");
+    } catch (error) {
+      setFormError(error?.message || "Unable to send reset email.");
+    } finally {
+      setIsResetting(false);
+    }
+  };
 
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert("Reset link sent to your email ✅");
-  } catch (error) {
-    alert(error.message);
-  }
-};
+  const dm = darkMode;
 
   return (
-    <div>
+    <div className={`min-h-screen font-[Poppins,sans-serif] ${dm ? "bg-[#111827]" : "bg-[#f8fafc]"}`}>
 
       {/* HEADER */}
-      <div style={styles.header} onClick={() => navigate("/")}>
-        <img src={pic} alt="logo" style={styles.headerLogo} />
+      <header
+        onClick={() => navigate("/")}
+        className={`fixed top-0 left-0 right-0 z-50 h-20 flex items-center gap-3 px-5 md:px-12 cursor-pointer backdrop-blur-xl border-b ${dm ? "bg-gray-900/97 border-gray-700" : "bg-white/96 border-gray-100"}`}
+      >
+        <img src={pic} alt="Mannlytics logo" className="h-12 w-16 rounded-xl object-cover" />
         <div>
-          <h2 style={styles.headerTitle}>Moodly AI</h2>
-          <p style={styles.headerSub}>AI-Powered Emotional Intelligence</p>
+          <h2 className="m-0 text-xl font-extrabold text-indigo-600 leading-tight">Mannlytics</h2>
+          <p className="m-0 text-xs text-gray-500 mt-0.5">AI-Powered Emotional Intelligence</p>
         </div>
-      </div>
+      </header>
 
-      <div style={styles.container}>
-        
-        {/* LEFT */}
-        <div style={styles.left}>
-          <div style={styles.overlay}>
-            <h1 style={styles.heading}>Take Care of Your Mind 🧠</h1>
-            <p style={styles.subtext}>Track & improve your mental health</p>
+      {/* BODY */}
+      <div className="flex min-h-[calc(100vh-80px)] mt-20">
+        <style>{`
+          @keyframes authSlideUp {
+            0% { opacity: 0; transform: translateY(32px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+          @keyframes authFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+          }
+        `}</style>
+
+        {/* LEFT IMAGE — hidden on mobile */}
+        <div className="hidden md:flex flex-[1.1] relative overflow-hidden" style={{ background: dm ? "#0f172a" : "linear-gradient(135deg,#eef2ff 0%,#e0e7ff 100%)" }}>
+          <div className={`absolute w-80 h-80 rounded-full blur-3xl opacity-40 -top-10 -left-10 animate-pulse ${dm ? "bg-indigo-800" : "bg-blue-300"}`} />
+          <div className={`absolute w-96 h-96 rounded-full blur-3xl opacity-30 -bottom-10 -right-10 animate-pulse ${dm ? "bg-cyan-900" : "bg-indigo-300"}`} />
+          {/* image fills full left panel, floats gently */}
+          <img
+            src={authSideImg}
+            alt="Mannlytics"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "70% center", transform: "scale(0.68)", transformOrigin: "center center", animation: "authFloat 5s ease-in-out infinite" }}
+          />
+          {/* subtle gradient overlay */}
+          <div className="absolute inset-0" style={{ background: dm ? "linear-gradient(135deg,rgba(15,23,42,0.45) 0%,rgba(99,102,241,0.15) 100%)" : "linear-gradient(135deg,rgba(15,23,42,0.12) 0%,rgba(99,102,241,0.08) 100%)" }} />
+          {/* branding overlay bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+            <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl px-6 py-4">
+              <p className="text-white font-bold text-lg">Your Mental Wellness Journey</p>
+              <p className="text-white/70 text-sm mt-1">Reflect. Understand. Feel better.</p>
+            </div>
           </div>
         </div>
 
-        {/* RIGHT */}
-        <div style={styles.right}>
-          <div style={styles.box}>
-            <h2 style={styles.title}>Login to Your Account</h2>
+        {/* RIGHT FORM */}
+        <div className={`flex-1 flex items-center justify-center px-5 py-10 ${dm ? "bg-[#1f2937]" : "bg-gradient-to-b from-[#eff6ff] via-[#e0ecff] to-[#eef4ff]"}`}>
+          <div className={`w-full max-w-md rounded-3xl p-8 md:p-10 shadow-2xl`} style={{ background: dm ? "rgba(31,41,55,0.98)" : "rgba(255,255,255,0.96)", border: dm ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(148,163,184,0.3)", animation: "authSlideUp 0.6s cubic-bezier(0.34,1.56,0.64,1) both" }}>
 
-            <form onSubmit={handleLogin}>
+            <div className="text-center mb-7">
+              <h2 className={`text-3xl font-extrabold tracking-tight ${dm ? "text-slate-100" : "text-slate-800"}`}>Welcome back</h2>
+              <p className={`mt-2 text-sm ${dm ? "text-slate-400" : "text-slate-500"}`}>Log in to continue your wellness journey.</p>
+            </div>
 
-              <input
-                type="email"
-                placeholder="Email Address"
-                style={styles.input}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-
-              {/* PASSWORD WITH EYE */}
-              <div style={styles.passwordBox}>
+            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Email Address</label>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  style={styles.input}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
+                  className={`w-full h-12 px-4 rounded-2xl border text-sm outline-none focus:ring-2 focus:ring-indigo-400 ${dm ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-[#f8fbff] border-[#dbe4ff] text-slate-900"}`}
                 />
-                <span
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={styles.eye}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
               </div>
 
-              {/* FORGOT PASSWORD */}
-              <div style={styles.forgotBox}>
-                <span
-                  style={styles.forgot}
-                  onClick={handleForgotPassword}
-                >
-                  Forgot Password?
-                </span>
+              <div className="flex flex-col gap-1.5">
+                <label className={`text-sm font-semibold ${dm ? "text-slate-300" : "text-slate-700"}`}>Password</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className={`w-full h-12 px-4 pr-12 rounded-2xl border text-sm outline-none focus:ring-2 focus:ring-indigo-400 ${dm ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" : "bg-[#f8fbff] border-[#dbe4ff] text-slate-900"}`}
+                  />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-400">
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
 
-              <button type="submit" style={styles.button}>
-                Login
+              <div className="flex justify-end -mt-1">
+                <button type="button" onClick={handleForgotPassword} disabled={isResetting} className="text-xs font-semibold text-indigo-500 hover:underline bg-transparent border-none cursor-pointer">
+                  {isResetting ? "Sending reset link..." : "Forgot Password?"}
+                </button>
+              </div>
+
+              {formError && <p className="text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2.5 rounded-xl">{formError}</p>}
+              {resetMessage && <p className="text-xs text-green-700 bg-green-50 border border-green-200 px-3 py-2.5 rounded-xl">{resetMessage}</p>}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-12 mt-1 rounded-2xl text-white font-bold text-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                style={{ background: "linear-gradient(135deg,#4f46e5 0%,#0ea5e9 100%)", boxShadow: "0 10px 24px rgba(79,70,229,0.28)" }}
+              >
+                {isSubmitting ? "Logging in..." : "Log In"}
               </button>
-
             </form>
 
-            <div style={styles.divider}>OR</div>
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px bg-[#dbe4ff]" />
+              <span className="text-xs font-bold text-slate-400 tracking-widest">OR</span>
+              <div className="flex-1 h-px bg-[#dbe4ff]" />
+            </div>
 
-            <button style={styles.googleBtn} onClick={handleGoogleLogin}>
-              <img
-                src="https://img.icons8.com/color/16/000000/google-logo.png"
-                alt="google"
-              />
-              Continue with Google
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={isGoogleLoading}
+              className={`w-full h-12 rounded-2xl border flex items-center justify-center gap-2.5 text-sm font-semibold cursor-pointer disabled:opacity-70 ${dm ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-[#dbe4ff] text-slate-700"}`}
+            >
+              <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google" className="w-5 h-5" />
+              {isGoogleLoading ? "Please wait..." : "Continue with Google"}
             </button>
 
-            <p style={styles.text}>
+            <p className={`mt-5 text-center text-sm ${dm ? "text-slate-400" : "text-slate-500"}`}>
               Don't have an account?{" "}
-              <span style={styles.link} onClick={() => navigate("/signup")}>
-                Signup
-              </span>
+              <span onClick={() => navigate("/signup")} className="text-indigo-600 font-bold cursor-pointer hover:underline">Sign up</span>
             </p>
-
           </div>
         </div>
       </div>
@@ -384,167 +231,3 @@ function Login() {
 }
 
 export default Login;
-
-const styles = {
-
-  header:{
-    width:"100%",
-    height:"80px",
-    display:"flex",
-    alignItems:"center",
-    gap:"6px",
-    padding:"0 40px",
-    background:"#fff",
-    position:"fixed",
-    top:0,
-    left:0,
-    zIndex:1000,
-    boxShadow:"0 2px 10px rgba(0,0,0,0.05)",
-    cursor:"pointer"
-  },
-
-  headerLogo:{
-    height:"55px",
-    width:"75px",
-    borderRadius:"12px"
-  },
-
-  headerTitle:{
-    fontSize:"26px",
-    fontWeight:"800",
-    color:"#4f46e5"
-  },
-
-  headerSub:{
-    fontSize:"13px",
-    color:"#6b7280"
-  },
-
-  container: {
-    display: "flex",
-    height: "calc(100vh - 80px)",
-    marginTop:"80px",
-    fontFamily: "Poppins, sans-serif",
-  },
-
-  left: {
-    flex: 1,
-    backgroundImage: `url(${brainImg})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: "80px",
-  },
-
-  overlay: {
-    color: "#fff",
-    maxWidth: "500px",
-    marginTop: "80px",
-  },
-
-  heading: {
-    fontSize: "54px",
-    fontWeight: "800",
-    textShadow: "2px 2px 12px rgba(0,0,0,0.9)",
-  },
-
-  subtext: {
-    fontSize: "18px",
-    textShadow: "1px 1px 8px rgba(0,0,0,0.7)",
-  },
-
-  right: {
-    flex: 1,
-    background: "linear-gradient(to bottom right, #f5f7fa, #e4ecf7)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  box: {
-    width: "420px",
-    background: "#fff",
-    padding: "40px",
-    borderRadius: "20px",
-    boxShadow: "0 15px 40px rgba(0,0,0,0.15)",
-    textAlign: "center",
-  },
-
-  title: {
-    marginBottom: "25px",
-    color: "#2f5fb3",
-  },
-
-  input: {
-    width: "100%",
-    padding: "14px",
-    margin:"10px 0",
-    borderRadius: "10px",
-    border: "1px solid #ddd",
-    outline: "none",
-  },
-
-  passwordBox:{
-    position:"relative"
-  },
-
-  eye:{
-    position:"absolute",
-    right:"15px",
-    top:"50%",
-    transform:"translateY(-50%)",
-    cursor:"pointer",
-    color:"#666"
-  },
-
-  forgotBox:{
-    display:"flex",
-    justifyContent:"flex-end",
-    marginTop:"5px"
-  },
-
-  forgot:{
-    fontSize:"13px",
-    color:"#4f46e5",
-    cursor:"pointer"
-  },
-
-  button: {
-    width: "100%",
-    padding: "14px",
-    marginTop: "15px",
-    border: "none",
-    borderRadius: "10px",
-    background: "#3b6edc",
-    color: "#fff",
-    cursor: "pointer",
-  },
-
-  divider: {
-    margin: "25px 0",
-    color: "#888",
-  },
-
-  googleBtn: {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "10px",
-    border: "none",
-    background: "#f1f3f6",
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    cursor: "pointer",
-  },
-
-  text: {
-    marginTop: "20px",
-  },
-
-  link: {
-    color: "#3b6edc",
-    cursor: "pointer",
-    fontWeight:"500"
-  },
-};

@@ -11,12 +11,12 @@ const sendWelcomeEmail = async (userEmail, userName) => {
   });
 
   const mailOptions = {
-    from: "Moodly AI <your_email@gmail.com>",
+    from: "Mannlytics <your_email@gmail.com>",
     to: userEmail,
-    subject: "Welcome to Moodly AI 💜",
+    subject: "Welcome to Mannlytics 💜",
     html: `
       <h2>Hey ${userName} 👋</h2>
-      <p>Welcome to <b>Moodly AI</b> 💜</p>
+      <p>Welcome to <b>Mannlytics</b> 💜</p>
       <p>Your mental wellness journey starts here 🧠</p>
     `
   };

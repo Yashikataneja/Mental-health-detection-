@@ -2,20 +2,25 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "http://localhost:5000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 });
 
-export const analyzeJournal = async (text) => {
+export const analyzeJournal = async (text, userId) => {
   try {
-    const response = await API.post("/journal/analyze", {
-      text: text,
-    });
-
+    const response = await API.post("/journal/analyze", { text, userId });
     return response.data;
   } catch (error) {
     console.error("API Error:", error);
     throw error;
+  }
+};
+
+export const fetchJournalHistory = async (userId) => {
+  try {
+    const response = await API.get(`/journal/history/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("History fetch error:", error);
+    return [];
   }
 };
