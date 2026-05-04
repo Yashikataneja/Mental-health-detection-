@@ -1113,12 +1113,19 @@ export default function MentalHealthLibrary() {
   const [activeSectionById, setActiveSectionById] = useState({});
   const [savedItems, setSavedItems] = useState([]);
   const [savedLoading, setSavedLoading] = useState(false);
+  const [adminArticles, setAdminArticles] = useState([]);
   const token = sessionStorage.getItem("token");
   const isLoggedIn = !!token;
   const [showTop, setShowTop] = useState(false);  const [breathingPhase, setBreathingPhase] = useState("Ready");
   const [breathingCycle, setBreathingCycle] = useState(0);
   const [isBreathing, setIsBreathing] = useState(false);
   const [mythIndex, setMythIndex] = useState(0);
+  const [mythAutoPlay, setMythAutoPlay] = useState(true);
+  const [tipIndex, setTipIndex] = useState(() => {
+    const saved = localStorage.getItem("libraryTipIndex");
+    return saved !== null ? parseInt(saved) : new Date().getDate() % TIPS.length;
+  });
+  const [tipAutoPlay, setTipAutoPlay] = useState(true);
 
   // Sync dark mode
   useEffect(() => {
@@ -1145,6 +1152,15 @@ export default function MentalHealthLibrary() {
       }
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/admin/library/public")
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setAdminArticles(data); })
+      .catch(() => {
+        // Backend down — adminArticles stays empty, fallback CONDITIONS will be used
+      });
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500);
@@ -1195,50 +1211,88 @@ export default function MentalHealthLibrary() {
     }, {});
   }, []);
 
+  // If DB has data, use it entirely. If DB is empty (backend down), fall back to hardcoded CONDITIONS.
+  const allConditions = adminArticles.length > 0
+    ? adminArticles.map(a => ({
+        id: a._id,
+        label: a.title,
+        emoji: a.emoji || "📄",
+        icon: FaBookOpen,
+        color: "from-indigo-500 to-cyan-400",
+        tag: a.tag || "Condition",
+        tagColor:
+          a.tag === "Crisis"   ? "bg-red-100 text-red-700" :
+          a.tag === "Wellness" ? "bg-green-100 text-green-700" :
+          a.tag === "Emotion"  ? "bg-orange-100 text-orange-700" :
+                                 "bg-blue-100 text-blue-700",
+        definition:  a.definition  || "",
+        overview:    a.overview    || a.definition || "",
+        dailyImpact: a.dailyImpact || "",
+        symptoms:    a.symptoms    || [],
+        feels:       a.feels       || "",
+        coping:      a.coping      || [],
+        seek:        a.seek        || "",
+        crisis:      a.crisis      || false,
+        related:     a.related     || [],
+        isFromDB:    true,
+      }))
+    : CONDITIONS;
+
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
-
-    let result = CONDITIONS.filter((item) => {
-      const content = [
-        item.label,
-        item.tag,
-        item.definition,
-        item.overview,
-        item.dailyImpact,
-        item.feels,
-        item.seek,
-        ...item.symptoms,
-        ...item.coping,
-      ]
-        .join(" ")
-        .toLowerCase();
-
+    let result = allConditions.filter((item) => {
+      const content = [item.label, item.tag, item.definition, item.overview, item.dailyImpact, item.feels, item.seek, ...item.symptoms, ...item.coping].join(" ").toLowerCase();
       const matchSearch = !term || content.includes(term);
       const matchFilter = activeFilter === "All" || item.tag === activeFilter;
       return matchSearch && matchFilter;
     });
-
-    if (sortBy === "A-Z") {
-      result = [...result].sort((a, b) => a.label.localeCompare(b.label));
-    }
-
-    if (sortBy === "Saved First") {
-      result = [...result].sort((a, b) => {
-        const aSaved = savedItems.includes(a.id) ? 1 : 0;
-        const bSaved = savedItems.includes(b.id) ? 1 : 0;
-        return bSaved - aSaved;
-      });
-    }
-
-    if (sortBy === "Recommended") {
-      const priority = { Crisis: 0, Condition: 1, Emotion: 2, Wellness: 3 };
-      result = [...result].sort((a, b) => priority[a.tag] - priority[b.tag]);
-    }
-
+    if (sortBy === "A-Z") result = [...result].sort((a, b) => a.label.localeCompare(b.label));
+    if (sortBy === "Saved First") result = [...result].sort((a, b) => (savedItems.includes(b.id) ? 1 : 0) - (savedItems.includes(a.id) ? 1 : 0));
+    if (sortBy === "Recommended") { const priority = { Crisis: 0, Condition: 1, Emotion: 2, Wellness: 3 }; result = [...result].sort((a, b) => priority[a.tag] - priority[b.tag]); }
     return result;
-  }, [search, activeFilter, sortBy, savedItems]);
+  }, [search, activeFilter, sortBy, savedItems, allConditions]);
 
-  const featuredTip = TIPS[new Date().getDate() % TIPS.length];
+  const featuredTip = TIPS[tipIndex];
+
+  const nextTip = () => {
+    setTipAutoPlay(false);
+    setTipIndex(prev => {
+      const next = (prev + 1) % TIPS.length;
+      localStorage.setItem("libraryTipIndex", String(next));
+      return next;
+    });
+  };
+
+  const prevTip = () => {
+    setTipAutoPlay(false);
+    setTipIndex(prev => {
+      const next = (prev - 1 + TIPS.length) % TIPS.length;
+      localStorage.setItem("libraryTipIndex", String(next));
+      return next;
+    });
+  };
+
+  // Tips auto-advance
+  useEffect(() => {
+    if (!tipAutoPlay) return;
+    const timer = setInterval(() => {
+      setTipIndex(prev => {
+        const next = (prev + 1) % TIPS.length;
+        localStorage.setItem("libraryTipIndex", String(next));
+        return next;
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [tipAutoPlay]);
+
+  // Myths auto-advance
+  useEffect(() => {
+    if (!mythAutoPlay) return;
+    const timer = setInterval(() => {
+      setMythIndex(prev => (prev + 1) % MYTHS_FACTS.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [mythAutoPlay]);
   const getActiveSection = (id) => activeSectionById[id] || "overview";
 
   const setActiveSection = (id, section) => {
@@ -1836,13 +1890,64 @@ export default function MentalHealthLibrary() {
               className="space-y-6 2xl:sticky 2xl:top-28 2xl:self-start"
             >
               <div className={`rounded-[24px] border p-5 ${card}`}>
-                <p className={`text-sm font-bold uppercase tracking-[0.18em] ${muted}`}>
-                  Tip of the Day
-                </p>
-                <div className="mt-3 text-3xl">{featuredTip.emoji}</div>
-                <p className={`mt-3 text-sm leading-7 ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
-                  {featuredTip.tip}
-                </p>
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${
+                      darkMode ? "bg-amber-500/15 text-amber-300" : "bg-amber-50 text-amber-600"
+                    }`}>✨ Daily Tip</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <button type="button" onClick={prevTip}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full text-base font-bold transition ${
+                        darkMode ? "border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                      }`}>‹</button>
+                    <span className={`text-xs font-bold tabular-nums ${muted}`}>{tipIndex + 1}/{TIPS.length}</span>
+                    <button type="button" onClick={nextTip}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full text-base font-bold transition ${
+                        darkMode ? "border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                      }`}>›</button>
+                  </div>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={tipIndex}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <div className="text-3xl mb-3">{featuredTip.emoji}</div>
+                    <p className={`text-sm leading-7 ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+                      {featuredTip.tip}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Progress bar */}
+                <div className={`mt-4 h-1 w-full rounded-full overflow-hidden ${ darkMode ? "bg-slate-800" : "bg-slate-100"}`}>
+                  <motion.div
+                    className="h-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-400"
+                    animate={{ width: `${((tipIndex + 1) / TIPS.length) * 100}%` }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                  />
+                </div>
+
+                {/* Dots */}
+                <div className="flex justify-center gap-1.5 mt-3">
+                  {TIPS.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => { setTipAutoPlay(false); setTipIndex(i); localStorage.setItem("libraryTipIndex", String(i)); }}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        i === tipIndex
+                          ? "w-5 bg-amber-400"
+                          : darkMode ? "w-1.5 bg-slate-700 hover:bg-slate-500" : "w-1.5 bg-slate-300 hover:bg-slate-400"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
 
               <div className={`rounded-[24px] border p-5 ${card}`}>
@@ -1959,53 +2064,122 @@ export default function MentalHealthLibrary() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`mt-10 rounded-[24px] border p-5 md:p-6 ${card}`}
+            className={`mt-10 rounded-[24px] border p-6 md:p-8 ${card}`}
           >
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
               <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest ${
+                    darkMode ? "bg-indigo-500/15 text-indigo-300" : "bg-indigo-50 text-indigo-600"
+                  }`}>💡 Did You Know?</span>
+                </div>
                 <h2 className={`text-2xl font-black ${heading}`}>Myths vs Facts</h2>
-                <p className={`mt-2 text-sm ${muted}`}>
-                  Common misconceptions can delay understanding and support.
-                </p>
+                <p className={`mt-1 text-sm ${muted}`}>Common misconceptions that delay understanding and support.</p>
               </div>
-              <div className="flex gap-2">
-                {MYTHS_FACTS.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => setMythIndex(index)}
-                    className={`h-2.5 w-2.5 rounded-full transition ${
-                      mythIndex === index ? "bg-indigo-600" : darkMode ? "bg-slate-700" : "bg-slate-300"
-                    }`}
-                  />
-                ))}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setMythAutoPlay(false); setMythIndex(p => (p - 1 + MYTHS_FACTS.length) % MYTHS_FACTS.length); }}
+                  className={`w-9 h-9 flex items-center justify-center rounded-full text-lg font-bold transition ${
+                    darkMode ? "border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  }`}
+                >‹</button>
+                <span className={`text-xs font-bold tabular-nums min-w-[36px] text-center ${muted}`}>{mythIndex + 1} / {MYTHS_FACTS.length}</span>
+                <button
+                  type="button"
+                  onClick={() => { setMythAutoPlay(false); setMythIndex(p => (p + 1) % MYTHS_FACTS.length); }}
+                  className={`w-9 h-9 flex items-center justify-center rounded-full text-lg font-bold transition ${
+                    darkMode ? "border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800" : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  }`}
+                >›</button>
               </div>
             </div>
 
+            {/* Progress bar */}
+            <div className={`h-1 w-full rounded-full overflow-hidden mt-5 mb-6 ${ darkMode ? "bg-slate-800" : "bg-slate-100"}`}>
+              <motion.div
+                className="h-1 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400"
+                animate={{ width: `${((mythIndex + 1) / MYTHS_FACTS.length) * 100}%` }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Cards */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={mythIndex}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.25 }}
-                className="mt-5 grid gap-4 md:grid-cols-2"
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="grid gap-4 md:grid-cols-2"
               >
-                <div className={`rounded-2xl p-5 ${darkMode ? "bg-rose-950/20" : "bg-rose-50"}`}>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-rose-500">Myth</p>
-                  <p className={`mt-3 text-sm leading-7 ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
-                    {MYTHS_FACTS[mythIndex].myth}
-                  </p>
+                {/* Myth */}
+                <div className={`relative overflow-hidden rounded-2xl p-6 ${
+                  darkMode
+                    ? "bg-gradient-to-br from-rose-950/40 to-rose-900/20 border border-rose-500/20"
+                    : "bg-gradient-to-br from-rose-50 to-red-50 border border-rose-100"
+                }`}>
+                  <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-rose-400/10 blur-2xl" />
+                  <div className="relative">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-black ${
+                        darkMode ? "bg-rose-500/25 text-rose-300" : "bg-rose-100 text-rose-600"
+                      }`}>✗</div>
+                      <span className={`text-xs font-black uppercase tracking-[0.22em] ${
+                        darkMode ? "text-rose-400" : "text-rose-500"
+                      }`}>Myth</span>
+                    </div>
+                    <p className={`text-sm leading-7 font-medium ${
+                      darkMode ? "text-slate-200" : "text-slate-700"
+                    }`}>
+                      “{MYTHS_FACTS[mythIndex].myth}”
+                    </p>
+                  </div>
                 </div>
 
-                <div className={`rounded-2xl p-5 ${darkMode ? "bg-emerald-950/20" : "bg-emerald-50"}`}>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-500">Fact</p>
-                  <p className={`mt-3 text-sm leading-7 ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
-                    {MYTHS_FACTS[mythIndex].fact}
-                  </p>
+                {/* Fact */}
+                <div className={`relative overflow-hidden rounded-2xl p-6 ${
+                  darkMode
+                    ? "bg-gradient-to-br from-emerald-950/40 to-emerald-900/20 border border-emerald-500/20"
+                    : "bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100"
+                }`}>
+                  <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-emerald-400/10 blur-2xl" />
+                  <div className="relative">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-black ${
+                        darkMode ? "bg-emerald-500/25 text-emerald-300" : "bg-emerald-100 text-emerald-600"
+                      }`}>✓</div>
+                      <span className={`text-xs font-black uppercase tracking-[0.22em] ${
+                        darkMode ? "text-emerald-400" : "text-emerald-600"
+                      }`}>Fact</span>
+                    </div>
+                    <p className={`text-sm leading-7 ${
+                      darkMode ? "text-slate-200" : "text-slate-700"
+                    }`}>
+                      {MYTHS_FACTS[mythIndex].fact}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
+
+            {/* Dot indicators */}
+            <div className="flex justify-center gap-2 mt-6">
+              {MYTHS_FACTS.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => { setMythAutoPlay(false); setMythIndex(index); }}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    mythIndex === index
+                      ? "w-6 bg-indigo-500"
+                      : darkMode ? "w-1.5 bg-slate-700 hover:bg-slate-500" : "w-1.5 bg-slate-300 hover:bg-slate-400"
+                  }`}
+                />
+              ))}
+            </div>
           </motion.section>
 
           <p className={`mt-10 text-center text-xs leading-6 ${muted}`}>

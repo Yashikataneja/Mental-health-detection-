@@ -4117,11 +4117,15 @@ function SafeSpace() {
   useEffect(() => {
     const fetchSafeSpaceItems = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/safe-space");
-        const data = await res.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-          const grouped = data.reduce((acc, item) => {
+        const [res1, res2] = await Promise.all([
+          fetch("http://localhost:5000/api/safe-space"),
+          fetch("http://localhost:5000/api/admin/safespace/public"),
+        ]);
+        const data1 = await res1.json().catch(() => []);
+        const data2 = await res2.json().catch(() => []);
+        const combined = [...(Array.isArray(data1) ? data1 : []), ...(Array.isArray(data2) ? data2 : [])];
+        if (combined.length > 0) {
+          const grouped = combined.reduce((acc, item) => {
             if (!acc[item.category]) acc[item.category] = [];
             acc[item.category].push(item);
             return acc;
@@ -4134,7 +4138,6 @@ function SafeSpace() {
         setLoading(false);
       }
     };
-
     fetchSafeSpaceItems();
   }, []);
 

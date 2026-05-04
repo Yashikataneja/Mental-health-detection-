@@ -16,8 +16,12 @@ app = FastAPI()
 
 _saved = joblib.load("mental_health_model.joblib")
 _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-_tokenizer = AutoTokenizer.from_pretrained(_saved["model_path"])
-_model = AutoModelForSequenceClassification.from_pretrained(_saved["model_path"]).to(_device)
+
+# Fix: always use local roberta_model folder regardless of saved path
+import os
+_model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "roberta_model")
+_tokenizer = AutoTokenizer.from_pretrained(_model_path)
+_model = AutoModelForSequenceClassification.from_pretrained(_model_path).to(_device)
 _model.eval()
 _id2label = {int(k): v for k, v in _saved["id2label"].items()}
 
