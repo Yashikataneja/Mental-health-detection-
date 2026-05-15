@@ -1,6 +1,6 @@
 ## 📌 Project Title
 
-**AI-Based Mental Health Detection Using NLP on User-Generated Text**
+**MANNLYTICS : AI-Based Mental Health Detection Using NLP on User-Generated Text**
 
 
 ## 👩‍💻 Authors
