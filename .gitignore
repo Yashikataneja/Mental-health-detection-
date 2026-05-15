@@ -5,4 +5,4 @@ __pycache__/
 dist/
 build/
 *.safetensors
-ml_service/roberta_model/ml_service/roberta_model/
+ml_service/roberta_model/

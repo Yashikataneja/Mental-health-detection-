@@ -2,10 +2,15 @@ def calculate_risk(analysis):
     score = 0
 
     # Emotion weight
-    if analysis["emotion"] == "sadness":
-        score += 30
-    elif analysis["emotion"] == "neutral":
-        score += 10
+    emotion_weights = {
+        "sadness": 30,
+        "anxiety": 28,
+        "stress": 25,
+        "anger": 20,
+        "neutral": 10,
+        "happiness": 0,
+    }
+    score += emotion_weights.get(analysis["emotion"], 10)
 
     # Sentiment intensity weight
     sentiment_weight = abs(analysis["sentiment_score"]) * 40

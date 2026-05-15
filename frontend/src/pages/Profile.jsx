@@ -907,7 +907,7 @@
 
 
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEnvelope, FaEdit } from "react-icons/fa";
 import AppNavbar from "../Components/AppNavbar";
 import Settings from "./Setting";
@@ -925,15 +925,7 @@ export default function Profile() {
     window.dispatchEvent(new Event("darkModeUpdate"));
   };
 
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    profilePic: "",
-    joinedAt: ""
-  });
-
-  const avatarRef = useRef(null);
-  const [avatarOpen, setAvatarOpen] = useState(false);
+  const [user, setUser] = useState({ name: "", email: "", joinedAt: "" });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
 
@@ -941,14 +933,9 @@ export default function Profile() {
     const loadUser = () => {
       const email = sessionStorage.getItem("currentUser");
       const name = sessionStorage.getItem("currentUserName");
-      const pic = localStorage.getItem("profilePic");
 
       if (email || name) {
-        setUser({
-          name: name || "User",
-          email: email || "",
-          profilePic: pic || ""
-        });
+        setUser({ name: name || "User", email: email || "", joinedAt: "" });
       }
     };
 
@@ -974,9 +961,7 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (avatarRef.current && !avatarRef.current.contains(e.target)) setAvatarOpen(false);
-    };
+    const handleClickOutside = () => {};
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -1094,64 +1079,10 @@ export default function Profile() {
             {/* PROFILE CARD */}
             <div className={`${ darkMode ? "bg-gray-800" : "bg-white/80" } backdrop-blur-xl p-6 rounded-3xl shadow-xl text-center max-w-lg mx-auto`}>
 
-              <div className="relative w-32 h-32 mx-auto" ref={avatarRef}>
-                {user.profilePic ? (
-                  <img
-                    src={user.profilePic}
-                    className="w-32 h-32 rounded-full border-4 border-indigo-200 object-cover"
-                  />
-                ) : (
-                  <div className="w-32 h-32 rounded-full border-4 border-indigo-200 bg-gradient-to-r from-indigo-500 to-cyan-400 flex items-center justify-center text-white text-4xl font-bold">
-                    {user.name?.charAt(0)}
-                  </div>
-                )}
-
-                <button
-                  onClick={() => setAvatarOpen(!avatarOpen)}
-                  className="absolute bottom-0 right-0 bg-indigo-600 p-2 rounded-full text-white shadow-lg hover:scale-110 transition"
-                >
-                  <FaEdit size={12} />
-                </button>
-
-                {avatarOpen && (
-                  <div className={`absolute left-1/2 -translate-x-1/2 mt-2 w-48 border rounded-2xl shadow-xl p-2 z-50 ${ darkMode ? "bg-gray-800 border-gray-600" : "bg-white border-gray-200" }`}>
-                    <label className={`flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl cursor-pointer transition ${ darkMode ? "text-gray-200 hover:bg-gray-700" : "text-gray-700 hover:bg-indigo-50" }`}>
-                      <span className="text-lg">📁</span>
-                      <span className="font-medium">Upload Photo</span>
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          if (!file) return;
-                          const reader = new FileReader();
-                          reader.onload = () => {
-                            const img = reader.result;
-                            setUser((prev) => ({ ...prev, profilePic: img }));
-                            localStorage.setItem("profilePic", img);
-                            window.dispatchEvent(new Event("profileUpdate"));
-                            setAvatarOpen(false);
-                          };
-                          reader.readAsDataURL(file);
-                        }}
-                      />
-                    </label>
-                    <button
-                      onClick={() => {
-                        setUser((prev) => ({ ...prev, profilePic: "" }));
-                        localStorage.removeItem("profilePic");
-                        window.dispatchEvent(new Event("profileUpdate"));
-                        setAvatarOpen(false);
-                      }}
-                      style={{ backgroundColor: "transparent" }}
-                      className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm rounded-xl transition ${ darkMode ? "text-red-400 hover:bg-red-900/30" : "text-red-500 hover:bg-red-50" }`}
-                    >
-                      <span className="text-lg">🗑️</span>
-                      <span className="font-medium">Remove Photo</span>
-                    </button>
-                  </div>
-                )}
+              <div className="relative w-32 h-32 mx-auto">
+                <div className="w-32 h-32 rounded-full border-4 border-indigo-200 bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white text-5xl font-extrabold shadow-lg">
+                  {user.name?.charAt(0)?.toUpperCase()}
+                </div>
               </div>
 
               <h2 className="mt-5 font-extrabold text-indigo-600 text-2xl">

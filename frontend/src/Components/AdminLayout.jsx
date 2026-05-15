@@ -39,11 +39,28 @@ export function AdminLayout({ children, collapsed, setCollapsed }) {
     navigate("/admin");
   };
 
+  // Close sidebar on mobile when route changes
+  useEffect(() => {
+    if (window.innerWidth < 768) setCollapsed(true);
+  }, [location.pathname]);
+
   return (
     <div className="min-h-screen bg-[#0a0f1e] text-white flex">
 
+      {/* Mobile backdrop */}
+      {!collapsed && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+
       {/* ── SIDEBAR ── */}
-      <aside className={`fixed top-0 left-0 h-screen z-50 flex flex-col transition-all duration-300 ${collapsed ? "w-[68px]" : "w-60"} bg-[#0d1424] border-r border-white/[0.06]`}>
+      <aside className={`fixed top-0 left-0 h-screen z-50 flex flex-col transition-all duration-300 bg-[#0d1424] border-r border-white/[0.06] ${
+        collapsed
+          ? "-translate-x-full md:translate-x-0 md:w-[68px]"
+          : "w-60 translate-x-0"
+      }`}>
 
         {/* Logo */}
         <div className={`flex items-center gap-3 px-4 py-5 border-b border-white/[0.06] ${collapsed ? "justify-center" : ""}`}>
@@ -93,7 +110,7 @@ export function AdminLayout({ children, collapsed, setCollapsed }) {
       </aside>
 
       {/* ── MAIN ── */}
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${collapsed ? "ml-[68px]" : "ml-60"}`}>
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${collapsed ? "ml-0 md:ml-[68px]" : "ml-0 md:ml-60"}`}>
 
         {/* Top bar */}
         <header className="sticky top-0 z-40 flex items-center gap-4 px-6 py-3.5 bg-[#0a0f1e]/90 backdrop-blur border-b border-white/[0.06]">

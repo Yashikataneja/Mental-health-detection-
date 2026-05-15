@@ -1,294 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// export default function Settings() {
-//   const navigate = useNavigate();
-
-//   const [user, setUser] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//   });
-
-//   const [darkMode, setDarkMode] = useState(false);
-//   const [notifications, setNotifications] = useState(true);
-//   const [streak, setStreak] = useState(0);
-//   const [lastActivity, setLastActivity] = useState("");
-
-//   // LOAD USER
-//   useEffect(() => {
-//   const email =
-//     sessionStorage.getItem("currentUser") ||
-//     localStorage.getItem("currentUser");
-
-//   if (!email) return;
-
-//   // 🔥 BACKEND DATA LOAD
-//   fetch(`http://localhost:5000/api/user/${email}`)
-//     .then(res => res.json())
-//     .then(data => {
-//       setUser({
-//         name: data.name || "",
-//         email: data.email || "",
-//         password: "",
-//       });
-
-//       setDarkMode(data.darkMode ?? false);
-//       setNotifications(data.notifications ?? true);
-//     })
-//     .catch(err => console.error(err));
-
-//   // ✅ streak (local)
-//   const savedStreak = localStorage.getItem(`journalStreak_${email}`);
-//   if (savedStreak) {
-//     setStreak(parseInt(savedStreak));
-//   }
-
-//   // ✅ last activity
-//   const options = {
-//     day: "numeric",
-//     month: "short",
-//     year: "numeric",
-//     hour: "2-digit",
-//     minute: "2-digit",
-//   };
-
-//   setLastActivity(new Date().toLocaleString("en-IN", options));
-
-// }, []);
-
-//   const handleChange = (e) => {
-//     setUser({ ...user, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSave = () => {
-//   if (!user.email) return;
-
-//   // 🔥 BACKEND API CALL
-//   fetch("http://localhost:5000/api/user/update", {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       email: user.email,
-//       name: user.name,
-//       darkMode: darkMode,
-//       notifications: notifications,
-//     }),
-//   })
-//     .then(res => res.json())
-//     .then(() => {
-//       alert("Changes saved successfully 🎉");
-//     })
-//     .catch(() => {
-//       alert("Error saving ❌");
-//     });
-// };
-
-//   return (
-//     <div className="w-full">
-
-//       {/* CONTAINER */}
-//       <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl p-8">
-
-//         {/* HEADER */}
-//         <div className="flex justify-between items-center mb-8">
-//           <div>
-//             <h1 className="text-3xl font-bold text-indigo-600">
-//               Settings ⚙️
-//             </h1>
-//             <p className="text-gray-500 text-sm">
-//               Manage your account & preferences
-//             </p>
-//           </div>
-
-         
-//         </div>
-
-//         {/* PROFILE SECTION */}
-//         <div className="mb-8 p-5 border rounded-xl">
-//           <h2 className="text-lg font-semibold mb-4 text-indigo-600">
-//             👤 Profile Information
-//           </h2>
-
-//           <div className="space-y-3">
-//             <input
-//               type="text"
-//               name="name"
-//               value={user.name}
-//               onChange={handleChange}
-//               placeholder="Your Name"
-//               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//             />
-
-//             <input
-//               type="email"
-//               name="email"
-//               value={user.email}
-//               disabled
-//               className="w-full p-3 border rounded-lg bg-gray-100 cursor-not-allowed"
-//             />
-//           </div>
-//         </div>
-
-//         {/* SECURITY SECTION */}
-//         <div className="mb-8 p-5 border rounded-xl">
-//           <h2 className="text-lg font-semibold mb-4 text-indigo-600">
-//             🔐 Security
-//           </h2>
-//   <div className="space-y-3">
-//     <input
-//       type="password"
-//       name="oldPassword"
-//       placeholder="Current Password"
-//       className="w-full p-3 border rounded-lg"
-//     />
-
-//     <input
-//       type="password"
-//       name="password"
-//       value={user.password}
-//       onChange={handleChange}
-//       placeholder="New Password"
-//       className="w-full p-3 border rounded-lg"
-//     />
-
-//     <input
-//       type="password"
-//       name="confirmPassword"
-//       placeholder="Confirm New Password"
-//       className="w-full p-3 border rounded-lg"
-//     />
-//   </div>
-
-//   <div className="flex justify-between items-center mt-3">
-//     <p className="text-xs text-gray-400">
-//       Make sure password is strong 🔒
-//     </p>
-
-//     <button className="text-sm text-indigo-600 hover:underline">
-//       Forgot Password?
-//     </button>
-//   </div>
-//    </div>
-
-//         {/* PREFERENCES */}
-//         <div className="mb-8 p-5 border rounded-xl">
-//           <h2 className="text-lg font-semibold mb-4 text-indigo-600">
-//             🎨 Preferences
-//           </h2>
-
-//           <div className="flex justify-between items-center mb-4">
-//             <span>Dark Mode</span>
-//             <button
-//               onClick={() => setDarkMode(!darkMode)}
-//               className={`px-4 py-1 rounded-full text-sm ${
-//                 darkMode
-//                   ? "bg-indigo-600 text-white"
-//                   : "bg-gray-300"
-//               }`}
-//             >
-//               {darkMode ? "ON" : "OFF"}
-//             </button>
-//           </div>
-
-//           <div className="flex justify-between items-center">
-//             <span>Notifications</span>
-//             <button
-//               onClick={() => setNotifications(!notifications)}
-//               className={`px-4 py-1 rounded-full text-sm ${
-//                 notifications
-//                   ? "bg-indigo-600 text-white"
-//                   : "bg-gray-300"
-//               }`}
-//             >
-//               {notifications ? "ON" : "OFF"}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* EXTRA SECTION (NEW) */}
-//         <div className="mb-8 p-5 border rounded-xl">
-//   <h2 className="text-lg font-semibold mb-4 text-indigo-600">
-//     📊 Account Info
-//   </h2>
-
-//   <div className="grid md:grid-cols-2 gap-4 text-sm">
-
-//     {/* Email */}
-//     <div className="bg-gray-50 p-3 rounded-lg">
-//       <p className="text-gray-500">Account Email</p>
-//       <p className="font-medium text-gray-700">{user.email}</p>
-//     </div>
-
-//     {/* Status */}
-//     <div className="bg-gray-50 p-3 rounded-lg">
-//   <p className="text-gray-500">Account Health</p>
-//   <p className="font-medium text-green-600">Good 💚</p>
-// </div>
-
-//     {/* Joined */}
-//     <div className="bg-gray-50 p-4 rounded-lg">
-//       <p className="text-gray-500">Mood Streak</p>
-//       <p className="font-medium">{streak} days 🔥</p>
-//     </div>
-
-//     {/* Security */}
-//     <div className="bg-gray-50 p-3 rounded-lg">
-//   <p className="text-gray-500">Last Activity</p>
-//   <p className="font-medium text-indigo-600">{lastActivity}</p>
-// </div>
-
-//   </div>
-
-//   {/* small note */}
-//   <p className="text-xs text-gray-400 mt-4">
-//     🔒 Your data is securely stored and protected.
-//   </p>
-// </div>
-
-// <div className="mb-8 p-5 border border-red-200 rounded-xl bg-red-50">
- 
-
-//   <p className="text-sm text-gray-600 mb-4">
-//     Deleting your account will permanently remove all your data.
-//     This action cannot be undone.
-//   </p>
-
-//   <button
-//     className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition"
-//     onClick={() => {
-//   const confirmDelete = window.confirm("Are you sure?");
-//   if (confirmDelete) {
-//     alert("Account Deleted");
-//   }
-// }}
-//   >
-//     Delete Account
-//   </button>
-// </div>
-
-//         {/* BUTTONS */}
-//         <div className="flex justify-between items-center mt-8 border-t pt-6">
-//           <button
-//             onClick={() => navigate("/dashboard")}
-//             className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
-//           >
-//             Back
-//           </button>
-
-//           <button
-//             onClick={handleSave}
-//             className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition shadow-md"
-//           >
-//             Save Changes
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 
 
 
@@ -482,14 +191,8 @@ try {
 
         {/* MINI PROFILE CARD */}
         <div className={`flex items-center gap-4 p-4 rounded-2xl ${ darkMode ? "bg-gray-700" : "bg-indigo-50" }`}>
-          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-indigo-200">
-            {user.profilePic ? (
-              <img src={user.profilePic} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-cyan-400 flex items-center justify-center text-white text-xl font-bold">
-                {user.name?.charAt(0)}
-              </div>
-            )}
+          <div className="w-14 h-14 rounded-full border-2 border-indigo-200 bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+            {user.name?.charAt(0)?.toUpperCase()}
           </div>
           <div>
             <p className={`font-semibold ${ darkMode ? "text-white" : "text-gray-800" }`}>{user.name}</p>
@@ -498,154 +201,188 @@ try {
         </div>
 
         {/* PROFILE SECTION */}
-<div className={`p-5 border rounded-xl ${ darkMode ? "border-gray-600" : "" }`}>
+        <div className={`p-5 border rounded-2xl ${ darkMode ? "border-gray-600" : "border-gray-100" }`}>
+          <div className="flex justify-between items-center mb-5">
+            <h2 className="text-base font-bold text-indigo-600">👤 Profile Information</h2>
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition ${
+                isEditing
+                  ? darkMode ? "bg-gray-600 text-gray-300 hover:bg-gray-500" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
+              }`}
+            >
+              {isEditing ? "Cancel" : "✏️ Edit"}
+            </button>
+          </div>
 
-  {/* HEADER + EDIT BUTTON */}
-  <div className="flex justify-between items-center mb-4">
-    <h2 className="text-lg font-semibold text-indigo-600">👤 Profile Information</h2>
+          <div className="space-y-4">
+            {/* NAME */}
+            <div>
+              <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${ darkMode ? "text-gray-400" : "text-gray-500" }`}>Display Name</label>
+              <input
+                type="text"
+                name="name"
+                value={user.name}
+                onChange={handleChange}
+                disabled={!isEditing}
+                placeholder="Your Name"
+                className={`w-full px-4 py-3 rounded-xl border text-sm font-medium outline-none transition ${
+                  isEditing
+                    ? darkMode
+                      ? "bg-gray-700 border-indigo-500 text-white placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                      : "bg-white border-indigo-400 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-indigo-300"
+                    : darkMode
+                    ? "bg-gray-700/50 border-gray-600 text-gray-400 cursor-not-allowed"
+                    : "bg-gray-50 border-gray-200 text-gray-500 cursor-not-allowed"
+                }`}
+              />
+            </div>
 
-    <button
-      onClick={() => setIsEditing(!isEditing)}
-      className="text-sm bg-indigo-100 text-indigo-600 px-3 py-1 rounded-lg hover:bg-indigo-200 transition"
-    >
-      {isEditing ? "Cancel" : "Edit"}
-    </button>
-  </div>
+            {/* EMAIL */}
+            <div>
+              <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${ darkMode ? "text-gray-400" : "text-gray-500" }`}>
+                Email <span className={`normal-case font-normal ${ darkMode ? "text-gray-500" : "text-gray-400" }`}>— cannot be changed</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={user.email}
+                disabled
+                className={`w-full px-4 py-3 rounded-xl border text-sm font-medium cursor-not-allowed ${
+                  darkMode
+                    ? "bg-gray-700/50 border-gray-600 text-gray-400"
+                    : "bg-gray-50 border-gray-200 text-gray-400"
+                }`}
+              />
+            </div>
+          </div>
 
-  {/* INPUTS */}
-  <div className="space-y-3">
-    
-    {/* NAME */}
-    <input
-      type="text"
-      name="name"
-      value={user.name}
-      onChange={handleChange}
-      disabled={!isEditing}
-      placeholder="Your Name"
-      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
-        !isEditing ? (darkMode ? "bg-gray-600 text-gray-300 cursor-not-allowed border-gray-600" : "bg-gray-100 cursor-not-allowed") : darkMode ? "bg-gray-700 text-white border-gray-600" : ""
-      }`}
-    />
-
-    {/* EMAIL (ALWAYS DISABLED) */}
-    <input
-      type="email"
-      name="email"
-      value={user.email}
-      disabled
-      className={`w-full p-3 border rounded-lg cursor-not-allowed ${ darkMode ? "bg-gray-600 text-gray-300 border-gray-600" : "bg-gray-100" }`}
-    />
-  </div>
-
-  {/* SAVE BUTTON (INSIDE SECTION OPTIONAL) */}
-  {isEditing && (
-    <div className="mt-4 text-right">
-      <button
-        onClick={handleSave}
-        className="text-sm border border-indigo-500 text-indigo-600 px-4 py-1 rounded-full hover:bg-indigo-50 transition"
-      >
-        Save Profile
-      </button>
-    </div>
-  )}
-</div>
+          {isEditing && (
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleSave}
+                className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl font-semibold transition shadow-sm"
+              >
+                Save Changes
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* SECURITY SECTION */}
-        <div className={`p-5 border rounded-xl ${ darkMode ? "border-gray-600" : "" }`}>
-          <h2 className="text-lg font-semibold mb-4 text-indigo-600">
-            🔐 Security
-          </h2>
-  <div className="space-y-3">
+        <div className={`p-5 border rounded-2xl ${ darkMode ? "border-gray-600" : "border-gray-100" }`}>
+          <h2 className="text-base font-bold mb-5 text-indigo-600">🔐 Security</h2>
+          <div className="space-y-4">
 
-    {/* CURRENT PASSWORD */}
-    <div className="relative">
-      <input
-        type={showOldPw ? "text" : "password"}
-        value={oldPassword}
-        onChange={(e) => setOldPassword(e.target.value)}
-        placeholder="Current Password"
-        className={`w-full p-3 border rounded-lg pr-10 ${ darkMode ? "bg-gray-700 text-white border-gray-600" : "" }`}
-      />
-      <span onClick={() => setShowOldPw(!showOldPw)} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400">
-        {showOldPw ? <FaEyeSlash /> : <FaEye />}
-      </span>
-    </div>
+            <div>
+              <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${ darkMode ? "text-gray-400" : "text-gray-500" }`}>Current Password</label>
+              <div className="relative">
+                <input
+                  type={showOldPw ? "text" : "password"}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  placeholder="Enter current password"
+                  className={`w-full px-4 py-3 pr-11 rounded-xl border text-sm outline-none transition focus:ring-2 focus:ring-indigo-300 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      : "bg-white border-gray-200 text-gray-800 placeholder-gray-400"
+                  }`}
+                />
+                <button type="button" onClick={() => setShowOldPw(!showOldPw)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+                  {showOldPw ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
 
-    {/* NEW PASSWORD */}
-    <div className="relative">
-      <input
-        type={showNewPw ? "text" : "password"}
-        name="password"
-        value={user.password}
-        onChange={handleChange}
-        placeholder="New Password"
-        className={`w-full p-3 border rounded-lg pr-10 ${ darkMode ? "bg-gray-700 text-white border-gray-600" : "" }`}
-      />
-      <span onClick={() => setShowNewPw(!showNewPw)} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400">
-        {showNewPw ? <FaEyeSlash /> : <FaEye />}
-      </span>
-    </div>
+            <div>
+              <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${ darkMode ? "text-gray-400" : "text-gray-500" }`}>New Password</label>
+              <div className="relative">
+                <input
+                  type={showNewPw ? "text" : "password"}
+                  name="password"
+                  value={user.password}
+                  onChange={handleChange}
+                  placeholder="Enter new password"
+                  className={`w-full px-4 py-3 pr-11 rounded-xl border text-sm outline-none transition focus:ring-2 focus:ring-indigo-300 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      : "bg-white border-gray-200 text-gray-800 placeholder-gray-400"
+                  }`}
+                />
+                <button type="button" onClick={() => setShowNewPw(!showNewPw)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+                  {showNewPw ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
 
-    {/* CONFIRM PASSWORD */}
-    <div className="relative">
-      <input
-        type={showConfirmPw ? "text" : "password"}
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        placeholder="Confirm New Password"
-        className={`w-full p-3 border rounded-lg pr-10 ${ darkMode ? "bg-gray-700 text-white border-gray-600" : "" }`}
-      />
-      <span onClick={() => setShowConfirmPw(!showConfirmPw)} className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400">
-        {showConfirmPw ? <FaEyeSlash /> : <FaEye />}
-      </span>
-    </div>
+            <div>
+              <label className={`block text-xs font-semibold uppercase tracking-wider mb-1.5 ${ darkMode ? "text-gray-400" : "text-gray-500" }`}>Confirm New Password</label>
+              <div className="relative">
+                <input
+                  type={showConfirmPw ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter new password"
+                  className={`w-full px-4 py-3 pr-11 rounded-xl border text-sm outline-none transition focus:ring-2 focus:ring-indigo-300 ${
+                    darkMode
+                      ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      : "bg-white border-gray-200 text-gray-800 placeholder-gray-400"
+                  }`}
+                />
+                <button type="button" onClick={() => setShowConfirmPw(!showConfirmPw)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition">
+                  {showConfirmPw ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
 
-  </div>
+          </div>
 
-  <div className="flex justify-between items-center mt-3">
-    <p className={`text-xs mt-3 ${ darkMode ? "text-gray-400" : "text-gray-400" }`}>Make sure password is strong 🔒</p>
-    <button
-      className="text-sm text-indigo-600 hover:underline"
-      onClick={async () => {
-        if (!user.email) return alert("Email not found");
-        try {
-          await sendPasswordResetEmail(auth, user.email);
-          alert("Reset link sent to your email ✅");
-        } catch (err) {
-          alert(err.message);
-        }
-      }}
-    >
-      Forgot Password?
-    </button>
-  </div>
+          <div className="flex justify-between items-center mt-4">
+            <p className={`text-xs ${ darkMode ? "text-gray-500" : "text-gray-400" }`}>🔒 Min 6 characters</p>
+            <button
+              className="text-xs text-indigo-500 hover:text-indigo-700 font-semibold transition"
+              onClick={async () => {
+                if (!user.email) return alert("Email not found");
+                try {
+                  await sendPasswordResetEmail(auth, user.email);
+                  alert("Reset link sent to your email ✅");
+                } catch (err) {
+                  alert(err.message);
+                }
+              }}
+            >
+              Forgot Password?
+            </button>
+          </div>
 
-  <div className="mt-4 text-right">
-    <button
-      onClick={handlePasswordSave}
-      className="text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-    >
-      Save Password
-    </button>
-  </div>
-   </div>
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={handlePasswordSave}
+              className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl font-semibold transition shadow-sm"
+            >
+              Update Password
+            </button>
+          </div>
+        </div>
 
 
         {/* NOTIFICATION PREFERENCES */}
-        <div className={`p-5 border rounded-xl ${ darkMode ? "border-gray-600" : "" }`}>
-          <h2 className="text-lg font-semibold mb-1 text-indigo-600">🔔 Notifications</h2>
-          <p className="text-xs text-gray-400 mb-4">Turn on to receive gentle check-ins and well-being reminders 💜</p>
-
-          <div className={`flex items-center justify-between p-3 rounded-xl ${ darkMode ? "bg-gray-700" : "bg-gray-50" }`}>
+        <div className={`p-5 border rounded-2xl ${ darkMode ? "border-gray-600" : "border-gray-100" }`}>
+          <h2 className="text-base font-bold mb-1 text-indigo-600">🔔 Notifications</h2>
+          <p className={`text-xs mb-4 ${ darkMode ? "text-gray-500" : "text-gray-400" }`}>Gentle check-ins and well-being reminders 💜</p>
+          <div className={`flex items-center justify-between p-4 rounded-xl ${ darkMode ? "bg-gray-700" : "bg-gray-50" }`}>
             <div>
-              <p className={`text-sm font-medium ${ darkMode ? "text-gray-200" : "text-gray-700" }`}>Enable Notifications</p>
-              <p className="text-xs text-gray-400 mt-0.5">Gentle reminders based on your mood activity</p>
+              <p className={`text-sm font-semibold ${ darkMode ? "text-gray-200" : "text-gray-700" }`}>Enable Notifications</p>
+              <p className={`text-xs mt-0.5 ${ darkMode ? "text-gray-500" : "text-gray-400" }`}>Mood-based reminders and streak alerts</p>
             </div>
             <div
               onClick={() => handleToggleNotifications(!notifications)}
               className={`w-11 h-6 rounded-full cursor-pointer transition-colors duration-300 flex items-center px-1 ${
-                notifications ? "bg-indigo-500" : "bg-gray-300"
+                notifications ? "bg-indigo-500" : darkMode ? "bg-gray-600" : "bg-gray-300"
               }`}
             >
               <div className={`w-4 h-4 bg-white rounded-full shadow transition-transform duration-300 ${
@@ -655,7 +392,7 @@ try {
           </div>
         </div>
 
-<div className={`p-5 border border-red-200 rounded-xl ${ darkMode ? "bg-red-900/20" : "bg-red-50" }`}>
+        <div className={`p-5 border rounded-2xl ${ darkMode ? "border-red-900/40 bg-red-900/10" : "border-red-100 bg-red-50" }`}>
   <h2 className="text-lg font-semibold mb-3 text-red-500">⚠️ Delete Account</h2>
 
   <p className={`text-sm mb-4 ${ darkMode ? "text-gray-300" : "text-gray-600" }`}>
